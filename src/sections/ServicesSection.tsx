@@ -1,5 +1,8 @@
 import type { Lang } from '../types';
 import { SectionHeader, ServiceCard } from '../components/SharedCards';
+import mentorshipImage from "../assets/services/mentorship (2).jpg";
+import fundingImage from "../assets/services/funding-access.jpg";
+import legalImage from "../assets/services/legal-ap-support.jpg";
 
 /* ─── ICON PATHS (Tabler-style outline) ─── */
 const ICONS = {
@@ -38,21 +41,21 @@ const ServicesSection: React.FC<{ lang: Lang }> = ({ lang }) => {
   }[] = [
     {
       icon: ICONS.mentorship, accent: 'blue',
-      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&h=500&fit=crop&q=80',
+      image: mentorshipImage,
       tag: { EN: '1:1', FR: '1:1', AR: '1:1' },
       title: { EN: 'Mentorship & Coaching', FR: 'Mentorat & Coaching', AR: 'الإرشاد والتوجيه' },
       desc: { EN: 'Expert guidance from industry leaders and university faculty to shape your startup vision.', FR: 'Accompagnement expert par des industriels et enseignants pour définir votre vision.', AR: 'توجيه متخصص من قادة الصناعة وأساتذة الجامعة لتشكيل رؤية شركتك.' },
     },
     {
       icon: ICONS.funding, accent: 'green',
-      image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&h=500&fit=crop&q=80',
+      image: fundingImage,
       tag: { EN: 'ANSEJ · CNAC', FR: 'ANSEJ · CNAC', AR: 'ANSEJ · CNAC' },
       title: { EN: 'Funding Access', FR: 'Accès au financement', AR: 'الوصول للتمويل' },
       desc: { EN: 'Connections to ANSEJ, CNAC, and private investors actively seeking Algerian startups.', FR: 'Mise en relation avec ANSEJ, CNAC et investisseurs privés actifs.', AR: 'ربط مع ANSEJ وCNAC والمستثمرين الخاصين الباحثين عن شركات ناشئة جزائرية.' },
     },
     {
       icon: ICONS.legal, accent: 'blue',
-      image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&h=500&fit=crop&q=80',
+      image: legalImage,
       tag: { EN: 'Legal', FR: 'Juridique', AR: 'قانوني' },
       title: { EN: 'Legal & IP Support', FR: 'Support juridique & PI', AR: 'الدعم القانوني والملكية' },
       desc: { EN: 'Trademark registration, patent filing, and legal framework guidance at every stage.', FR: 'Enregistrement de marques, dépôt de brevets et cadre juridique startup.', AR: 'تسجيل العلامات التجارية وبراءات الاختراع والإطار القانوني.' },

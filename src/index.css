@@ -60,7 +60,24 @@ section { animation: sectionFadeIn 0.7s ease both; }
   header { padding: 0 20px !important; }
   section { padding-left: 1.5rem !important; padding-right: 1.5rem !important; padding-top: 4rem !important; padding-bottom: 4rem !important; }
   section[id="top"] { padding: 0 !important; }
-  [data-hero-inner] { padding: 6.5rem 1.5rem 4rem !important; }
+  [data-hero-inner] { padding: 0 1.5rem !important; }
+
+  /* Stats wrap to 2×2 on tablet */
+  [data-hero-stats] { flex-wrap: wrap !important; }
+  [data-hero-stats] > div:nth-child(2) { border-inline-end: none !important; }
+  [data-hero-stats] > div:nth-child(1),
+  [data-hero-stats] > div:nth-child(2) {
+    padding-bottom: 14px !important;
+    border-bottom: 1px solid rgba(255,255,255,0.12) !important;
+    width: 50% !important;
+  }
+  [data-hero-stats] > div:nth-child(3),
+  [data-hero-stats] > div:nth-child(4) {
+    padding-top: 14px !important;
+    width: 50% !important;
+  }
+  [data-hero-stats] > div:nth-child(1) { border-inline-end: 1px solid rgba(255,255,255,0.12) !important; }
+  [data-hero-stats] > div:nth-child(3) { border-inline-end: 1px solid rgba(255,255,255,0.12) !important; }
 
   [data-intro-grid] { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
   [data-pillars-grid] { grid-template-columns: repeat(2, 1fr) !important; }
@@ -77,7 +94,7 @@ section { animation: sectionFadeIn 0.7s ease both; }
 
 /* MOBILE (≤768px) */
 @media (max-width: 768px) {
-  /* Swap nav: hide rail + lang pill, show hamburger + mobile panel */
+  /* Swap nav */
   [data-nav-rail] { display: none !important; }
   [data-nav-lang] { display: none !important; }
   [data-nav-hamburger] { display: inline-flex !important; }
@@ -87,13 +104,22 @@ section { animation: sectionFadeIn 0.7s ease both; }
   main { padding-top: 0 !important; }
   section { padding-left: 1.1rem !important; padding-right: 1.1rem !important; padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
   section[id="top"] { padding: 0 !important; }
-  [data-hero-inner] { padding: 5.5rem 1.1rem 3.5rem !important; }
+  [data-hero-inner] { padding: 0 1.1rem !important; }
+  [data-hero-scroll-cue] { display: none !important; }
 
-  /* Hero stats: 4 → 2 cols, swap right-borders for a 2×2 grid */
-  [data-hero-stats] { grid-template-columns: repeat(2, 1fr) !important; }
-  [data-hero-stats] > div { border-right: none !important; }
-  [data-hero-stats] > div:nth-child(1), [data-hero-stats] > div:nth-child(3) { border-right: 1px solid rgba(255,255,255,0.10) !important; }
-  [data-hero-stats] > div:nth-child(1), [data-hero-stats] > div:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.10); }
+  /* Stats: 2×2 grid on mobile */
+  [data-hero-stats] { flex-wrap: wrap !important; }
+  [data-hero-stats] > div {
+    border-inline-end: none !important;
+    padding-inline-end: 0 !important;
+    margin-inline-end: 0 !important;
+    width: 50% !important;
+    padding: 10px 12px !important;
+  }
+  [data-hero-stats] > div:nth-child(1),
+  [data-hero-stats] > div:nth-child(3) { border-right: 1px solid rgba(255,255,255,0.12) !important; }
+  [data-hero-stats] > div:nth-child(1),
+  [data-hero-stats] > div:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.12) !important; }
 
   [data-services-grid] { grid-template-columns: 1fr !important; }
   [data-programs-grid] { grid-template-columns: 1fr !important; }
@@ -103,41 +129,19 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-team-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-contact-name-email] { grid-template-columns: 1fr !important; }
   [data-footer-grid] { grid-template-columns: 1fr !important; gap: 1.75rem !important; }
-
   [data-contact-frame] > div { padding: 26px !important; }
 
-  /* Timeline: flatten to a single-column left-rail layout */
+  /* Timeline: single-column left-rail */
   [data-timeline-centerline] { left: 22px !important; transform: none !important; }
-  [data-timeline-row] {
-    display: flex !important;
-    gap: 18px !important;
-    align-items: flex-start !important;
-  }
+  [data-timeline-row] { display: flex !important; gap: 18px !important; align-items: flex-start !important; }
   [data-timeline-row] > div:empty { display: none !important; }
-  [data-timeline-row] > div:nth-child(2) {
-    order: 0 !important;
-    flex: 0 0 44px !important;
-    justify-content: flex-start !important;
-  }
-  [data-timeline-row] > div:nth-child(2) > div:first-child {
-    width: 44px !important; height: 44px !important;
-    font-size: 12px !important;
-    border-width: 2px !important;
-  }
+  [data-timeline-row] > div:nth-child(2) { order: 0 !important; flex: 0 0 44px !important; justify-content: flex-start !important; }
+  [data-timeline-row] > div:nth-child(2) > div:first-child { width: 44px !important; height: 44px !important; font-size: 12px !important; border-width: 2px !important; }
   [data-timeline-row] > div:nth-child(1),
-  [data-timeline-row] > div:nth-child(3) {
-    order: 1 !important;
-    flex: 1 1 auto !important;
-    padding: 0 !important;
-    min-width: 0 !important;
-  }
-  [data-timeline-card] {
-    text-align: start !important;
-    padding: 18px 20px !important;
-  }
+  [data-timeline-row] > div:nth-child(3) { order: 1 !important; flex: 1 1 auto !important; padding: 0 !important; min-width: 0 !important; }
+  [data-timeline-card] { text-align: start !important; padding: 18px 20px !important; }
   [data-timeline-arrow] { display: none !important; }
 
-  /* Section header bottom margin tighter */
   h1, h2 { letter-spacing: -0.02em !important; }
 }
 
@@ -145,11 +149,7 @@ section { animation: sectionFadeIn 0.7s ease both; }
 @media (max-width: 480px) {
   header { padding: 0 14px !important; height: 64px !important; }
   section { padding-left: 0.9rem !important; padding-right: 0.9rem !important; padding-top: 3rem !important; padding-bottom: 3rem !important; }
-  [data-hero-inner] { padding: 5rem 0.9rem 3rem !important; }
-
-  [data-hero-stats] { grid-template-columns: 1fr !important; }
-  [data-hero-stats] > div { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.10) !important; }
-  [data-hero-stats] > div:last-child { border-bottom: none !important; }
+  [data-hero-inner] { padding: 0 0.9rem !important; }
 
   [data-team-grid] { grid-template-columns: 1fr !important; }
   [data-pillars-grid] { grid-template-columns: 1fr !important; }
