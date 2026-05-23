@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif; background: #fff; color: #383D58;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+/* Always use Syne for big display numerals so digits never reflow with body font */
+h1, h2, h3 { font-feature-settings: "ss01", "tnum"; }
+
+/* Tabular numerals everywhere by default — keeps stats and years rock-stable */
+body, button, input, select, textarea {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+body.rtl { direction: rtl; font-family: 'Noto Kufi Arabic', 'DM Sans', sans-serif; }
+/* In Arabic mode, force latin numerals (per design system) and use Syne for digits inside headings.
+   Trick: layer a Latin-first font BEFORE Noto Kufi so the unicode-range for digits picks Syne. */
+body.rtl h1, body.rtl h2, body.rtl h3, body.rtl button, body.rtl input, body.rtl select, body.rtl textarea {
+  font-family: 'Syne', 'Noto Kufi Arabic', sans-serif;
+}
+/* Critical: any element marked "num" gets Syne for the digit glyphs even in AR */
+.num, body.rtl .num { font-family: 'Syne', 'DM Sans', sans-serif !important; font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+
+button { font-family: inherit; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #F7F8FC; }
+::-webkit-scrollbar-thumb { background: #D6E4F7; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #1B4FBB; }
+
+@keyframes heroLineIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes heroPulse  { 0%,100% { transform: scale(1); } 50% { transform: scale(1.5); opacity: 0.6; } }
+@keyframes heroGlow   { 0%,100% { transform: scale(1) translate(0,0); opacity: 0.8; } 50% { transform: scale(1.15) translate(20px,-10px); opacity: 1; } }
+@keyframes heroScroll { 0% { transform: translate(-50%, 0); opacity: 1; } 100% { transform: translate(-50%, 14px); opacity: 0; } }
+
+@keyframes sectionFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+section { animation: sectionFadeIn 0.7s ease both; }
+
+@keyframes milestonePulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.25); opacity: 0; }
+}
+@keyframes milestoneOngoingDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.7); opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ───────────── RESPONSIVE LAYER ───────────── */
+/* Inline React styles win specificity battles — we use !important to override. */
+
+/* TABLET & smaller (≤1024px) */
+@media (max-width: 1024px) {
+  header { padding: 0 20px !important; }
+  section { padding-left: 1.5rem !important; padding-right: 1.5rem !important; padding-top: 4rem !important; padding-bottom: 4rem !important; }
+  section[id="top"] { padding: 0 !important; }
+  [data-hero-inner] { padding: 6.5rem 1.5rem 4rem !important; }
+
+  [data-intro-grid] { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
+  [data-pillars-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-services-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-team-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-curriculum-grid] { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  [data-modules-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-startups-hero] { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  [data-startups-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-contact-frame] { grid-template-columns: 1fr !important; }
+  [data-contact-frame] > div { padding: 32px !important; }
+  [data-footer-grid] { grid-template-columns: 1fr 1fr !important; gap: 2rem !important; }
+}
+
+/* MOBILE (≤768px) */
+@media (max-width: 768px) {
+  /* Swap nav: hide rail + lang pill, show hamburger + mobile panel */
+  [data-nav-rail] { display: none !important; }
+  [data-nav-lang] { display: none !important; }
+  [data-nav-hamburger] { display: inline-flex !important; }
+  [data-nav-mobile-panel] { display: block !important; }
+
+  header { padding: 0 16px !important; height: 68px !important; }
+  main { padding-top: 0 !important; }
+  section { padding-left: 1.1rem !important; padding-right: 1.1rem !important; padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
+  section[id="top"] { padding: 0 !important; }
+  [data-hero-inner] { padding: 5.5rem 1.1rem 3.5rem !important; }
+
+  /* Hero stats: 4 → 2 cols, swap right-borders for a 2×2 grid */
+  [data-hero-stats] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-hero-stats] > div { border-right: none !important; }
+  [data-hero-stats] > div:nth-child(1), [data-hero-stats] > div:nth-child(3) { border-right: 1px solid rgba(255,255,255,0.10) !important; }
+  [data-hero-stats] > div:nth-child(1), [data-hero-stats] > div:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.10); }
+
+  [data-services-grid] { grid-template-columns: 1fr !important; }
+  [data-programs-grid] { grid-template-columns: 1fr !important; }
+  [data-startups-grid] { grid-template-columns: 1fr !important; }
+  [data-modules-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-pillars-grid] { grid-template-columns: 1fr !important; }
+  [data-team-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-contact-name-email] { grid-template-columns: 1fr !important; }
+  [data-footer-grid] { grid-template-columns: 1fr !important; gap: 1.75rem !important; }
+
+  [data-contact-frame] > div { padding: 26px !important; }
+
+  /* Timeline: flatten to a single-column left-rail layout */
+  [data-timeline-centerline] { left: 22px !important; transform: none !important; }
+  [data-timeline-row] {
+    display: flex !important;
+    gap: 18px !important;
+    align-items: flex-start !important;
+  }
+  [data-timeline-row] > div:empty { display: none !important; }
+  [data-timeline-row] > div:nth-child(2) {
+    order: 0 !important;
+    flex: 0 0 44px !important;
+    justify-content: flex-start !important;
+  }
+  [data-timeline-row] > div:nth-child(2) > div:first-child {
+    width: 44px !important; height: 44px !important;
+    font-size: 12px !important;
+    border-width: 2px !important;
+  }
+  [data-timeline-row] > div:nth-child(1),
+  [data-timeline-row] > div:nth-child(3) {
+    order: 1 !important;
+    flex: 1 1 auto !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+  }
+  [data-timeline-card] {
+    text-align: start !important;
+    padding: 18px 20px !important;
+  }
+  [data-timeline-arrow] { display: none !important; }
+
+  /* Section header bottom margin tighter */
+  h1, h2 { letter-spacing: -0.02em !important; }
+}
+
+/* SMALL MOBILE (≤480px) */
+@media (max-width: 480px) {
+  header { padding: 0 14px !important; height: 64px !important; }
+  section { padding-left: 0.9rem !important; padding-right: 0.9rem !important; padding-top: 3rem !important; padding-bottom: 3rem !important; }
+  [data-hero-inner] { padding: 5rem 0.9rem 3rem !important; }
+
+  [data-hero-stats] { grid-template-columns: 1fr !important; }
+  [data-hero-stats] > div { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.10) !important; }
+  [data-hero-stats] > div:last-child { border-bottom: none !important; }
+
+  [data-team-grid] { grid-template-columns: 1fr !important; }
+  [data-pillars-grid] { grid-template-columns: 1fr !important; }
+  [data-modules-grid] { grid-template-columns: 1fr !important; }
+  [data-contact-frame] > div { padding: 22px !important; }
+}
