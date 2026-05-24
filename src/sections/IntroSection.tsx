@@ -1,7 +1,12 @@
 import React from "react";
 import type { Lang, Milestone } from "../types";
 import { JourneyTimeline } from "../components/SharedCards";
+import { useReveal } from "../hooks/useReveal";
 import directorPhoto from "../assets/team/incubator-director.jpg";
+import logoAIHouse    from "../assets/AI-house.jpg";
+import logoCenterTech from "../assets/center-tech.jpg";
+import logoCDE        from "../assets/cde.jpg";
+import logoBLUE       from "../assets/blue-msila.jpg";
 
 /* ─── SVG icons for the four pillars ─────────────────────────────────── */
 const PillarIcons = [
@@ -54,9 +59,9 @@ const IntroSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       label: "About the Incubator",
       title: "Algeria's pioneering\nuniversity incubator.",
       body1:
-        "Founded at Université Mohamed Boudiaf, the Incubateur M'Sila is Algeria's first and highest-ranked university-based business incubator. Our mandate: transform student innovation into viable, scalable startups that drive the country's future.",
+        "Established by Ministerial Decree No. 182 on 27 May 2019, the Incubator at Université Mohamed Boudiaf was the first university business incubator in Algeria — followed later by Blida, Ouargla and other universities that adopted the M'Sila model nationwide.",
       body2:
-        "Recognized as Algeria's #1 university incubator at Science Day 2023, we support founders from every faculty — sciences, engineering, law, medicine, economics, and beyond.",
+        "Honored at Science Day on 16 April 2023 as Algeria's #1 university incubator — for the most startups and the most patents — we support founders from every faculty: science, technology, humanities, economics, mathematics, law, and beyond.",
       pillarLabel: "What we stand for",
       pillars: [
         { t: "Innovation",    d: "Forward-leaning thinking, tech-forward language, modern methods." },
@@ -67,29 +72,38 @@ const IntroSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       directorNoteLabel: "Director's Note",
       quote:
         "Our mission is to turn the ideas of M'Sila's students into the businesses that drive Algeria's future.",
-      director: "Prof. Ben Toumi Sarah",
-      directorRole: "Director, Incubateur Université de M'Sila",
+      director: "Prof. BENTOUMI Sarra",
+      directorRole: "Director, Incubator — Université de M'Sila",
       journeyLabel: "Our Journey",
-      journeyTitle: "Six years of\nbuilding the future.",
+      journeyTitle: "From founding decree\nto national model.",
       journeySub:
-        "From a single founding mandate to Algeria's top-ranked university incubator — here's how we got here.",
+        "Six milestones that took M'Sila from Algeria's first university incubator to the model adopted nationwide.",
       milestones: [
-        { year: "2019", accent: "blue",  tag: "Founding",       title: "Established at Université Mohamed Boudiaf",     desc: "The incubator opens its doors as the first university-based business incubator in Algeria, anchored at the M'Sila campus." },
-        { year: "2020", accent: "green", tag: "First Cohort",   title: "Inaugural incubation cohort launched",           desc: "Twelve student-led startups enter the program across science, computer science, and economics faculties.", stat: { n: "12", l: "startups · first cohort" } },
-        { year: "2021", accent: "blue",  tag: "Partnerships",   title: "ANSEJ & CNAC funding partnerships signed",       desc: "Formal agreements unlock state-backed funding rails for incubated teams, alongside private investor introductions." },
-        { year: "2022", accent: "green", tag: "Curriculum",     title: "Structured 85+ hour annual program launched",    desc: "Six-module curriculum rolls out — AI, business modeling, fundraising, legal/IP, marketing, and communications.", stat: { n: "85+", l: "training hours / year" } },
-        { year: "2023", accent: "blue",  tag: "Recognition",    title: "Ranked #1 University Incubator in Algeria",      desc: "Honored at the national Science Day ceremony for excellence in entrepreneurial training and startup outcomes.", stat: { n: "#1", l: "in Algeria · Science Day" } },
-        { year: "2024", accent: "green", tag: "Impact",         title: "120+ startups supported across all faculties",   desc: "Alumni network expands to every faculty, with twelve active partner organizations and a thriving on-campus hub.", stat: { n: "120+", l: "startups launched" } },
-        { year: "Now",  ongoing: true, accent: "blue", tag: "The journey continues", title: "And we're just getting started.", desc: "New cohorts in progress, deeper international partnerships, and a renewed push to make M'Sila a regional hub for student entrepreneurship." },
+        { year: "2018", accent: "blue",  tag: "Dec 12–13, 2018", title: "Approved at the Fall University event",        desc: "The Rector grants approval; Dr. Mir Ahmed is appointed founding director and the board approves the incubator's creation." },
+        { year: "2019", accent: "green", tag: "27 May 2019",      title: "Ministerial Decree No. 182",                   desc: "Officially established as the first university incubator in Algeria — followed later by Blida, Ouargla and other universities.", stat: { n: "#1", l: "university incubator · Algeria" } },
+        { year: "2021", accent: "blue",  tag: "October 2021",     title: "Label Tagging Program launched",               desc: "The incubator begins guiding projects onto startup.dz to earn the national Startup Label and unlock ASF financing." },
+        { year: "2022", accent: "green", tag: "2021–2022",        title: "First nationally to launch Resolution 1275",   desc: "M'Sila is the first university in Algeria to convert graduation projects into registered startups under Resolution 1275." },
+        { year: "2023", accent: "blue",  tag: "2022–2023",        title: "Resolution 1275 adopted nationwide",           desc: "The Ministry formally adopts Resolution 1275 across all Algerian universities — built on the M'Sila model." },
+        { year: "2023", accent: "green", tag: "16 April 2023",    title: "#1 University Incubator at Science Day",        desc: "Honored by the Minister of Higher Education for most startups and most patents, and saluted by the Wali of M'Sila.", stat: { n: "202+", l: "patents filed to date" } },
+        { year: "Now",  ongoing: true, accent: "blue", tag: "The journey continues", title: "And we're just getting started.", desc: "New cohorts in progress, deeper national and international partnerships, and a renewed push to make M'Sila a regional hub for student entrepreneurship." },
       ] as Milestone[],
+      ecoLabel: "University Ecosystem",
+      ecoTitle: "Part of a wider innovation network.",
+      ecoSub: "The incubator works alongside four other innovation units at Université Mohamed Boudiaf.",
+      ecosystem: [
+        { ar: "دار الذكاء الاصطناعي", en: "House of Artificial Intelligence", d: "A dedicated hub advancing AI research, training and applied projects across faculties." },
+        { ar: "مركز دعم التكنولوجيا والابتكار", en: "Center for Technology Support & Innovation", d: "Supports researchers and students in protecting and commercializing their innovations." },
+        { ar: "مركز تطوير المقاولاتية", en: "Center for Entrepreneurship Development (CDE)", d: "Builds entrepreneurial skills and a startup mindset among the university community." },
+        { ar: "مكتب الربط", en: "University–Business Liaison Office (BLUE)", d: "Connects the university with the economic world to turn research into real ventures." },
+      ],
     },
     FR: {
       label: "À propos de l'incubateur",
       title: "L'incubateur universitaire\npionnier d'Algérie.",
       body1:
-        "Fondé à l'Université Mohamed Boudiaf, l'Incubateur M'Sila est le premier et meilleur incubateur d'entreprises universitaire d'Algérie. Notre mandat : transformer l'innovation étudiante en startups viables et scalables qui façonnent l'avenir du pays.",
+        "Créé par le Décret ministériel n° 182 du 27 mai 2019, l'Incubateur de l'Université Mohamed Boudiaf fut le premier incubateur d'entreprises universitaire d'Algérie — suivi ensuite par Blida, Ouargla et d'autres universités qui ont adopté le modèle de M'Sila.",
       body2:
-        "Reconnu comme incubateur universitaire #1 d'Algérie à la Journée de la Science 2023, nous accompagnons des fondateurs de toutes les facultés — sciences, ingénierie, droit, médecine, économie, et au-delà.",
+        "Distingué à la Journée de la Science le 16 avril 2023 comme incubateur universitaire #1 d'Algérie — pour le plus de startups et le plus de brevets — nous accompagnons des fondateurs de toutes les facultés : sciences, technologie, sciences humaines, économie, mathématiques, droit, et au-delà.",
       pillarLabel: "Nos valeurs",
       pillars: [
         { t: "Innovation",    d: "Pensée avant-gardiste, méthodes modernes, langage tech-forward." },
@@ -100,29 +114,38 @@ const IntroSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       directorNoteLabel: "Note de la Directrice",
       quote:
         "Notre mission est de transformer les idées des étudiants de M'Sila en entreprises qui façonnent l'avenir de l'Algérie.",
-      director: "Prof. Ben Toumi Sarah",
-      directorRole: "Directeur, Incubateur Université de M'Sila",
+      director: "Prof. BENTOUMI Sarra",
+      directorRole: "Directrice, Incubateur — Université de M'Sila",
       journeyLabel: "Notre Parcours",
-      journeyTitle: "Six années à\nbâtir l'avenir.",
+      journeyTitle: "Du décret fondateur\nau modèle national.",
       journeySub:
-        "D'un mandat fondateur à l'incubateur universitaire #1 d'Algérie — voici comment.",
+        "Six jalons qui ont fait de M'Sila le premier incubateur universitaire d'Algérie, puis le modèle adopté à l'échelle nationale.",
       milestones: [
-        { year: "2019", accent: "blue",  tag: "Fondation",       title: "Création à l'Université Mohamed Boudiaf",        desc: "L'incubateur ouvre comme le premier incubateur universitaire en Algérie, sur le campus de M'Sila." },
-        { year: "2020", accent: "green", tag: "Première Cohorte",title: "Lancement de la cohorte inaugurale",             desc: "Douze startups étudiantes entrent dans le programme à travers sciences, informatique et économie.", stat: { n: "12", l: "startups · 1ʳᵉ cohorte" } },
-        { year: "2021", accent: "blue",  tag: "Partenariats",    title: "Partenariats ANSEJ & CNAC signés",               desc: "Accords formels qui ouvrent l'accès aux financements publics et aux investisseurs privés." },
-        { year: "2022", accent: "green", tag: "Curriculum",      title: "Programme annuel structuré 85+ heures",          desc: "Six modules : IA, modèle économique, levée de fonds, juridique, marketing, communication.", stat: { n: "85+", l: "heures de formation / an" } },
-        { year: "2023", accent: "blue",  tag: "Reconnaissance",  title: "Classé #1 incubateur universitaire en Algérie",  desc: "Distinction nationale à la Journée de la Science pour l'excellence du programme et de ses résultats.", stat: { n: "#1", l: "en Algérie · Journée Science" } },
-        { year: "2024", accent: "green", tag: "Impact",          title: "120+ startups accompagnées",                    desc: "Le réseau alumni s'étend à toutes les facultés, avec douze partenaires actifs et un hub sur campus.", stat: { n: "120+", l: "startups lancées" } },
-        { year: "Now",  ongoing: true, accent: "blue", tag: "L'aventure continue", title: "Et ce n'est que le début.", desc: "De nouvelles cohortes en cours, des partenariats internationaux plus profonds, et un nouvel élan pour faire de M'Sila un pôle régional de l'entrepreneuriat étudiant." },
+        { year: "2018", accent: "blue",  tag: "12–13 déc. 2018", title: "Approuvé lors de l'Université d'automne",        desc: "Le Recteur donne son accord ; le Dr Mir Ahmed est nommé directeur fondateur et le conseil approuve la création." },
+        { year: "2019", accent: "green", tag: "27 mai 2019",      title: "Décret ministériel n° 182",                    desc: "Officiellement créé comme premier incubateur universitaire d'Algérie — suivi par Blida, Ouargla et d'autres.", stat: { n: "#1", l: "incubateur universitaire · Algérie" } },
+        { year: "2021", accent: "blue",  tag: "Octobre 2021",     title: "Lancement du Label Tagging",                   desc: "L'incubateur oriente les projets vers startup.dz pour obtenir le Label Startup et accéder au financement ASF." },
+        { year: "2022", accent: "green", tag: "2021–2022",        title: "Premier à lancer la Résolution 1275",          desc: "M'Sila est la première université d'Algérie à transformer les projets de fin d'études en startups via la Résolution 1275." },
+        { year: "2023", accent: "blue",  tag: "2022–2023",        title: "Résolution 1275 adoptée nationalement",        desc: "Le Ministère adopte officiellement la Résolution 1275 dans toutes les universités algériennes — sur le modèle de M'Sila." },
+        { year: "2023", accent: "green", tag: "16 avril 2023",    title: "#1 incubateur universitaire · Journée Science", desc: "Distingué par le Ministre pour le plus de startups et de brevets, et salué par le Wali de M'Sila.", stat: { n: "202+", l: "brevets déposés à ce jour" } },
+        { year: "Now",  ongoing: true, accent: "blue", tag: "L'aventure continue", title: "Et ce n'est que le début.", desc: "De nouvelles cohortes en cours, des partenariats nationaux et internationaux plus profonds, et un nouvel élan pour faire de M'Sila un pôle régional." },
       ] as Milestone[],
+      ecoLabel: "Écosystème universitaire",
+      ecoTitle: "Au cœur d'un réseau d'innovation plus large.",
+      ecoSub: "L'incubateur collabore avec quatre autres unités d'innovation de l'Université Mohamed Boudiaf.",
+      ecosystem: [
+        { ar: "دار الذكاء الاصطناعي", en: "Maison de l'Intelligence Artificielle", d: "Un pôle dédié à la recherche, la formation et les projets appliqués en IA." },
+        { ar: "مركز دعم التكنولوجيا والابتكار", en: "Centre de Support Technologique & Innovation", d: "Accompagne chercheurs et étudiants pour protéger et valoriser leurs innovations." },
+        { ar: "مركز تطوير المقاولاتية", en: "Centre de Développement de l'Entrepreneuriat (CDE)", d: "Développe les compétences entrepreneuriales et l'esprit startup." },
+        { ar: "مكتب الربط", en: "Bureau de Liaison Université–Entreprise (BLUE)", d: "Relie l'université au monde économique pour transformer la recherche en projets réels." },
+      ],
     },
     AR: {
       label: "حول الحاضنة",
       title: "حاضنة الجامعة\nالرائدة في الجزائر.",
       body1:
-        "تأسست حاضنة جامعة مسيلة في جامعة محمد بوضياف بوصفها أول وأعلى حاضنة أعمال جامعية في الجزائر. مهمتنا تحويل ابتكار الطلاب إلى شركات ناشئة قابلة للنمو تقود مستقبل البلاد.",
+        "تأسست بموجب المرسوم الوزاري رقم 182 في 27 مايو 2019، وكانت حاضنة جامعة محمد بوضياف أول حاضنة أعمال جامعية في الجزائر — تبعتها لاحقاً البليدة وورقلة وجامعات أخرى تبنّت نموذج مسيلة على المستوى الوطني.",
       body2:
-        "معترف بها كحاضنة جامعية #1 في الجزائر في يوم العلم 2023، ندعم المؤسسين من جميع الكليات — العلوم والهندسة والقانون والطب والاقتصاد وغيرها.",
+        "كُرّمت في يوم العلم بتاريخ 16 أبريل 2023 كحاضنة جامعية #1 في الجزائر — للأكثر شركات ناشئة والأكثر براءات اختراع — وندعم المؤسسين من جميع الكليات: العلوم والتكنولوجيا والعلوم الإنسانية والاقتصاد والرياضيات والقانون وغيرها.",
       pillarLabel: "ما نؤمن به",
       pillars: [
         { t: "الابتكار",   d: "تفكير تطلعي، أساليب حديثة، لغة تقنية متقدمة." },
@@ -132,21 +155,30 @@ const IntroSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       ],
       directorNoteLabel: "كلمة المدير",
       quote: "مهمتنا تحويل أفكار طلاب مسيلة إلى أعمال تقود مستقبل الجزائر.",
-      director: "الأستاذة بن طومي سارة",
-      directorRole: "مديرة، حاضنة جامعة مسيلة",
+      director: "الأستاذة بن تومي سارة",
+      directorRole: "مديرة الحاضنة — جامعة المسيلة",
       journeyLabel: "مسيرتنا",
-      journeyTitle: "ست سنوات من\nبناء المستقبل.",
+      journeyTitle: "من مرسوم التأسيس\nإلى النموذج الوطني.",
       journeySub:
-        "من تكليف تأسيسي إلى الحاضنة الجامعية #1 في الجزائر — إليكم كيف وصلنا.",
+        "ست محطات نقلت مسيلة من أول حاضنة جامعية في الجزائر إلى النموذج المعتمد على المستوى الوطني.",
       milestones: [
-        { year: "2019", accent: "blue",  tag: "التأسيس",       title: "التأسيس في جامعة محمد بوضياف",              desc: "تفتح الحاضنة أبوابها كأول حاضنة أعمال جامعية في الجزائر، في حرم مسيلة." },
-        { year: "2020", accent: "green", tag: "الدفعة الأولى", title: "انطلاق الدفعة التأسيسية",                    desc: "اثنتا عشرة شركة ناشئة طلابية تدخل البرنامج عبر كليات العلوم والحاسوب والاقتصاد.", stat: { n: "12", l: "شركة · الدفعة الأولى" } },
-        { year: "2021", accent: "blue",  tag: "الشراكات",      title: "توقيع شراكات ANSEJ وCNAC",                   desc: "اتفاقيات رسمية تفتح قنوات التمويل الحكومي والمستثمرين الخاصين." },
-        { year: "2022", accent: "green", tag: "المنهج",        title: "إطلاق البرنامج السنوي المنظم +85 ساعة",      desc: "ست وحدات: الذكاء الاصطناعي، نمذجة الأعمال، التمويل، القانون، التسويق، الاتصال.", stat: { n: "+85", l: "ساعة تكوين / سنوياً" } },
-        { year: "2023", accent: "blue",  tag: "التقدير",       title: "مصنفة #1 حاضنة جامعية في الجزائر",          desc: "تكريم وطني في يوم العلم لتميز البرنامج ونتائجه.", stat: { n: "#1", l: "في الجزائر · يوم العلم" } },
-        { year: "2024", accent: "green", tag: "الأثر",         title: "+120 شركة ناشئة مدعومة",                     desc: "شبكة الخريجين تمتد إلى جميع الكليات مع اثنتي عشرة منظمة شريكة نشطة.", stat: { n: "+120", l: "شركة ناشئة" } },
-        { year: "Now",  ongoing: true, accent: "blue", tag: "الرحلة مستمرة", title: "وما زلنا في البداية.", desc: "دفعات جديدة قيد التنفيذ، شراكات دولية أعمق، ودفعة متجددة لجعل مسيلة مركزاً إقليمياً لريادة الأعمال الطلابية." },
+        { year: "2018", accent: "blue",  tag: "12–13 ديسمبر 2018", title: "الموافقة في الجامعة الخريفية",            desc: "يمنح رئيس الجامعة الموافقة، ويُعيَّن الدكتور مير أحمد مديراً مؤسساً، ويوافق المجلس على الإنشاء." },
+        { year: "2019", accent: "green", tag: "27 مايو 2019",       title: "المرسوم الوزاري رقم 182",                desc: "تأسست رسمياً كأول حاضنة جامعية في الجزائر — تبعتها البليدة وورقلة وجامعات أخرى.", stat: { n: "#1", l: "حاضنة جامعية · الجزائر" } },
+        { year: "2021", accent: "blue",  tag: "أكتوبر 2021",        title: "إطلاق برنامج الوسم (Label Tagging)",     desc: "توجّه الحاضنة المشاريع إلى startup.dz للحصول على علامة الشركة الناشئة وتمويل ASF." },
+        { year: "2022", accent: "green", tag: "2021–2022",          title: "الأولى وطنياً في إطلاق القرار 1275",     desc: "مسيلة أول جامعة في الجزائر تحوّل مشاريع التخرج إلى شركات ناشئة عبر القرار 1275." },
+        { year: "2023", accent: "blue",  tag: "2022–2023",          title: "اعتماد القرار 1275 وطنياً",              desc: "تعتمد الوزارة القرار 1275 رسمياً في جميع الجامعات الجزائرية — استناداً إلى نموذج مسيلة." },
+        { year: "2023", accent: "green", tag: "16 أبريل 2023",      title: "#1 حاضنة جامعية في يوم العلم",           desc: "تكريم من وزير التعليم العالي للأكثر شركات وبراءات، وتحية من والي مسيلة.", stat: { n: "+202", l: "براءة اختراع حتى الآن" } },
+        { year: "Now",  ongoing: true, accent: "blue", tag: "الرحلة مستمرة", title: "وما زلنا في البداية.", desc: "دفعات جديدة قيد التنفيذ، شراكات وطنية ودولية أعمق، ودفعة متجددة لجعل مسيلة مركزاً إقليمياً لريادة الأعمال الطلابية." },
       ] as Milestone[],
+      ecoLabel: "المنظومة الجامعية",
+      ecoTitle: "جزء من شبكة ابتكار أوسع.",
+      ecoSub: "تعمل الحاضنة جنباً إلى جنب مع أربع وحدات ابتكار أخرى في جامعة محمد بوضياف.",
+      ecosystem: [
+        { ar: "دار الذكاء الاصطناعي", en: "House of Artificial Intelligence", d: "مركز مخصص لتطوير أبحاث الذكاء الاصطناعي والتكوين والمشاريع التطبيقية عبر الكليات." },
+        { ar: "مركز دعم التكنولوجيا والابتكار", en: "Center for Technology Support & Innovation", d: "يدعم الباحثين والطلاب في حماية ابتكاراتهم وتثمينها تجارياً." },
+        { ar: "مركز تطوير المقاولاتية", en: "Center for Entrepreneurship Development (CDE)", d: "يبني المهارات المقاولاتية وروح المبادرة لدى المجتمع الجامعي." },
+        { ar: "مكتب الربط", en: "University–Business Liaison Office (BLUE)", d: "يربط الجامعة بالعالم الاقتصادي لتحويل البحث إلى مشاريع حقيقية." },
+      ],
     },
   }[lang];
 
@@ -265,8 +297,239 @@ const IntroSection: React.FC<{ lang: Lang }> = ({ lang }) => {
           title={t.journeyTitle}
           subtitle={t.journeySub}
         />
+
+        {/* ── University ecosystem ─────────────────────────────────────── */}
+        <EcosystemGrid
+          label={t.ecoLabel}
+          title={t.ecoTitle}
+          subtitle={t.ecoSub}
+          items={t.ecosystem}
+          logos={[logoAIHouse, logoCenterTech, logoCDE, logoBLUE]}
+          isRTL={isRTL}
+        />
       </div>
     </section>
+  );
+};
+
+/* ─── Accent palette per ecosystem card index ────────────────────────── */
+const ECO_ACCENTS = [
+  { accent: "#1B4FBB", accentLight: "#D6E4F7", accentDark: "#0D2D72", tag: "AI", tagBg: "#EFF2FB" },
+  { accent: "#1B4FBB", accentLight: "#D6E4F7", accentDark: "#0D2D72", tag: "CATI", tagBg: "#EFF2FB" },
+  { accent: "#7DB83A", accentLight: "#EBF5D8", accentDark: "#5A8A22", tag: "CDE",  tagBg: "#F0FAE3" },
+  { accent: "#7DB83A", accentLight: "#EBF5D8", accentDark: "#5A8A22", tag: "BLUE", tagBg: "#F0FAE3" },
+];
+
+/* ─── Single ecosystem card with logo ───────────────────────────────── */
+const EcoCard: React.FC<{
+  logo: string; ar: string; en: string; d: string;
+  index: number; isRTL: boolean;
+}> = React.memo(({ logo, ar, en, d, index, isRTL }) => {
+  const [hov, setHov] = React.useState(false);
+  const { accent, accentLight, accentDark, tag, tagBg } = ECO_ACCENTS[index];
+  const shadowColor = index < 2
+    ? "rgba(27,79,187,0.16)"
+    : "rgba(125,184,58,0.18)";
+
+  return (
+    <div
+      data-reveal-child
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        ["--i" as string]: index,
+        position: "relative",
+        borderRadius: 24,
+        overflow: "hidden",
+        border: `1.5px solid ${hov ? accent : "#E4E6EF"}`,
+        background: "#fff",
+        transform: hov ? "translateY(-6px)" : "translateY(0)",
+        boxShadow: hov
+          ? `0 20px 50px ${shadowColor}, 0 4px 12px rgba(0,0,0,0.06)`
+          : "0 2px 12px rgba(0,0,0,0.04)",
+        transition: "all 0.30s cubic-bezier(0.34,1.2,0.64,1)",
+        cursor: "default",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {/* ── Logo banner ─────────────────────────────────────────────── */}
+      <div style={{
+        position: "relative",
+        background: "#fff",
+        borderBottom: `1px solid ${hov ? accentLight : "#F0F1F7"}`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "28px 24px 24px",
+        minHeight: 148,
+        overflow: "hidden",
+        transition: "border-color 0.25s ease",
+      }}>
+        {/* Soft background glow behind logo */}
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          background: `radial-gradient(ellipse 70% 60% at 50% 50%, ${accentLight}55, transparent 75%)`,
+          opacity: hov ? 1 : 0.5,
+          transition: "opacity 0.35s ease",
+          pointerEvents: "none",
+        }} />
+
+        {/* Tag pill — top corner */}
+        <div style={{
+          position: "absolute",
+          top: 14,
+          insetInlineStart: 14,
+          padding: "4px 10px",
+          borderRadius: 9999,
+          background: tagBg,
+          color: accentDark,
+          fontSize: 10,
+          fontWeight: 800,
+          letterSpacing: "0.10em",
+          fontFamily: "'Syne',sans-serif",
+          zIndex: 1,
+        }}>{tag}</div>
+
+        {/* Logo image */}
+        <img
+          src={logo}
+          alt={en}
+          style={{
+            position: "relative",
+            zIndex: 1,
+            maxWidth: 170,
+            maxHeight: 100,
+            width: "auto",
+            height: "auto",
+            objectFit: "contain",
+            filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.08))",
+            transform: hov ? "scale(1.04)" : "scale(1)",
+            transition: "transform 0.35s cubic-bezier(0.34,1.2,0.64,1)",
+          }}
+        />
+      </div>
+
+      {/* ── Text body ────────────────────────────────────────────────── */}
+      <div style={{
+        padding: "20px 24px 26px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 0,
+        flex: 1,
+        direction: isRTL ? "rtl" : "ltr",
+      }}>
+        {/* Arabic name — always in native RTL direction regardless of page dir */}
+        <div style={{
+          fontFamily: "'Noto Kufi Arabic','DM Sans',sans-serif",
+          fontSize: "1.0rem",
+          fontWeight: 700,
+          color: "#121420",
+          lineHeight: 1.45,
+          marginBottom: 4,
+          direction: "rtl",
+          textAlign: isRTL ? "start" : "start",
+        }}>{ar}</div>
+
+        {/* English/French label */}
+        <div style={{
+          fontFamily: "'Syne',sans-serif",
+          fontSize: 12.5,
+          fontWeight: 700,
+          color: accentDark,
+          lineHeight: 1.35,
+          marginBottom: 14,
+          letterSpacing: "0.01em",
+          direction: isRTL ? "rtl" : "ltr",
+        }}>{en}</div>
+
+        {/* Divider line in accent color */}
+        <div style={{
+          width: 32, height: 2.5,
+          borderRadius: 2,
+          background: accent,
+          marginBottom: 14,
+          opacity: hov ? 1 : 0.4,
+          transition: "opacity 0.25s ease",
+          alignSelf: isRTL ? "flex-end" : "flex-start",
+        }} />
+
+        {/* Description */}
+        <div style={{
+          fontSize: 13.5,
+          color: "#6B7089",
+          lineHeight: 1.68,
+          direction: isRTL ? "rtl" : "ltr",
+        }}>{d}</div>
+      </div>
+
+      {/* Bottom accent strip that grows on hover */}
+      <div style={{
+        position: "absolute",
+        bottom: 0,
+        left: 0, right: 0,
+        height: hov ? 3 : 0,
+        background: `linear-gradient(90deg, ${accent}, ${accentDark})`,
+        transition: "height 0.25s ease",
+      }} />
+    </div>
+  );
+});
+
+/* ─── University ecosystem 2×2 grid ─────────────────────────────────── */
+const EcosystemGrid: React.FC<{
+  label: string; title: string; subtitle: string;
+  items: { ar: string; en: string; d: string }[];
+  logos: string[];
+  isRTL: boolean;
+}> = ({ label, title, subtitle, items, logos, isRTL }) => {
+  const { ref, shown } = useReveal<HTMLDivElement>();
+
+  return (
+    <div style={{ marginTop: "6rem" }}>
+      {/* ── Section header ─────────────────────────────────────────── */}
+      <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
+        <span style={{
+          display: "inline-block", padding: "5px 14px", borderRadius: 100,
+          fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.10em",
+          background: "#D6E4F7", color: "#1B4FBB", marginBottom: 18,
+        }}>{label}</span>
+
+        <div style={{
+          fontFamily: "'Syne',sans-serif",
+          fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
+          fontWeight: 700, color: "#121420", lineHeight: 1.15,
+          marginBottom: 14, letterSpacing: "-0.015em",
+        }}>{title}</div>
+
+        <div style={{
+          fontSize: "1.02rem", color: "#6B7089",
+          lineHeight: 1.75, maxWidth: 580, margin: "0 auto",
+        }}>{subtitle}</div>
+      </div>
+
+      {/* ── 2×2 card grid ──────────────────────────────────────────── */}
+      <div
+        ref={ref}
+        data-reveal
+        data-shown={shown ? "true" : "false"}
+        data-ecosystem-grid
+        style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 22 }}
+      >
+        {items.map((it, i) => (
+          <EcoCard
+            key={i}
+            logo={logos[i]}
+            ar={it.ar}
+            en={it.en}
+            d={it.d}
+            index={i}
+            isRTL={isRTL}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 

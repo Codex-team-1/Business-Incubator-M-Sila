@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Lang } from '../types';
 import campus from '../assets/uni-msila.jpg';
+import { useCountUp } from '../hooks/useReveal';
 
 /* ─────────────────────────────────────────────────────────────────
    HERO — full-bleed background photo
@@ -28,10 +29,12 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
       cta2:    'Explore Programs',
       imgAlt:  "Université Mohamed Boudiaf M'Sila campus",
       stats: [
-        { n: '120+', l: 'Startups Supported' },
-        { n: '85+',  l: 'Training Hrs / Year' },
-        { n: '#1',   l: 'University Incubator in Algeria' },
-        { n: '12+',  l: 'Partner Organizations' },
+        { value: 202, suffix: '+', l: 'Patents Filed' },
+        { value: 17,  suffix: '',  l: 'Graduated Startups' },
+        { value: 52,  suffix: '',  l: 'Labeled Projects' },
+        { value: 548, suffix: '',  l: 'Students · Res. 1275' },
+        { value: 287, suffix: '',  l: 'Projects · Res. 1275' },
+        { value: 124, suffix: '',  l: 'Active Projects' },
       ],
     },
     FR: {
@@ -43,10 +46,12 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
       cta2:    'Découvrir les programmes',
       imgAlt:  "Campus Université Mohamed Boudiaf M'Sila",
       stats: [
-        { n: '120+', l: 'Startups accompagnées' },
-        { n: '85+',  l: 'Heures de formation / an' },
-        { n: '#1',   l: 'Incubateur universitaire en Algérie' },
-        { n: '12+',  l: 'Organisations partenaires' },
+        { value: 202, suffix: '+', l: 'Brevets déposés' },
+        { value: 17,  suffix: '',  l: 'Startups diplômées' },
+        { value: 52,  suffix: '',  l: 'Projets labellisés' },
+        { value: 548, suffix: '',  l: 'Étudiants · Rés. 1275' },
+        { value: 287, suffix: '',  l: 'Projets · Rés. 1275' },
+        { value: 124, suffix: '',  l: 'Projets actifs' },
       ],
     },
     AR: {
@@ -58,10 +63,12 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
       cta2:    'اكتشف البرامج',
       imgAlt:  'حرم جامعة محمد بوضياف مسيلة',
       stats: [
-        { n: '+120', l: 'شركة ناشئة مدعومة' },
-        { n: '+85',  l: 'ساعة تكوين سنوياً' },
-        { n: '#1',   l: 'حاضنة جامعية في الجزائر' },
-        { n: '+12',  l: 'منظمة شريكة' },
+        { value: 202, suffix: '+', l: 'براءة اختراع مودعة' },
+        { value: 17,  suffix: '',  l: 'شركة ناشئة خريجة' },
+        { value: 52,  suffix: '',  l: 'مشروع موسوم' },
+        { value: 548, suffix: '',  l: 'طالب · القرار 1275' },
+        { value: 287, suffix: '',  l: 'مشروع · القرار 1275' },
+        { value: 124, suffix: '',  l: 'مشروع نشط' },
       ],
     },
   }[lang];
@@ -204,23 +211,24 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
             <HeroBtn isRTL={isRTL} label={t.cta2} onClick={() => onNav('programs')} />
           </div>
 
-          {/* Stats — tight row, no extra top margin */}
+          {/* Stats — 2×3 grid of verified figures, each counts up */}
           <div
-            data-hero-stats
+            data-hero-stats-6
             style={{
               ...stagger(250),
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 0,
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '14px 22px',
               alignItems: 'flex-start',
             }}
           >
             {t.stats.map((s, i) => (
               <StatCell
                 key={i}
-                n={s.n}
+                value={s.value}
+                suffix={s.suffix}
                 label={s.l}
-                divider={i < t.stats.length - 1}
+                active={mounted}
                 isRTL={isRTL}
               />
             ))}
@@ -262,33 +270,35 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
 
 /* ─── Stat cell ─────────────────────────────────────────────────── */
 const StatCell: React.FC<{
-  n: string; label: string; divider: boolean; isRTL: boolean;
-}> = React.memo(({ n, label, divider, isRTL }) => (
-  <div style={{
-    paddingInlineEnd: 22,
-    marginInlineEnd: divider ? 22 : 0,
-    borderInlineEnd: divider ? '1px solid rgba(255,255,255,0.14)' : 'none',
-  }}>
-    <div className="num" style={{
-      fontFamily: "'Syne',sans-serif",
-      fontSize: 'clamp(1.35rem, 2vw, 1.75rem)',
-      fontWeight: 800,
-      color: '#fff',
-      lineHeight: 1,
-      letterSpacing: '-0.025em',
-      fontVariantNumeric: 'tabular-nums',
-    }}>{n}</div>
+  value: number; suffix: string; label: string; active: boolean; isRTL: boolean;
+}> = React.memo(({ value, suffix, label, active, isRTL }) => {
+  const n = useCountUp(value, active);
+  return (
     <div style={{
-      fontSize: 11,
-      color: 'rgba(255,255,255,0.48)',
-      marginTop: 5,
-      lineHeight: 1.4,
-      fontFamily: "'DM Sans',sans-serif",
-      maxWidth: 96,
-      textAlign: isRTL ? 'right' : 'left',
-    }}>{label}</div>
-  </div>
-));
+      borderInlineStart: '2px solid rgba(125,184,58,0.45)',
+      paddingInlineStart: 12,
+    }}>
+      <div className="num" style={{
+        fontFamily: "'Syne',sans-serif",
+        fontSize: 'clamp(1.35rem, 2vw, 1.75rem)',
+        fontWeight: 800,
+        color: '#fff',
+        lineHeight: 1,
+        letterSpacing: '-0.025em',
+        fontVariantNumeric: 'tabular-nums',
+      }}>{n}{suffix}</div>
+      <div style={{
+        fontSize: 11,
+        color: 'rgba(255,255,255,0.55)',
+        marginTop: 5,
+        lineHeight: 1.4,
+        fontFamily: "'DM Sans',sans-serif",
+        maxWidth: 110,
+        textAlign: isRTL ? 'right' : 'left',
+      }}>{label}</div>
+    </div>
+  );
+});
 
 /* ─── CTA button ─────────────────────────────────────────────────── */
 const HeroBtn: React.FC<{

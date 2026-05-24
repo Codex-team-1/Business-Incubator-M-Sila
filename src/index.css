@@ -63,11 +63,51 @@ section { animation: sectionFadeIn 0.7s ease both; }
   50% { transform: scale(0.7); opacity: 0.55; }
 }
 
+/* ───────────── SCROLL REVEAL ─────────────
+   A container marked [data-reveal] starts hidden; when JS adds
+   [data-shown="true"] its children with [data-reveal-child] fade up
+   in sequence. Stagger is 90ms per child via --i index variable. */
+[data-reveal] [data-reveal-child] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+[data-reveal][data-shown="true"] [data-reveal-child] {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* A bare element can also reveal itself (no children) */
+[data-reveal-self] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+[data-reveal-self][data-shown="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Patent bar chart grow-up animation driven by [data-shown] */
+[data-bar] {
+  height: 0 !important;
+  transition: height 0.9s cubic-bezier(0.22,1,0.36,1);
+}
+[data-chart][data-shown="true"] [data-bar] {
+  height: var(--bar-h) !important;
+}
+[data-bar-label] { opacity: 0; transition: opacity 0.4s ease 0.6s; }
+[data-chart][data-shown="true"] [data-bar-label] { opacity: 1; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   /* Stop the team marquee entirely and let it scroll horizontally instead */
   [data-team-marquee-track] { animation: none !important; transform: none !important; }
   [data-team-marquee] { overflow-x: auto !important; }
+  /* Reveal content must never stay hidden when motion is reduced */
+  [data-reveal] [data-reveal-child],
+  [data-reveal-self] { opacity: 1 !important; transform: none !important; }
+  [data-bar] { transition: none !important; }
 }
 
 /* ───────────── RESPONSIVE LAYER ───────────── */
@@ -79,23 +119,6 @@ section { animation: sectionFadeIn 0.7s ease both; }
   section { padding-left: 1.5rem !important; padding-right: 1.5rem !important; padding-top: 4rem !important; padding-bottom: 4rem !important; }
   section[id="top"] { padding: 0 !important; }
   [data-hero-inner] { padding: 0 1.5rem !important; }
-
-  /* Stats wrap to 2×2 on tablet */
-  [data-hero-stats] { flex-wrap: wrap !important; }
-  [data-hero-stats] > div:nth-child(2) { border-inline-end: none !important; }
-  [data-hero-stats] > div:nth-child(1),
-  [data-hero-stats] > div:nth-child(2) {
-    padding-bottom: 14px !important;
-    border-bottom: 1px solid rgba(255,255,255,0.12) !important;
-    width: 50% !important;
-  }
-  [data-hero-stats] > div:nth-child(3),
-  [data-hero-stats] > div:nth-child(4) {
-    padding-top: 14px !important;
-    width: 50% !important;
-  }
-  [data-hero-stats] > div:nth-child(1) { border-inline-end: 1px solid rgba(255,255,255,0.12) !important; }
-  [data-hero-stats] > div:nth-child(3) { border-inline-end: 1px solid rgba(255,255,255,0.12) !important; }
 
   [data-intro-grid] { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
   [data-pillars-grid] { grid-template-columns: repeat(2, 1fr) !important; }
@@ -111,6 +134,14 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-contact-frame] > div { padding: 32px !important; }
   [data-footer-grid] { grid-template-columns: 1fr 1fr !important; gap: 2rem !important; }
   [data-team-stats-bar] { gap: 1.5rem !important; padding: 22px 24px !important; }
+
+  /* New components — tablet */
+  [data-ecosystem-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-faculty-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-board-grid] { grid-template-columns: 1fr !important; }
+  [data-activities-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-grads-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-hero-stats-6] { grid-template-columns: repeat(3, 1fr) !important; }
 }
 
 /* MOBILE (≤768px) */
@@ -128,20 +159,6 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-hero-inner] { padding: 0 1.1rem !important; }
   [data-hero-scroll-cue] { display: none !important; }
 
-  /* Stats: 2×2 grid on mobile */
-  [data-hero-stats] { flex-wrap: wrap !important; }
-  [data-hero-stats] > div {
-    border-inline-end: none !important;
-    padding-inline-end: 0 !important;
-    margin-inline-end: 0 !important;
-    width: 50% !important;
-    padding: 10px 12px !important;
-  }
-  [data-hero-stats] > div:nth-child(1),
-  [data-hero-stats] > div:nth-child(3) { border-right: 1px solid rgba(255,255,255,0.12) !important; }
-  [data-hero-stats] > div:nth-child(1),
-  [data-hero-stats] > div:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.12) !important; }
-
   [data-services-grid] { grid-template-columns: 1fr !important; }
   [data-programs-grid] { grid-template-columns: 1fr !important; }
   [data-startups-grid] { grid-template-columns: 1fr !important; }
@@ -154,6 +171,16 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-contact-name-email] { grid-template-columns: 1fr !important; }
   [data-footer-grid] { grid-template-columns: 1fr !important; gap: 1.75rem !important; }
   [data-contact-frame] > div { padding: 26px !important; }
+
+  /* New components — mobile */
+  [data-ecosystem-grid] { grid-template-columns: 1fr !important; }
+  [data-faculty-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-activities-grid] { grid-template-columns: 1fr !important; }
+  [data-grads-grid] { grid-template-columns: 1fr !important; }
+  [data-hero-stats-6] { grid-template-columns: repeat(2, 1fr) !important; }
+  /* Journey progress strip scrolls horizontally on small screens */
+  [data-journey-strip] { overflow-x: auto !important; justify-content: flex-start !important; border-radius: 16px !important; }
+  [data-journey-connector] { flex: 0 0 20px !important; min-width: 20px !important; margin: 0 8px !important; }
 
   /* Timeline: single-column left-rail */
   [data-timeline-centerline] { left: 22px !important; transform: none !important; }

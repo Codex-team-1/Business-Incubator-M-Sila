@@ -6,7 +6,7 @@ import building from '../assets/incubator-building.jpg';
 /* ─── CONTACT SECTION ─── */
 const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
   const isRTL = lang === 'AR';
-  const [form, setForm] = React.useState({ name: '', email: '', faculty: '', message: '' });
+  const [form, setForm] = React.useState({ name: '', email: '', subject: '', faculty: '', message: '' });
   const [sent, setSent] = React.useState(false);
   const [focused, setFocused] = React.useState<string | null>(null);
 
@@ -16,9 +16,12 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       title: 'Apply or ask us anything.',
       sub: 'All faculties welcome. We respond to every message within 3 business days.',
       fName: 'Full Name', fEmail: 'Email Address', fFac: 'Faculty', fMsg: 'Tell us about your startup idea',
+      fSubject: 'Subject',
+      selectSubject: 'Select a subject',
+      subjects: ['Incubation Application','Resolution 1275 Query','Label Tagging Info','Patent / INAPI Support','Partnership','General Enquiry'],
       submit: 'Send Message',
       thanks: "Message sent — we'll be in touch within 3 days.",
-      facs: ['Sciences & Technology','Computer Science','Economics','Law','Medicine','Engineering','Other'],
+      facs: ['Science','Technology','Humanities & Social Sciences','Economics, Business & Management','Mathematics & Informatics','Law & Political Science','Physical & Sporting Activities','Other'],
       selectFac: 'Select faculty',
       infoTitle: 'Visit or write to us',
       addressTitle: 'Campus',
@@ -32,9 +35,12 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       title: 'Candidatez ou posez-nous vos questions.',
       sub: 'Toutes facultés bienvenues. Nous répondons sous 3 jours ouvrés.',
       fName: 'Nom complet', fEmail: 'Adresse email', fFac: 'Faculté', fMsg: 'Parlez-nous de votre idée',
+      fSubject: 'Sujet',
+      selectSubject: 'Choisir un sujet',
+      subjects: ['Candidature à l\'incubation','Question Résolution 1275','Info Label Tagging','Support brevets / INAPI','Partenariat','Demande générale'],
       submit: 'Envoyer le message',
       thanks: 'Message envoyé — nous reviendrons vers vous sous 3 jours.',
-      facs: ['Sciences & Technologie','Informatique','Économie','Droit','Médecine','Ingénierie','Autre'],
+      facs: ['Sciences','Technologie','Sciences humaines & sociales','Économie, commerce & gestion','Mathématiques & informatique','Droit & sciences politiques','Activités physiques & sportives','Autre'],
       selectFac: 'Choisir une faculté',
       infoTitle: 'Venez nous voir, écrivez-nous',
       addressTitle: 'Campus',
@@ -48,9 +54,12 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       title: 'تقدّم أو اسألنا عن أي شيء.',
       sub: 'جميع الكليات مرحب بها. نرد على كل رسالة خلال 3 أيام عمل.',
       fName: 'الاسم الكامل', fEmail: 'البريد الإلكتروني', fFac: 'الكلية', fMsg: 'أخبرنا عن فكرة شركتك الناشئة',
+      fSubject: 'الموضوع',
+      selectSubject: 'اختر الموضوع',
+      subjects: ['طلب حضانة','استفسار حول القرار 1275','معلومات عن الوسم (Label)','دعم براءات الاختراع / INAPI','شراكة','استفسار عام'],
       submit: 'إرسال الرسالة',
       thanks: 'تم إرسال الرسالة — سنتواصل معك خلال 3 أيام.',
-      facs: ['العلوم والتكنولوجيا','علوم الحاسوب','الاقتصاد','الحقوق','الطب','الهندسة','أخرى'],
+      facs: ['العلوم','التكنولوجيا','العلوم الإنسانية والاجتماعية','الاقتصاد والتجارة والتسيير','الرياضيات والإعلام الآلي','الحقوق والعلوم السياسية','النشاطات البدنية والرياضية','أخرى'],
       selectFac: 'اختر الكلية',
       infoTitle: 'زرنا أو راسلنا',
       addressTitle: 'الحرم الجامعي',
@@ -120,7 +129,7 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
                   fontFamily: "'Syne',sans-serif", fontSize: '1.3rem',
                   fontWeight: 700, color: '#121420', marginBottom: 8,
                 }}>{t.thanks}</div>
-                <button onClick={() => { setSent(false); setForm({ name: '', email: '', faculty: '', message: '' }); }} style={{
+                <button onClick={() => { setSent(false); setForm({ name: '', email: '', subject: '', faculty: '', message: '' }); }} style={{
                   marginTop: 16, padding: '8px 18px',
                   background: 'transparent', border: '1px solid #E4E6EF',
                   borderRadius: 9999, fontSize: 13, color: '#6B7089',
@@ -145,24 +154,45 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
                     </div>
                   ))}
                 </div>
-                <div style={{ marginBottom: 14 }}>
-                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#383D58', marginBottom: 7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.fFac}</label>
-                  <select
-                    value={form.faculty}
-                    onChange={e => setForm({ ...form, faculty: e.target.value })}
-                    onFocus={() => setFocused('faculty')} onBlur={() => setFocused(null)}
-                    style={{
-                      ...inputStyle('faculty'),
-                      backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7089' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E\")",
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: (isRTL ? 'left' : 'right') + ' 14px center',
-                      paddingInlineEnd: 36,
-                      appearance: 'none', WebkitAppearance: 'none',
-                    }}
-                  >
-                    <option value="">{t.selectFac}</option>
-                    {t.facs.map(f => <option key={f} value={f}>{f}</option>)}
-                  </select>
+                <div data-contact-name-email style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#383D58', marginBottom: 7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.fSubject}</label>
+                    <select
+                      value={form.subject}
+                      onChange={e => setForm({ ...form, subject: e.target.value })}
+                      onFocus={() => setFocused('subject')} onBlur={() => setFocused(null)}
+                      style={{
+                        ...inputStyle('subject'),
+                        backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7089' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E\")",
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: (isRTL ? 'left' : 'right') + ' 14px center',
+                        paddingInlineEnd: 36,
+                        appearance: 'none', WebkitAppearance: 'none',
+                      }}
+                    >
+                      <option value="">{t.selectSubject}</option>
+                      {t.subjects.map(s => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#383D58', marginBottom: 7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.fFac}</label>
+                    <select
+                      value={form.faculty}
+                      onChange={e => setForm({ ...form, faculty: e.target.value })}
+                      onFocus={() => setFocused('faculty')} onBlur={() => setFocused(null)}
+                      style={{
+                        ...inputStyle('faculty'),
+                        backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7089' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E\")",
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: (isRTL ? 'left' : 'right') + ' 14px center',
+                        paddingInlineEnd: 36,
+                        appearance: 'none', WebkitAppearance: 'none',
+                      }}
+                    >
+                      <option value="">{t.selectFac}</option>
+                      {t.facs.map(f => <option key={f} value={f}>{f}</option>)}
+                    </select>
+                  </div>
                 </div>
                 <div style={{ marginBottom: 22 }}>
                   <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#383D58', marginBottom: 7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.fMsg}</label>
