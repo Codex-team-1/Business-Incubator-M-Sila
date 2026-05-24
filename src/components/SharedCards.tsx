@@ -679,7 +679,7 @@ export const Footer: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ 
           flexWrap: 'wrap', gap: 12,
         }}>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', fontFamily: "'DM Sans',sans-serif" }}>
-            © 2024 Université Mohamed Boudiaf — M'Sila. {{
+            &copy; {new Date().getFullYear()} Université Mohamed Boudiaf — M'Sila. {{
               EN: 'All rights reserved.', FR: 'Tous droits réservés.', AR: 'جميع الحقوق محفوظة.',
             }[lang]}
           </div>

@@ -39,6 +39,21 @@ button { font-family: inherit; }
 @keyframes sectionFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 section { animation: sectionFadeIn 0.7s ease both; }
 
+@keyframes teamMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes teamMarqueeRTL {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+[data-team-marquee-track] {
+  animation: teamMarquee var(--marquee-duration, 48s) linear infinite;
+  will-change: transform;
+}
+[data-team-marquee-track][data-rtl="true"] {
+  animation-name: teamMarqueeRTL;
+}
 @keyframes milestonePulse {
   0%, 100% { transform: scale(1); opacity: 0.4; }
   50% { transform: scale(1.25); opacity: 0; }
@@ -50,6 +65,9 @@ section { animation: sectionFadeIn 0.7s ease both; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  /* Stop the team marquee entirely and let it scroll horizontally instead */
+  [data-team-marquee-track] { animation: none !important; transform: none !important; }
+  [data-team-marquee] { overflow-x: auto !important; }
 }
 
 /* ───────────── RESPONSIVE LAYER ───────────── */
@@ -83,6 +101,8 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-pillars-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-services-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-team-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-director-card] { grid-template-columns: 1fr !important; min-height: auto !important; }
+  [data-director-card-photo] { min-height: 260px !important; }
   [data-curriculum-grid] { grid-template-columns: 1fr !important; gap: 2rem !important; }
   [data-modules-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-startups-hero] { grid-template-columns: 1fr !important; gap: 2rem !important; }
@@ -90,6 +110,7 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-contact-frame] { grid-template-columns: 1fr !important; }
   [data-contact-frame] > div { padding: 32px !important; }
   [data-footer-grid] { grid-template-columns: 1fr 1fr !important; gap: 2rem !important; }
+  [data-team-stats-bar] { gap: 1.5rem !important; padding: 22px 24px !important; }
 }
 
 /* MOBILE (≤768px) */
@@ -127,6 +148,9 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-modules-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-pillars-grid] { grid-template-columns: 1fr !important; }
   [data-team-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-director-card] { grid-template-columns: 1fr !important; min-height: auto !important; }
+  [data-director-card-photo] { min-height: 240px !important; }
+  [data-team-stats-bar] { gap: 1.25rem !important; padding: 20px 18px !important; }
   [data-contact-name-email] { grid-template-columns: 1fr !important; }
   [data-footer-grid] { grid-template-columns: 1fr !important; gap: 1.75rem !important; }
   [data-contact-frame] > div { padding: 26px !important; }

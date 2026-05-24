@@ -3,6 +3,7 @@ import { SectionHeader, ServiceCard } from '../components/SharedCards';
 import mentorshipImage from "../assets/services/mentorship (2).jpg";
 import fundingImage from "../assets/services/funding-access.jpg";
 import legalImage from "../assets/services/legal-ap-support.jpg";
+import trainingImage from "../assets/services/structed-training.jpg";
 
 /* ─── ICON PATHS (Tabler-style outline) ─── */
 const ICONS = {
@@ -76,7 +77,7 @@ const ServicesSection: React.FC<{ lang: Lang }> = ({ lang }) => {
     },
     {
       icon: ICONS.training, accent: 'green',
-      image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=900&h=500&fit=crop&q=80',
+      image: trainingImage,
       tag: { EN: '85+ hrs / yr', FR: '85+ h / an', AR: '+85 ساعة' },
       title: { EN: 'Structured Training', FR: 'Formation structurée', AR: 'التكوين المنظم' },
       desc: { EN: '85+ hours annually covering AI, fundraising, business modeling, legal affairs & communication.', FR: '85+ heures annuelles : IA, levée de fonds, modèle économique, droit, communication.', AR: '+85 ساعة سنوياً تغطي الذكاء الاصطناعي والتمويل ونمذجة الأعمال والقانون.' },
