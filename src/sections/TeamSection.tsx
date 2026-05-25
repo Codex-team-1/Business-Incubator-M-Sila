@@ -5,6 +5,9 @@ import { useReveal } from "../hooks/useReveal";
 import brickYousef from "../assets/team/brick-youcef.jpg";
 import soumiaFodili from "../assets/team/soumia-fodili.jpg";
 import djenaouiAbdellatif from "../assets/team/Djenaoui-abdellatif.jpg";
+import gandouzAmine from "../assets/team/gandouz-amine.png";
+import bousakraFaiza from "../assets/team/bousakra-faiza.jpeg";
+import baaliSalma from "../assets/team/baali-salma.jpeg";
 import directorPhoto from "../assets/team/incubator-director.jpg";
 
 interface Member {
@@ -308,19 +311,19 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
     {
       name: "Soumia Fodili",
       role: {
-        EN: "Program Coordinator",
-        FR: "Coordinatrice",
-        AR: "منسقة البرامج",
+        EN: "Training and Certification Programs Manager",
+        FR: "Responsable des programmes de formation et de certification",
+        AR: "مسؤولة برامج التكوين والشهادات",
       },
       photo: soumiaFodili,
       accent: "green",
     },
     {
-      name: "Djenaoui Abdellatif",
+      name: "Djenaoui Abdelatif",
       role: {
-        EN: "Innovation Advisor",
-        FR: "Conseiller Innovation",
-        AR: "مستشار الابتكار",
+        EN: "Information Technology Lab Manager",
+        FR: "Responsable du laboratoire de technologie de l'information",
+        AR: "مدير مختبر تكنولوجيا المعلومات",
       },
       photo: djenaouiAbdellatif,
       accent: "blue",
@@ -332,33 +335,33 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       accent: "green",
     },
     {
-      name: "Djemai Mohamed",
+      name: "Gandouz Amine",
       role: {
-        EN: "Business Development",
-        FR: "Dév. Commercial",
-        AR: "تطوير الأعمال",
+        EN: "Shared Space Manager",
+        FR: "Resp. Espace Partagé",
+        AR: "مسؤول الفضاءالمشترك",
       },
-      photo: null,
+      photo: gandouzAmine,
       accent: "blue",
     },
     {
-      name: "Amich Samira",
+      name: "Bousakra Faiza",
       role: {
-        EN: "Administrative Manager",
-        FR: "Resp. Admin.",
-        AR: "المدير الإداري",
+        EN: "Biology Lab Manager",
+        FR: "Resp. Lab. Biologie",
+        AR: "مسؤول مختبر البيولوجيا",
       },
-      photo: null,
+      photo: bousakraFaiza,
       accent: "green",
     },
     {
-      name: "Wadeh Fewaz",
+      name: "Baali Salma",
       role: {
-        EN: "Tech & Innovation Lead",
-        FR: "Resp. Tech",
-        AR: "قائد التكنولوجيا",
+        EN: "Manufacturing Lab Manager",
+        FR: "Resp. Lab. Fabrication",
+        AR: "مدير مختبر التصنيع",
       },
-      photo: null,
+      photo: baaliSalma,
       accent: "blue",
     },
     {

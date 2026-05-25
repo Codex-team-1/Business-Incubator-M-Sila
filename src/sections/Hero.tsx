@@ -6,8 +6,7 @@ import { useCountUp } from '../hooks/useReveal';
 /* ─────────────────────────────────────────────────────────────────
    HERO — full-bleed background photo
    · Diagonal scrim: dark-left for text, photo shows on the right
-   · Left column: eyebrow line · headline · subtitle · CTAs · stats
-   · No badge pills, no image overlays
+   · Left column: eyebrow · headline · subtitle · CTAs · stats row
 ───────────────────────────────────────────────────────────────── */
 const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, lang }) => {
   const isRTL = lang === 'AR';
@@ -18,7 +17,6 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  /* per-language strings ─────────────────────────────────────── */
   const t = {
     EN: {
       eyebrow: "Algeria's #1 University Incubator",
@@ -29,12 +27,12 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
       cta2:    'Explore Programs',
       imgAlt:  "Université Mohamed Boudiaf M'Sila campus",
       stats: [
-        { value: 202, suffix: '+', l: 'Patents Filed' },
-        { value: 17,  suffix: '',  l: 'Graduated Startups' },
-        { value: 52,  suffix: '',  l: 'Labeled Projects' },
-        { value: 548, suffix: '',  l: 'Students · Res. 1275' },
-        { value: 287, suffix: '',  l: 'Projects · Res. 1275' },
-        { value: 124, suffix: '',  l: 'Active Projects' },
+        { value: 202, suffix: '+', l: 'Patents Filed',        accent: 'blue'  },
+        { value: 17,  suffix: '',  l: 'Graduated Startups',   accent: 'green' },
+        { value: 52,  suffix: '',  l: 'Labeled Projects',     accent: 'blue'  },
+        { value: 548, suffix: '',  l: 'Students · Res.1275',  accent: 'green' },
+        { value: 287, suffix: '',  l: 'Projects · Res.1275',  accent: 'blue'  },
+        { value: 124, suffix: '',  l: 'Active Projects',      accent: 'green' },
       ],
     },
     FR: {
@@ -46,12 +44,12 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
       cta2:    'Découvrir les programmes',
       imgAlt:  "Campus Université Mohamed Boudiaf M'Sila",
       stats: [
-        { value: 202, suffix: '+', l: 'Brevets déposés' },
-        { value: 17,  suffix: '',  l: 'Startups diplômées' },
-        { value: 52,  suffix: '',  l: 'Projets labellisés' },
-        { value: 548, suffix: '',  l: 'Étudiants · Rés. 1275' },
-        { value: 287, suffix: '',  l: 'Projets · Rés. 1275' },
-        { value: 124, suffix: '',  l: 'Projets actifs' },
+        { value: 202, suffix: '+', l: 'Brevets déposés',      accent: 'blue'  },
+        { value: 17,  suffix: '',  l: 'Startups diplômées',   accent: 'green' },
+        { value: 52,  suffix: '',  l: 'Projets labellisés',   accent: 'blue'  },
+        { value: 548, suffix: '',  l: 'Étud. · Rés.1275',    accent: 'green' },
+        { value: 287, suffix: '',  l: 'Proj. · Rés.1275',    accent: 'blue'  },
+        { value: 124, suffix: '',  l: 'Projets actifs',       accent: 'green' },
       ],
     },
     AR: {
@@ -63,17 +61,16 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
       cta2:    'اكتشف البرامج',
       imgAlt:  'حرم جامعة محمد بوضياف مسيلة',
       stats: [
-        { value: 202, suffix: '+', l: 'براءة اختراع مودعة' },
-        { value: 17,  suffix: '',  l: 'شركة ناشئة خريجة' },
-        { value: 52,  suffix: '',  l: 'مشروع موسوم' },
-        { value: 548, suffix: '',  l: 'طالب · القرار 1275' },
-        { value: 287, suffix: '',  l: 'مشروع · القرار 1275' },
-        { value: 124, suffix: '',  l: 'مشروع نشط' },
+        { value: 202, suffix: '+', l: 'براءة اختراع مودعة', accent: 'blue'  },
+        { value: 17,  suffix: '',  l: 'شركة ناشئة خريجة',  accent: 'green' },
+        { value: 52,  suffix: '',  l: 'مشروع موسوم',        accent: 'blue'  },
+        { value: 548, suffix: '',  l: 'طالب · ق.1275',      accent: 'green' },
+        { value: 287, suffix: '',  l: 'مشروع · ق.1275',     accent: 'blue'  },
+        { value: 124, suffix: '',  l: 'مشروع نشط',          accent: 'green' },
       ],
     },
   }[lang];
 
-  /* stagger helper ────────────────────────────────────────────── */
   const stagger = (ms: number): React.CSSProperties => ({
     opacity:    mounted ? 1 : 0,
     transform:  mounted ? 'translateY(0)' : 'translateY(14px)',
@@ -95,51 +92,27 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
         flexDirection: 'column',
       }}
     >
-      {/* ── Full-bleed background photo ── */}
+      {/* ── Background photo ── */}
       <img
-        src={campus}
-        alt={t.imgAlt}
-        fetchPriority="high"
-        decoding="async"
+        src={campus} alt={t.imgAlt}
+        fetchPriority="high" decoding="async"
         style={{
           position: 'absolute', inset: 0,
           width: '100%', height: '100%',
-          objectFit: 'cover',
-          objectPosition: 'center 50%',
+          objectFit: 'cover', objectPosition: 'center 50%',
           zIndex: 0,
         }}
       />
 
-      {/* ── Diagonal scrim: heavy dark on text side, fades out on photo side ── */}
+      {/* ── Diagonal scrim ── */}
       <div aria-hidden="true" style={{
         position: 'absolute', inset: 0, zIndex: 1,
         background: isRTL
-          ? `linear-gradient(
-              to left,
-              rgba(7,22,64,0.96) 0%,
-              rgba(7,22,64,0.90) 28%,
-              rgba(7,22,64,0.65) 52%,
-              rgba(7,22,64,0.18) 72%,
-              rgba(7,22,64,0.04) 100%
-            )`
-          : `linear-gradient(
-              to right,
-              rgba(7,22,64,0.96) 0%,
-              rgba(7,22,64,0.90) 28%,
-              rgba(7,22,64,0.65) 52%,
-              rgba(7,22,64,0.18) 72%,
-              rgba(7,22,64,0.04) 100%
-            )`,
+          ? 'linear-gradient(to left,  rgba(7,22,64,0.97) 0%,rgba(7,22,64,0.88) 30%,rgba(7,22,64,0.55) 55%,rgba(7,22,64,0.10) 100%)'
+          : 'linear-gradient(to right, rgba(7,22,64,0.97) 0%,rgba(7,22,64,0.88) 30%,rgba(7,22,64,0.55) 55%,rgba(7,22,64,0.10) 100%)',
       }} />
 
-      {/* ── Thin bottom gradient so stats text is always legible ── */}
-      <div aria-hidden="true" style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0,
-        height: 160, zIndex: 1,
-        background: 'linear-gradient(to top, rgba(7,22,64,0.70) 0%, transparent 100%)',
-      }} />
-
-      {/* ── Content column ── */}
+      {/* ── Content column — fills available height, centres vertically ── */}
       <div
         data-hero-inner
         style={{
@@ -147,27 +120,23 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
           flex: 1,
           maxWidth: 1200, width: '100%',
           margin: '0 auto',
-          padding: '8.5rem 2rem',
+          padding: '8rem 2rem 5rem',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          /* Constrain text to the dark half — ~52 % of width */
           alignItems: 'flex-start',
         }}
       >
-        {/* Inner wrapper caps text width to left half */}
         <div style={{ maxWidth: 560, width: '100%' }}>
 
-          {/* Eyebrow line */}
+          {/* Eyebrow */}
           <p style={{
             ...stagger(0),
             fontFamily: "'DM Sans',sans-serif",
-            fontSize: 12,
-            fontWeight: 600,
+            fontSize: 11.5, fontWeight: 700,
             color: '#7DB83A',
-            textTransform: 'uppercase',
-            letterSpacing: '0.14em',
-            margin: '0 0 18px',
+            textTransform: 'uppercase', letterSpacing: '0.15em',
+            margin: '0 0 16px',
           }}>{t.eyebrow}</p>
 
           {/* Headline */}
@@ -175,18 +144,14 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
             ...stagger(70),
             fontFamily: "'Syne',sans-serif",
             fontSize: 'clamp(2rem, 3.8vw, 3.4rem)',
-            fontWeight: 700,
-            lineHeight: 1.08,
-            letterSpacing: '-0.03em',
-            margin: '0 0 18px',
+            fontWeight: 700, lineHeight: 1.08,
+            letterSpacing: '-0.03em', margin: '0 0 18px',
           }}>
             <span style={{ display: 'block', color: '#fff' }}>{t.line1}</span>
             <span style={{
               display: 'block',
-              background: 'linear-gradient(95deg, #fff 0%, #C4E390 50%, #7DB83A 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              background: 'linear-gradient(95deg,#fff 0%,#C4E390 50%,#7DB83A 100%)',
+              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             }}>{t.line2}</span>
           </h1>
 
@@ -194,42 +159,40 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
           <p style={{
             ...stagger(130),
             fontFamily: "'DM Sans',sans-serif",
-            fontSize: 'clamp(0.85rem, 1.2vw, 0.97rem)',
-            color: 'rgba(255,255,255,0.65)',
-            lineHeight: 1.72,
-            margin: '0 0 28px',
+            fontSize: 'clamp(0.85rem, 1.15vw, 0.96rem)',
+            color: 'rgba(255,255,255,0.62)', lineHeight: 1.75,
+            margin: '0 0 30px',
           }}>{t.sub}</p>
 
-          {/* CTA buttons */}
+          {/* CTAs */}
           <div style={{
             ...stagger(190),
             display: 'flex', flexWrap: 'wrap', gap: 10,
             alignItems: 'center',
-            marginBottom: 32,
+            marginBottom: 44,
           }}>
             <HeroBtn primary isRTL={isRTL} label={t.cta1} onClick={() => onNav('contact')} />
             <HeroBtn isRTL={isRTL} label={t.cta2} onClick={() => onNav('programs')} />
           </div>
 
-          {/* Stats — 2×3 grid of verified figures, each counts up */}
-          <div
-            data-hero-stats-6
-            style={{
-              ...stagger(250),
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '14px 22px',
-              alignItems: 'flex-start',
-            }}
-          >
+          {/* ── Inline stats — 3 per row, no frame ── */}
+          <div style={{
+            ...stagger(270),
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, auto)',
+            gap: '18px 32px',
+            justifyContent: 'start',
+          }}>
             {t.stats.map((s, i) => (
-              <StatCell
+              <StatItem
                 key={i}
                 value={s.value}
                 suffix={s.suffix}
                 label={s.l}
+                iconIndex={i}
+                accent={s.accent}
                 active={mounted}
-                isRTL={isRTL}
+                delay={i * 60}
               />
             ))}
           </div>
@@ -242,12 +205,12 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
         aria-hidden="true"
         data-hero-scroll-cue
         style={{
-          position: 'absolute', bottom: 20, left: '50%',
+          position: 'absolute', bottom: 22, left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 3,
           display: 'flex', flexDirection: 'column', alignItems: 'center',
-          opacity: mounted ? 0.38 : 0,
-          transition: 'opacity 0.6s 520ms ease',
+          opacity: mounted ? 0.35 : 0,
+          transition: 'opacity 0.6s 540ms ease',
         }}
       >
         <div style={{
@@ -258,8 +221,7 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
           <div style={{
             position: 'absolute', top: 5, left: '50%',
             transform: 'translateX(-50%)',
-            width: 2, height: 6, borderRadius: 2,
-            background: '#fff',
+            width: 2, height: 6, borderRadius: 2, background: '#fff',
             animation: 'heroScroll 1.8s ease-in-out infinite',
           }} />
         </div>
@@ -268,34 +230,122 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
   );
 };
 
-/* ─── Stat cell ─────────────────────────────────────────────────── */
-const StatCell: React.FC<{
-  value: number; suffix: string; label: string; active: boolean; isRTL: boolean;
-}> = React.memo(({ value, suffix, label, active, isRTL }) => {
-  const n = useCountUp(value, active);
+/* ─── Inline stat item: icon  number  label ──────────────────────── */
+const ICONS = [
+  /* Patent */
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65"
+    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+    style={{ width: 18, height: 18 }}>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <circle cx="12" cy="15" r="1.8"/>
+    <path d="M10.8 17 9.5 19l1 1M13.2 17l1.3 2-1 1"/>
+  </svg>,
+  /* Rocket */
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65"
+    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+    style={{ width: 18, height: 18 }}>
+    <path d="M4.5 16.5c-1.5 1.5-2 4-2 4s2.5-.5 4-2L17 7.5a4.24 4.24 0 0 0-6-6z"/>
+    <path d="m15 5 4 4"/><path d="M3 21c1.5-1.5 2.5-3.5 3-5.5"/>
+  </svg>,
+  /* Tag */
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65"
+    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+    style={{ width: 18, height: 18 }}>
+    <path d="M12 2H2v10l9.29 9.29a1 1 0 0 0 1.41 0l7.29-7.29a1 1 0 0 0 0-1.41z"/>
+    <circle cx="7" cy="7" r="1.3" fill="currentColor" stroke="none"/>
+  </svg>,
+  /* Graduation cap */
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65"
+    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+    style={{ width: 18, height: 18 }}>
+    <path d="M22 10 12 5 2 10l10 5 10-5z"/>
+    <path d="M6 12.5v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4"/>
+    <line x1="22" y1="10" x2="22" y2="15"/>
+  </svg>,
+  /* Layers */
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65"
+    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+    style={{ width: 18, height: 18 }}>
+    <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+    <polyline points="2 17 12 22 22 17"/>
+    <polyline points="2 12 12 17 22 12"/>
+  </svg>,
+  /* Pulse */
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65"
+    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+    style={{ width: 18, height: 18 }}>
+    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+  </svg>,
+];
+
+const StatItem: React.FC<{
+  value: number; suffix: string; label: string;
+  iconIndex: number; accent: string;
+  active: boolean; delay: number;
+}> = React.memo(({ value, suffix, label, iconIndex, accent, active, delay }) => {
+  const [hov, setHov] = React.useState(false);
+  const n = useCountUp(value, active, 1400);
+  const isGreen   = accent === 'green';
+  const iconColor = isGreen ? '#7DB83A' : '#60A5FA';
+  const glowColor = isGreen ? 'rgba(125,184,58,0.55)' : 'rgba(96,165,250,0.50)';
+
   return (
-    <div style={{
-      borderInlineStart: '2px solid rgba(125,184,58,0.45)',
-      paddingInlineStart: 12,
-    }}>
-      <div className="num" style={{
-        fontFamily: "'Syne',sans-serif",
-        fontSize: 'clamp(1.35rem, 2vw, 1.75rem)',
-        fontWeight: 800,
-        color: '#fff',
-        lineHeight: 1,
-        letterSpacing: '-0.025em',
-        fontVariantNumeric: 'tabular-nums',
-      }}>{n}{suffix}</div>
+    <div
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        cursor: 'default',
+        opacity: active ? 1 : 0,
+        transform: active ? 'translateY(0)' : 'translateY(10px)',
+        transition: `opacity 0.45s ${delay}ms ease, transform 0.45s ${delay}ms ease`,
+      }}
+    >
+      {/* Icon — tinted dot with icon inside */}
       <div style={{
-        fontSize: 11,
-        color: 'rgba(255,255,255,0.55)',
-        marginTop: 5,
-        lineHeight: 1.4,
-        fontFamily: "'DM Sans',sans-serif",
-        maxWidth: 110,
-        textAlign: isRTL ? 'right' : 'left',
-      }}>{label}</div>
+        width: 34, height: 34, borderRadius: 10,
+        background: hov
+          ? (isGreen ? 'rgba(125,184,58,0.18)' : 'rgba(96,165,250,0.16)')
+          : 'rgba(255,255,255,0.07)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        color: iconColor,
+        flexShrink: 0,
+        filter: hov ? `drop-shadow(0 0 6px ${glowColor})` : 'none',
+        transition: 'background 0.22s ease, filter 0.22s ease',
+      }}>
+        {ICONS[iconIndex]}
+      </div>
+
+      {/* Number + label stacked */}
+      <div>
+        <div className="num" style={{
+          fontFamily: "'Syne',sans-serif",
+          fontSize: 'clamp(1.15rem, 1.6vw, 1.45rem)',
+          fontWeight: 800,
+          color: hov ? '#fff' : 'rgba(255,255,255,0.92)',
+          lineHeight: 1,
+          letterSpacing: '-0.025em',
+          fontVariantNumeric: 'tabular-nums',
+          transition: 'color 0.2s ease',
+          whiteSpace: 'nowrap',
+        }}>
+          {n}{suffix}
+        </div>
+        <div style={{
+          fontFamily: "'DM Sans',sans-serif",
+          fontSize: 10.5, fontWeight: 500,
+          color: hov ? 'rgba(255,255,255,0.60)' : 'rgba(255,255,255,0.38)',
+          marginTop: 3, lineHeight: 1.2,
+          letterSpacing: '0.01em',
+          transition: 'color 0.2s ease',
+          whiteSpace: 'nowrap',
+        }}>
+          {label}
+        </div>
+      </div>
     </div>
   );
 });
@@ -305,27 +355,20 @@ const HeroBtn: React.FC<{
   label: string; primary?: boolean; isRTL: boolean; onClick: () => void;
 }> = ({ label, primary, isRTL, onClick }) => {
   const [hov, setHov] = React.useState(false);
-
   return (
     <button
       onClick={onClick}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      onFocus={() => setHov(true)}
-      onBlur={() => setHov(false)}
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      onFocus={() => setHov(true)}      onBlur={() => setHov(false)}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 7,
-        padding: '0 22px', height: 46,
-        borderRadius: 11,
+        padding: '0 22px', height: 46, borderRadius: 11,
         border: primary ? 'none' : '1px solid rgba(255,255,255,0.20)',
         background: primary
           ? (hov ? '#5A8A22' : '#7DB83A')
           : (hov ? 'rgba(255,255,255,0.13)' : 'rgba(255,255,255,0.07)'),
-        color: '#fff',
-        fontSize: 13.5,
-        fontWeight: 600,
-        cursor: 'pointer',
-        fontFamily: "'DM Sans',sans-serif",
+        color: '#fff', fontSize: 13.5, fontWeight: 600,
+        cursor: 'pointer', fontFamily: "'DM Sans',sans-serif",
         backdropFilter: primary ? 'none' : 'blur(10px)',
         boxShadow: primary
           ? (hov ? '0 8px 28px rgba(125,184,58,0.50)' : '0 5px 18px rgba(125,184,58,0.30)')
@@ -337,13 +380,10 @@ const HeroBtn: React.FC<{
     >
       {label}
       {primary && (
-        <svg
-          width="13" height="13" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor" strokeWidth="2.5"
-          strokeLinecap="round" strokeLinejoin="round"
-          aria-hidden="true"
-          style={{ transform: isRTL ? 'scaleX(-1)' : 'none', flexShrink: 0 }}
-        >
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" strokeWidth="2.5"
+          strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+          style={{ transform: isRTL ? 'scaleX(-1)' : 'none', flexShrink: 0 }}>
           <path d="M5 12h14M13 5l7 7-7 7"/>
         </svg>
       )}

@@ -99,6 +99,7 @@ section { animation: sectionFadeIn 0.7s ease both; }
 [data-bar-label] { opacity: 0; transition: opacity 0.4s ease 0.6s; }
 [data-chart][data-shown="true"] [data-bar-label] { opacity: 1; }
 
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   /* Stop the team marquee entirely and let it scroll horizontally instead */
@@ -109,6 +110,7 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-reveal-self] { opacity: 1 !important; transform: none !important; }
   [data-bar] { transition: none !important; }
 }
+
 
 /* ───────────── RESPONSIVE LAYER ───────────── */
 /* Inline React styles win specificity battles — we use !important to override. */
@@ -123,6 +125,7 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-intro-grid] { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
   [data-pillars-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-services-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-programs-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-team-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-director-card] { grid-template-columns: 1fr !important; min-height: auto !important; }
   [data-director-card-photo] { min-height: 260px !important; }
@@ -141,7 +144,8 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-board-grid] { grid-template-columns: 1fr !important; }
   [data-activities-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-grads-grid] { grid-template-columns: repeat(2, 1fr) !important; }
-  [data-hero-stats-6] { grid-template-columns: repeat(3, 1fr) !important; }
+  /* Hero inline stats — collapse to 2 columns on tablet */
+  [data-hero-inner] > div > div:last-child { grid-template-columns: repeat(2, auto) !important; gap: 16px 24px !important; }
 }
 
 /* MOBILE (≤768px) */
@@ -161,6 +165,9 @@ section { animation: sectionFadeIn 0.7s ease both; }
 
   [data-services-grid] { grid-template-columns: 1fr !important; }
   [data-programs-grid] { grid-template-columns: 1fr !important; }
+  [data-program-panel] { grid-template-columns: 1fr !important; gap: 1.75rem !important; }
+  [data-stats-strip] { grid-template-columns: repeat(2, 1fr) !important; gap: 1.5rem 0 !important; padding: 2.25rem 1.25rem !important; }
+  [data-stats-strip] > div { border-left: none !important; border-right: none !important; }
   [data-startups-grid] { grid-template-columns: 1fr !important; }
   [data-modules-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-pillars-grid] { grid-template-columns: 1fr !important; }
@@ -177,7 +184,8 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-faculty-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-activities-grid] { grid-template-columns: 1fr !important; }
   [data-grads-grid] { grid-template-columns: 1fr !important; }
-  [data-hero-stats-6] { grid-template-columns: repeat(2, 1fr) !important; }
+  /* Hero inline stats — 2 columns on mobile */
+  [data-hero-inner] > div > div:last-child { grid-template-columns: repeat(2, auto) !important; gap: 14px 20px !important; }
   /* Journey progress strip scrolls horizontally on small screens */
   [data-journey-strip] { overflow-x: auto !important; justify-content: flex-start !important; border-radius: 16px !important; }
   [data-journey-connector] { flex: 0 0 20px !important; min-width: 20px !important; margin: 0 8px !important; }

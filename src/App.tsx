@@ -7,6 +7,7 @@ import Hero from "./sections/Hero";
 import IntroSection from "./sections/IntroSection";
 import ServicesSection from "./sections/ServicesSection";
 import TeamSection from "./sections/TeamSection";
+import ProgramsSection from "./sections/ProgramsSection";
 import StartupsSection from "./sections/StartupsSection";
 import ContactSection from "./sections/ContactSection";
 
@@ -28,7 +29,7 @@ const App: React.FC = () => {
 
   // IntersectionObserver to highlight nav pill
   React.useEffect(() => {
-    const sectionIds = ["intro", "services", "team", "startups", "contact"];
+    const sectionIds = ["intro", "services", "team", "programs", "startups", "contact"];
     const els = sectionIds
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
@@ -89,6 +90,7 @@ const App: React.FC = () => {
         <IntroSection lang={lang} />
         <ServicesSection lang={lang} />
         <TeamSection lang={lang} />
+        <ProgramsSection lang={lang} onNav={onNav} />
         <StartupsSection lang={lang} onNav={onNav} />
         <ContactSection lang={lang} />
       </main>
