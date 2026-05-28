@@ -358,8 +358,8 @@ export const JourneyTimeline: React.FC<{
           const isLeft = i % 2 === 0;
           const isActive = activeIdx === i;
           const accentColor = m.accent === "green" ? "#7DB83A" : "#1B4FBB";
-          const accentDark = m.accent === "green" ? "#5A8A22" : "#0D2D72";
-          const accentBg = m.accent === "green" ? "#EBF5D8" : "#D6E4F7";
+          const accentDark  = m.accent === "green" ? "#5A8A22" : "#0D2D72";
+          const accentBg    = m.accent === "green" ? "#EBF5D8" : "#D6E4F7";
 
           // For RTL, flip left/right so the timeline reads right-to-left naturally
           const cardOnRight = isRTL ? isLeft : !isLeft;

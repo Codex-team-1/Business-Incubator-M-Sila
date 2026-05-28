@@ -50,6 +50,7 @@ const ProgramsSection: React.FC<{
   lang: Lang;
   onNav: (id: string) => void;
 }> = ({ lang, onNav }) => {
+  const STARTUP_DZ_URL = "https://startup.dz/";
   const isRTL = lang === "AR";
   const [activeProgram, setActiveProgram] = React.useState<number | null>(null);
   const [hovered, setHovered] = React.useState<number | null>(null);
@@ -57,6 +58,7 @@ const ProgramsSection: React.FC<{
 
   const t = {
     EN: {
+      visitStartup: "Visit startup.dz",
       label: "Programs",
       title: "From Idea to Graduated Startup",
       sub: "Six structured programs guiding you through every stage of the incubation journey — from first idea to funded, registered startup.",
@@ -73,6 +75,7 @@ const ProgramsSection: React.FC<{
       stRes1275: "Res. 1275 Projects",
     },
     FR: {
+      visitStartup: "Visitez startup.dz",
       label: "Programmes",
       title: "De l'Idée à la Startup Diplômée",
       sub: "Six programmes structurés vous guidant à chaque étape du parcours d'incubation — de la première idée à la startup financée et enregistrée.",
@@ -89,6 +92,7 @@ const ProgramsSection: React.FC<{
       stRes1275: "Projets Rés. 1275",
     },
     AR: {
+      visitStartup: "تصفح startup.dz",
       label: "البرامج",
       title: "من الفكرة إلى الشركة الناشئة المتخرجة",
       sub: "ستة برامج منظمة توجهك في كل مرحلة من رحلة الحضانة — من الفكرة الأولى إلى شركة ناشئة ممولة ومسجلة.",
@@ -817,7 +821,21 @@ const ProgramsSection: React.FC<{
                           >
                             {i + 1}
                           </span>
-                          <span>{s}</span>
+                          <span>
+                            {s.includes("startup.dz") ? (
+                              <a
+                                href={STARTUP_DZ_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: activeAccent.dark, fontWeight: 700, textDecoration: "underline" }}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                {s}
+                              </a>
+                            ) : (
+                              s
+                            )}
+                          </span>
                         </li>
                       ))}
                     </ol>
