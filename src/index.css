@@ -150,6 +150,10 @@ section { animation: sectionFadeIn 0.7s ease both; }
 
 /* MOBILE (≤768px) */
 @media (max-width: 768px) {
+  /* Startups section responsive */
+  [data-ecosystem-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-startups-cta-grid] { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+
   /* Swap nav */
   [data-nav-rail] { display: none !important; }
   [data-nav-lang] { display: none !important; }
@@ -214,4 +218,7 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-pillars-grid] { grid-template-columns: 1fr !important; }
   [data-modules-grid] { grid-template-columns: 1fr !important; }
   [data-contact-frame] > div { padding: 22px !important; }
+
+  /* Startups domains grid — 1 column on smallest screens */
+  [data-ecosystem-grid] { grid-template-columns: 1fr !important; }
 }

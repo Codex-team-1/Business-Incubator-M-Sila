@@ -2,6 +2,7 @@ import React from "react";
 import type { Lang } from "./types";
 import Header from "./components/Header";
 import ScrollToTop from "./components/ScrollToTop";
+import NotFound from "./components/NotFound";
 import { Footer } from "./components/SharedCards";
 import Hero from "./sections/Hero";
 import IntroSection from "./sections/IntroSection";
@@ -14,6 +15,9 @@ import ContactSection from "./sections/ContactSection";
 const App: React.FC = () => {
   const [lang, setLang] = React.useState<Lang>("EN");
   const [activeSection, setActiveSection] = React.useState("top");
+  const [show404, setShow404] = React.useState(
+    () => window.location.hash === "#404"
+  );
 
   // Smooth-scroll nav helper
   const onNav = React.useCallback((sectionId: string) => {
@@ -74,6 +78,30 @@ const App: React.FC = () => {
       l === "AR" ? "ar" : l === "FR" ? "fr" : "en",
     );
   };
+
+  /* Listen for hash changes so #404 can be tested in the browser */
+  React.useEffect(() => {
+    const onHash = () => setShow404(window.location.hash === "#404");
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  if (show404) {
+    return (
+      <NotFound
+        lang={lang}
+        onNav={(id) => {
+          window.history.replaceState(null, "", window.location.pathname);
+          setShow404(false);
+          setTimeout(() => onNav(id), 120);
+        }}
+        onDismiss={() => {
+          window.history.replaceState(null, "", window.location.pathname);
+          setShow404(false);
+        }}
+      />
+    );
+  }
 
   return (
     <div
