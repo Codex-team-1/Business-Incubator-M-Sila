@@ -381,6 +381,7 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
   // never race — we only pause when at least one card is hovered.
   const trackRef = React.useRef<HTMLDivElement>(null);
   const hoverCount = React.useRef(0);
+  const [marqueeHover, setMarqueeHover] = React.useState(false);
 
   const onCardEnter = React.useCallback(() => {
     hoverCount.current += 1;
@@ -392,6 +393,43 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
     if (hoverCount.current === 0) {
       trackRef.current?.setAttribute("data-paused", "false");
     }
+  }, []);
+
+  // Manual nudge: pause the CSS marquee, shift the track by one card width,
+  // then resume on the next user interaction (or after a short delay).
+  const nudgeOffset = React.useRef(0);
+  const resumeTimer = React.useRef<number | null>(null);
+
+  const nudge = React.useCallback((dir: 1 | -1) => {
+    const track = trackRef.current;
+    if (!track) return;
+    // One card (272) + gap (24) = 296px per step
+    const step = 296;
+    track.setAttribute("data-paused", "true");
+    // Cancel the animation transform contribution by switching to manual mode
+    track.style.animation = "none";
+    track.style.transition = "transform 0.5s cubic-bezier(0.22,1,0.36,1)";
+    nudgeOffset.current += dir * step;
+    track.style.transform = `translateX(${-nudgeOffset.current}px)`;
+    // Loop the offset within one half of the duplicated set so we never
+    // run off the end (track width is members.length cards × 2).
+    const halfWidth = members.length * step;
+    if (nudgeOffset.current >= halfWidth) nudgeOffset.current -= halfWidth;
+    if (nudgeOffset.current < 0) nudgeOffset.current += halfWidth;
+
+    if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
+    resumeTimer.current = window.setTimeout(() => {
+      if (hoverCount.current > 0) return; // a card is hovered — stay paused
+      track.style.transition = "";
+      track.style.animation = "";
+      track.style.transform = "";
+      nudgeOffset.current = 0;
+      track.setAttribute("data-paused", "false");
+    }, 2200);
+  }, [members.length]);
+
+  React.useEffect(() => () => {
+    if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
   }, []);
 
   return (
@@ -563,6 +601,8 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       {/* Marquee — full bleed with edge fades */}
       <div
         data-team-marquee
+        onMouseEnter={() => setMarqueeHover(true)}
+        onMouseLeave={() => setMarqueeHover(false)}
         style={{
           position: "relative",
           width: "100%",
@@ -581,6 +621,62 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
           overflow: "hidden",
         }}
       >
+        {/* Nav arrows — fade in on hover, give users explicit control */}
+        {(["prev", "next"] as const).map((dir) => {
+          const isPrev = dir === "prev";
+          const label = isPrev
+            ? ({ EN: "Previous", FR: "Précédent", AR: "السابق" }[lang])
+            : ({ EN: "Next", FR: "Suivant", AR: "التالي" }[lang]);
+          return (
+            <button
+              key={dir}
+              type="button"
+              aria-label={label}
+              onClick={() => nudge(isPrev ? -1 : 1)}
+              onMouseEnter={onCardEnter}
+              onMouseLeave={onCardLeave}
+              style={{
+                position: "absolute",
+                top: "50%",
+                [isPrev ? "left" : "right"]: 16,
+                transform: `translateY(-50%) scale(${marqueeHover ? 1 : 0.85})`,
+                width: 48,
+                height: 48,
+                borderRadius: "50%",
+                background: "rgba(255,255,255,0.96)",
+                border: "1px solid #E4E6EF",
+                boxShadow: "0 8px 22px rgba(13,45,114,0.18), 0 2px 6px rgba(0,0,0,0.06)",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                color: "#0D2D72",
+                opacity: marqueeHover ? 1 : 0,
+                pointerEvents: marqueeHover ? "auto" : "none",
+                transition:
+                  "opacity 0.25s ease, transform 0.35s cubic-bezier(0.34,1.4,0.5,1), background 0.2s ease, box-shadow 0.25s ease",
+                zIndex: 5,
+                padding: 0,
+              }}
+              onFocus={(e) => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.pointerEvents = "auto"; }}
+              onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(-50%) scale(0.94)"; }}
+              onMouseUp={(e) => { e.currentTarget.style.transform = "translateY(-50%) scale(1)"; }}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d={isPrev ? "M15 18l-6-6 6-6" : "M9 18l6-6-6-6"} />
+              </svg>
+            </button>
+          );
+        })}
         <div
           ref={trackRef}
           data-team-marquee-track

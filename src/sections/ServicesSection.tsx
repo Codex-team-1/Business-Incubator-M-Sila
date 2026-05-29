@@ -45,7 +45,7 @@ const ServicesSection: React.FC<{ lang: Lang }> = ({ lang }) => {
     {
       icon: ICONS.mentorship, accent: 'blue',
       image: mentorshipImage,
-      tag: { EN: '1:1', FR: '1:1', AR: '1:1' },
+      tag: { EN: 'Mentorship', FR: 'Mentorat', AR: 'إرشاد' },
       title: { EN: 'Mentorship & Coaching', FR: 'Mentorat & Coaching', AR: 'الإرشاد والتوجيه' },
       desc: { EN: 'Expert guidance from industry leaders and university faculty to shape your startup vision.', FR: 'Accompagnement expert par des industriels et enseignants pour définir votre vision.', AR: 'توجيه متخصص من قادة الصناعة وأساتذة الجامعة لتشكيل رؤية شركتك.' },
     },

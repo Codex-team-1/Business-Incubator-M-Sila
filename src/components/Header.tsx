@@ -24,6 +24,24 @@ const Header: React.FC<HeaderProps> = ({
   const railRef = React.useRef<HTMLElement>(null);
   const pillRef = React.useRef<HTMLDivElement>(null);
   const linkRefs = React.useRef<Record<string, HTMLButtonElement | null>>({});
+  const langWrapRef = React.useRef<HTMLDivElement>(null);
+
+  // Close lang dropdown on outside click or Escape
+  React.useEffect(() => {
+    if (!langOpen) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (!langWrapRef.current?.contains(e.target as Node)) setLangOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLangOpen(false);
+    };
+    document.addEventListener("mousedown", onDocClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDocClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [langOpen]);
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -142,7 +160,7 @@ const Header: React.FC<HeaderProps> = ({
             style={{
               fontFamily: "'Syne',sans-serif",
               fontSize: 14,
-              fontWeight: 800,
+              fontWeight: 700,
               color: scrolled ? "#0D2D72" : "#fff",
               letterSpacing: "-0.005em",
               transition: "color 0.25s ease",
@@ -259,9 +277,20 @@ const Header: React.FC<HeaderProps> = ({
       </nav>
 
       <div
+        ref={langWrapRef}
         data-nav-lang
-        onMouseEnter={() => setLangOpen(true)}
-        onMouseLeave={() => setLangOpen(false)}
+        role="button"
+        tabIndex={0}
+        aria-haspopup="listbox"
+        aria-expanded={langOpen}
+        aria-label={{ EN: "Change language", FR: "Changer la langue", AR: "تغيير اللغة" }[lang]}
+        onClick={() => setLangOpen((v) => !v)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setLangOpen((v) => !v);
+          }
+        }}
         style={{
           display: "inline-flex",
           alignItems: "center",
@@ -277,6 +306,7 @@ const Header: React.FC<HeaderProps> = ({
           cursor: "pointer",
           transition: "background 0.2s ease, border-color 0.2s ease",
           position: "relative",
+          userSelect: "none",
         }}
       >
         <svg
@@ -321,6 +351,7 @@ const Header: React.FC<HeaderProps> = ({
         </svg>
 
         <div
+          role="listbox"
           style={{
             position: "absolute",
             top: "100%",
@@ -330,7 +361,7 @@ const Header: React.FC<HeaderProps> = ({
             border: "1px solid #E4E6EF",
             borderRadius: 12,
             padding: 6,
-            minWidth: 140,
+            minWidth: 160,
             boxShadow: "0 12px 32px rgba(0,0,0,0.12)",
             opacity: langOpen ? 1 : 0,
             pointerEvents: langOpen ? "auto" : "none",
@@ -344,26 +375,30 @@ const Header: React.FC<HeaderProps> = ({
             return (
               <div
                 key={l.code}
+                role="option"
+                aria-selected={active}
                 onClick={(e) => {
                   e.stopPropagation();
                   onLang(l.code);
+                  setLangOpen(false);
                 }}
                 style={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  padding: "8px 12px",
+                  padding: "10px 12px",
                   borderRadius: 8,
-                  fontSize: 13,
+                  fontSize: 13.5,
                   fontWeight: active ? 600 : 500,
                   color: active ? "#1B4FBB" : "#383D58",
                   cursor: "pointer",
+                  background: active ? "#F0F4FB" : "transparent",
                 }}
                 onMouseEnter={(e) =>
-                  (e.currentTarget.style.background = "#F7F8FC")
+                  (e.currentTarget.style.background = active ? "#E6EDF8" : "#F7F8FC")
                 }
                 onMouseLeave={(e) =>
-                  (e.currentTarget.style.background = "transparent")
+                  (e.currentTarget.style.background = active ? "#F0F4FB" : "transparent")
                 }
               >
                 <span style={{ fontFamily: "'DM Sans', sans-serif" }}>

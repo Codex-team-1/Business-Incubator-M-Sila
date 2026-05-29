@@ -8,6 +8,10 @@ html {
   /* Prevent iOS Safari font autosizing on landscape */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Clip any accidental horizontal overflow at the root — prevents
+     a sub-pixel scrollbar from revealing white gutters on mobile */
+  overflow-x: clip;
+  width: 100%;
 }
 
 body {
@@ -16,10 +20,14 @@ body {
   color: #383D58;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
+  width: 100%;
   /* iOS rubber-band on dark sections — match page bg */
   overscroll-behavior-y: none;
 }
+
+/* App root + main must not introduce horizontal overflow either */
+#root, main { overflow-x: clip; width: 100%; max-width: 100%; }
 
 /* Always use Syne for big display numerals so digits never reflow with body font */
 h1, h2, h3 { font-feature-settings: "ss01", "tnum"; }
@@ -137,6 +145,10 @@ section { animation: sectionFadeIn 0.7s ease both; }
   header { padding: 0 20px !important; }
   section { padding-left: 1.5rem !important; padding-right: 1.5rem !important; padding-top: 4rem !important; padding-bottom: 4rem !important; }
   section[id="top"] { padding: 0 !important; }
+  /* Sections that manage their own inner padding via wrappers must stay
+     edge-to-edge so full-bleed children (marquee, sticky tabs, CTA bands)
+     don't sit inside a double gutter. */
+  section[id="team"], section[id="startups"] { padding-left: 0 !important; padding-right: 0 !important; }
   [data-hero-inner] { padding: 6rem 1.5rem 4rem !important; }
 
   /* Layout grids — 2-up on tablet */
@@ -198,6 +210,14 @@ section { animation: sectionFadeIn 0.7s ease both; }
     padding-bottom: 3.5rem !important;
   }
   section[id="top"] { padding: 0 !important; }
+  /* Team & Startups manage their own padding via inner wrappers, so the
+     <section> itself must stay edge-to-edge on mobile — otherwise the
+     marquee fade-out edges and the sticky tabs bar sit inside a 1.1rem
+     gutter, leaving visible white borders. */
+  section[id="team"], section[id="startups"] { padding-left: 0 !important; padding-right: 0 !important; }
+  /* Tighten the inner wrappers to match the global mobile gutter (1.1rem). */
+  section[id="team"] > div:first-child { padding-left: 1.1rem !important; padding-right: 1.1rem !important; }
+  section[id="startups"] > div:not([data-startups-tabs-bar]):not([data-startups-cta-wrap]) { padding-left: 1.1rem !important; padding-right: 1.1rem !important; }
 
   /* Hero — give the hero room to breathe under the fixed header */
   [data-hero-inner] {
@@ -235,6 +255,7 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-contact-frame] > div { padding: 26px !important; }
 
   /* Footer */
+  footer { padding-left: 1.1rem !important; padding-right: 1.1rem !important; padding-top: 3rem !important; padding-bottom: 1.5rem !important; }
   [data-footer-grid] { grid-template-columns: 1fr 1fr !important; gap: 1.75rem !important; }
   [data-footer-grid] > div:first-child { grid-column: 1 / -1; }
 
