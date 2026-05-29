@@ -24,11 +24,11 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
       imgAlt:  "Université Mohamed Boudiaf M'Sila campus",
       stats: [
         { value: 202, suffix: '+', l: 'Patents Filed',        accent: 'blue'  },
-        { value: 17,  suffix: '',  l: 'Graduated Startups',   accent: 'green' },
-        { value: 52,  suffix: '',  l: 'Labeled Projects',     accent: 'blue'  },
-        { value: 548, suffix: '',  l: 'Students · Res.1275',  accent: 'green' },
-        { value: 287, suffix: '',  l: 'Projects · Res.1275',  accent: 'blue'  },
-        { value: 124, suffix: '',  l: 'Active Projects',      accent: 'green' },
+        { value: 17,  suffix: '+', l: 'Graduated Startups',   accent: 'green' },
+        { value: 52,  suffix: '+', l: 'Labeled Projects',     accent: 'blue'  },
+        { value: 548, suffix: '+', l: 'Students · Res.1275',  accent: 'green' },
+        { value: 287, suffix: '+', l: 'Projects · Res.1275',  accent: 'blue'  },
+        { value: 124, suffix: '+', l: 'Active Projects',      accent: 'green' },
       ],
     },
     FR: {
@@ -41,11 +41,11 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
       imgAlt:  "Campus Université Mohamed Boudiaf M'Sila",
       stats: [
         { value: 202, suffix: '+', l: 'Brevets déposés',      accent: 'blue'  },
-        { value: 17,  suffix: '',  l: 'Startups diplômées',   accent: 'green' },
-        { value: 52,  suffix: '',  l: 'Projets labellisés',   accent: 'blue'  },
-        { value: 548, suffix: '',  l: 'Étud. · Rés.1275',    accent: 'green' },
-        { value: 287, suffix: '',  l: 'Proj. · Rés.1275',    accent: 'blue'  },
-        { value: 124, suffix: '',  l: 'Projets actifs',       accent: 'green' },
+        { value: 17,  suffix: '+', l: 'Startups diplômées',   accent: 'green' },
+        { value: 52,  suffix: '+', l: 'Projets labellisés',   accent: 'blue'  },
+        { value: 548, suffix: '+', l: 'Étud. · Rés.1275',    accent: 'green' },
+        { value: 287, suffix: '+', l: 'Proj. · Rés.1275',    accent: 'blue'  },
+        { value: 124, suffix: '+', l: 'Projets actifs',       accent: 'green' },
       ],
     },
     AR: {
@@ -58,11 +58,11 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
       imgAlt:  'حرم جامعة محمد بوضياف مسيلة',
       stats: [
         { value: 202, suffix: '+', l: 'براءة اختراع مودعة', accent: 'blue'  },
-        { value: 17,  suffix: '',  l: 'شركة ناشئة خريجة',  accent: 'green' },
-        { value: 52,  suffix: '',  l: 'مشروع موسوم',        accent: 'blue'  },
-        { value: 548, suffix: '',  l: 'طالب · ق.1275',      accent: 'green' },
-        { value: 287, suffix: '',  l: 'مشروع · ق.1275',     accent: 'blue'  },
-        { value: 124, suffix: '',  l: 'مشروع نشط',          accent: 'green' },
+        { value: 17,  suffix: '+', l: 'شركة ناشئة خريجة',  accent: 'green' },
+        { value: 52,  suffix: '+', l: 'مشروع موسوم',        accent: 'blue'  },
+        { value: 548, suffix: '+', l: 'طالب · ق.1275',      accent: 'green' },
+        { value: 287, suffix: '+', l: 'مشروع · ق.1275',     accent: 'blue'  },
+        { value: 124, suffix: '+', l: 'مشروع نشط',          accent: 'green' },
       ],
     },
   }[lang];
@@ -171,25 +171,34 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
             <HeroBtn isRTL={isRTL} label={t.cta2} onClick={() => onNav('programs')} />
           </div>
 
-          {/* ── Inline stats — 3 per row, no frame ── */}
+          {/* ── Stats — single horizontal row ── */}
           <div style={{
             ...stagger(270),
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, auto)',
-            gap: '18px 32px',
-            justifyContent: 'start',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 0,
           }}>
             {t.stats.map((s, i) => (
-              <StatItem
-                key={i}
-                value={s.value}
-                suffix={s.suffix}
-                label={s.l}
-                iconIndex={i}
-                accent={s.accent}
-                active={mounted}
-                delay={i * 60}
-              />
+              <React.Fragment key={i}>
+                <StatItem
+                  value={s.value}
+                  suffix={s.suffix}
+                  label={s.l}
+                  accent={s.accent}
+                  active={mounted}
+                  delay={i * 60}
+                  iconIndex={i}
+                />
+                {i < t.stats.length - 1 && (
+                  <div aria-hidden="true" style={{
+                    width: 1, height: 36,
+                    background: 'rgba(255,255,255,0.15)',
+                    margin: '0 20px',
+                    flexShrink: 0,
+                  }} />
+                )}
+              </React.Fragment>
             ))}
           </div>
 
@@ -226,122 +235,92 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
   );
 };
 
-/* ─── Inline stat item: icon  number  label ──────────────────────── */
-const ICONS = [
-  /* Patent */
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65"
-    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
-    style={{ width: 18, height: 18 }}>
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-    <polyline points="14 2 14 8 20 8"/>
-    <circle cx="12" cy="15" r="1.8"/>
-    <path d="M10.8 17 9.5 19l1 1M13.2 17l1.3 2-1 1"/>
+
+const STAT_ICONS = [
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ width: 22, height: 22 }}>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><circle cx="12" cy="15" r="1.5"/><path d="M11 17l-1 1.8.7.7M13 17l1 1.8-.7.7"/>
   </svg>,
-  /* Rocket */
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65"
-    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
-    style={{ width: 18, height: 18 }}>
-    <path d="M4.5 16.5c-1.5 1.5-2 4-2 4s2.5-.5 4-2L17 7.5a4.24 4.24 0 0 0-6-6z"/>
-    <path d="m15 5 4 4"/><path d="M3 21c1.5-1.5 2.5-3.5 3-5.5"/>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ width: 22, height: 22 }}>
+    <path d="M4.5 16.5c-1.5 1.5-2 4-2 4s2.5-.5 4-2L17 7.5a4.24 4.24 0 0 0-6-6z"/><path d="m15 5 4 4"/>
   </svg>,
-  /* Tag */
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65"
-    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
-    style={{ width: 18, height: 18 }}>
-    <path d="M12 2H2v10l9.29 9.29a1 1 0 0 0 1.41 0l7.29-7.29a1 1 0 0 0 0-1.41z"/>
-    <circle cx="7" cy="7" r="1.3" fill="currentColor" stroke="none"/>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ width: 22, height: 22 }}>
+    <path d="M12 2H2v10l9.29 9.29a1 1 0 0 0 1.41 0l7.29-7.29a1 1 0 0 0 0-1.41z"/><circle cx="7" cy="7" r="1.2" fill="currentColor" stroke="none"/>
   </svg>,
-  /* Graduation cap */
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65"
-    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
-    style={{ width: 18, height: 18 }}>
-    <path d="M22 10 12 5 2 10l10 5 10-5z"/>
-    <path d="M6 12.5v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4"/>
-    <line x1="22" y1="10" x2="22" y2="15"/>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ width: 22, height: 22 }}>
+    <path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12.5v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4"/>
   </svg>,
-  /* Layers */
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65"
-    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
-    style={{ width: 18, height: 18 }}>
-    <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-    <polyline points="2 17 12 22 22 17"/>
-    <polyline points="2 12 12 17 22 12"/>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ width: 22, height: 22 }}>
+    <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
   </svg>,
-  /* Pulse */
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65"
-    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
-    style={{ width: 18, height: 18 }}>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ width: 22, height: 22 }}>
     <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
   </svg>,
 ];
 
 const StatItem: React.FC<{
   value: number; suffix: string; label: string;
-  iconIndex: number; accent: string;
-  active: boolean; delay: number;
-}> = React.memo(({ value, suffix, label, iconIndex, accent, active, delay }) => {
-  const [hov, setHov] = React.useState(false);
+  accent: string; active: boolean; delay: number; iconIndex: number;
+}> = React.memo(({ value, suffix, label, accent, active, delay, iconIndex }) => {
   const n = useCountUp(value, active, 1400);
-  const isGreen   = accent === 'green';
+  const isGreen = accent === 'green';
   const iconColor = isGreen ? '#7DB83A' : '#60A5FA';
-  const glowColor = isGreen ? 'rgba(125,184,58,0.55)' : 'rgba(96,165,250,0.50)';
+
+  const tagMatch = label.match(/^(.*?)\s*[·•]\s*((?:Res|Rés|ق)\.\s*1275.*)$/i);
+  const mainLabel = tagMatch ? tagMatch[1] : label;
+  const tag       = tagMatch ? tagMatch[2] : null;
 
   return (
-    <div
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 10,
-        cursor: 'default',
-        opacity: active ? 1 : 0,
-        transform: active ? 'translateY(0)' : 'translateY(10px)',
-        transition: `opacity 0.45s ${delay}ms ease, transform 0.45s ${delay}ms ease`,
-      }}
-    >
-      {/* Icon — tinted dot with icon inside */}
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      cursor: 'default',
+      opacity: active ? 1 : 0,
+      transform: active ? 'translateY(0)' : 'translateY(10px)',
+      transition: `opacity 0.45s ${delay}ms ease, transform 0.45s ${delay}ms ease`,
+    }}>
+      {/* Icon */}
       <div style={{
-        width: 34, height: 34, borderRadius: 10,
-        background: hov
-          ? (isGreen ? 'rgba(125,184,58,0.18)' : 'rgba(96,165,250,0.16)')
-          : 'rgba(255,255,255,0.07)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
         color: iconColor,
-        flexShrink: 0,
-        filter: hov ? `drop-shadow(0 0 6px ${glowColor})` : 'none',
-        transition: 'background 0.22s ease, filter 0.22s ease',
+        marginBottom: 6,
+        lineHeight: 1,
       }}>
-        {ICONS[iconIndex]}
+        {STAT_ICONS[iconIndex]}
       </div>
 
-      {/* Number + label stacked */}
-      <div>
-        <div className="num" style={{
-          fontFamily: "'Syne',sans-serif",
-          fontSize: 'clamp(1.15rem, 1.6vw, 1.45rem)',
-          fontWeight: 800,
-          color: hov ? '#fff' : 'rgba(255,255,255,0.92)',
-          lineHeight: 1,
-          letterSpacing: '-0.025em',
-          fontVariantNumeric: 'tabular-nums',
-          transition: 'color 0.2s ease',
-          whiteSpace: 'nowrap',
-        }}>
-          {n}{suffix}
-        </div>
-        <div style={{
+      {/* Number + optional tag */}
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
+        <span style={{
           fontFamily: "'DM Sans',sans-serif",
-          fontSize: 10.5, fontWeight: 500,
-          color: hov ? 'rgba(255,255,255,0.60)' : 'rgba(255,255,255,0.38)',
-          marginTop: 3, lineHeight: 1.2,
-          letterSpacing: '0.01em',
-          transition: 'color 0.2s ease',
+          fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)',
+          fontWeight: 700,
+          color: '#fff',
+          lineHeight: 1,
+          letterSpacing: '-0.03em',
+          fontVariantNumeric: 'tabular-nums',
           whiteSpace: 'nowrap',
-        }}>
-          {label}
-        </div>
+        }}>{n}{suffix}</span>
+        {tag && (
+          <span style={{
+            fontFamily: "'DM Sans',sans-serif",
+            fontSize: 9, fontWeight: 600,
+            color: 'rgba(255,255,255,0.40)',
+            letterSpacing: '0.03em',
+            whiteSpace: 'nowrap',
+          }}>{tag}</span>
+        )}
       </div>
+
+      {/* Label */}
+      <div style={{
+        fontFamily: "'DM Sans',sans-serif",
+        fontSize: 10.5, fontWeight: 500,
+        color: 'rgba(255,255,255,0.38)',
+        marginTop: 5,
+        letterSpacing: '0.01em',
+        whiteSpace: 'nowrap',
+        lineHeight: 1,
+      }}>{mainLabel}</div>
     </div>
   );
 });

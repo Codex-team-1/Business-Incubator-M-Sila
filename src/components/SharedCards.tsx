@@ -358,8 +358,8 @@ export const JourneyTimeline: React.FC<{
           const isLeft = i % 2 === 0;
           const isActive = activeIdx === i;
           const accentColor = m.accent === "green" ? "#7DB83A" : "#1B4FBB";
-          const accentDark  = m.accent === "green" ? "#5A8A22" : "#0D2D72";
-          const accentBg    = m.accent === "green" ? "#EBF5D8" : "#D6E4F7";
+          const accentDark = m.accent === "green" ? "#5A8A22" : "#0D2D72";
+          const accentBg = m.accent === "green" ? "#EBF5D8" : "#D6E4F7";
 
           // For RTL, flip left/right so the timeline reads right-to-left naturally
           const cardOnRight = isRTL ? isLeft : !isLeft;
@@ -1201,7 +1201,8 @@ const SocialIcon: React.FC<{
         color: "#fff",
         textDecoration: "none",
         border: "1px solid rgba(255,255,255,0.08)",
-        transition: "background 0.2s ease, transform 0.2s ease, border-color 0.2s ease",
+        transition:
+          "background 0.2s ease, transform 0.2s ease, border-color 0.2s ease",
         transform: hov ? "translateY(-2px)" : "translateY(0)",
       }}
     >
@@ -1253,11 +1254,11 @@ export const Footer: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({
     {
       title: { EN: "Programs", FR: "Programmes", AR: "البرامج" },
       items: [
-        { EN: "Incubation", FR: "Incubation", AR: "الحضانة", key: "programs" },
+        { EN: "Incubation", FR: "Incubation", AR: "الاحتضان", key: "programs" },
         {
           EN: "Pre-incubation",
           FR: "Pré-incubation",
-          AR: "ما قبل الحضانة",
+          AR: "ما قبل الاحتضان",
           key: "programs",
         },
         {
@@ -1297,7 +1298,7 @@ export const Footer: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({
         {
           EN: "Apply for Incubation",
           FR: "Candidater",
-          AR: "تقدّم للحضانة",
+          AR: "تقدّم للاحتضان",
           key: "contact",
         },
         {

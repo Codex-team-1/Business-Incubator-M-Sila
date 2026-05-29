@@ -34,8 +34,10 @@ function useInView(threshold = 0.2) {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold }
+      ([entry]) => {
+        if (entry.isIntersecting) setInView(true);
+      },
+      { threshold },
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -81,7 +83,8 @@ const StatPill: React.FC<{
           letterSpacing: "-0.03em",
         }}
       >
-        {count}{suffix}
+        {count}
+        {suffix}
       </span>
       <span
         style={{
@@ -101,9 +104,15 @@ const StatPill: React.FC<{
 };
 
 /* ── Domain badge ── */
-const DomainBadge: React.FC<{ icon: React.ReactNode; label: string; count: number; color: string; bg: string; active?: boolean; onClick?: () => void }> = ({
-  icon, label, count, color, bg, active, onClick,
-}) => {
+const DomainBadge: React.FC<{
+  icon: React.ReactNode;
+  label: string;
+  count: number;
+  color: string;
+  bg: string;
+  active?: boolean;
+  onClick?: () => void;
+}> = ({ icon, label, count, color, bg, active, onClick }) => {
   const [hovered, setHovered] = React.useState(false);
   const lit = active || hovered;
   return (
@@ -146,10 +155,30 @@ const DomainBadge: React.FC<{ icon: React.ReactNode; label: string; count: numbe
         {icon}
       </div>
       <div style={{ minWidth: 0 }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: active ? color : "#121420", lineHeight: 1.2, transition: "color 0.22s" }}>{label}</div>
+        <div
+          style={{
+            fontSize: 13,
+            fontWeight: 700,
+            color: active ? color : "#121420",
+            lineHeight: 1.2,
+            transition: "color 0.22s",
+          }}
+        >
+          {label}
+        </div>
         <div style={{ fontSize: 11, color: "#6B7089", marginTop: 2 }}>
-          <span className="num" style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, color, fontSize: 12 }}>{count}</span>
-          {" "}startups
+          <span
+            className="num"
+            style={{
+              fontFamily: "'Syne',sans-serif",
+              fontWeight: 700,
+              color,
+              fontSize: 12,
+            }}
+          >
+            {count}
+          </span>{" "}
+          startups
         </div>
       </div>
     </button>
@@ -358,10 +387,22 @@ const JourneyStep: React.FC<{
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      style={{ display: "flex", gap: 16, alignItems: "flex-start", position: "relative" }}
+      style={{
+        display: "flex",
+        gap: 16,
+        alignItems: "flex-start",
+        position: "relative",
+      }}
     >
       {/* Step node + connector */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          flexShrink: 0,
+        }}
+      >
         <div
           style={{
             width: 40,
@@ -411,7 +452,9 @@ const JourneyStep: React.FC<{
         >
           {title}
         </div>
-        <div style={{ fontSize: 13, color: "#6B7089", lineHeight: 1.6 }}>{desc}</div>
+        <div style={{ fontSize: 13, color: "#6B7089", lineHeight: 1.6 }}>
+          {desc}
+        </div>
       </div>
     </div>
   );
@@ -424,7 +467,9 @@ const StartupsSection: React.FC<{
 }> = ({ lang, onNav }) => {
   const isRTL = lang === "AR";
   const { ref: statsRef, inView: statsInView } = useInView(0.3);
-  const [activeTab, setActiveTab] = React.useState<"space" | "process" | "domains">("space");
+  const [activeTab, setActiveTab] = React.useState<
+    "space" | "process" | "domains"
+  >("space");
   const [activeDomain, setActiveDomain] = React.useState<string | null>(null);
 
   const t = {
@@ -433,7 +478,8 @@ const StartupsSection: React.FC<{
       title: "Inside the M'Sila startup space.",
       sub: "A dedicated co-working hub on the Boudiaf campus — home to graduated startups and a growing pipeline of active projects.",
       spaceTitle: "The co-working hub",
-      spaceSub: "Open access for incubated teams — equipped studios, meeting rooms, and a quiet zone for deep work.",
+      spaceSub:
+        "Open access for incubated teams — equipped studios, meeting rooms, and a quiet zone for deep work.",
       tabs: ["Our Space", "Incubation Path", "Startup Domains"],
       statsTitle: "By the numbers",
       statsSub: "Impact across the Boudiaf campus since 2020.",
@@ -450,7 +496,8 @@ const StartupsSection: React.FC<{
         "Free for incubated startups, 24/7 access",
       ],
       processTitle: "Incubation Roadmap",
-      processSub: "From idea to graduate — how your startup moves through the incubator.",
+      processSub:
+        "From idea to graduate — how your startup moves through the incubator.",
       steps: [
         {
           title: "Apply & Screen",
@@ -490,7 +537,8 @@ const StartupsSection: React.FC<{
       title: "À l'intérieur de l'espace startup de M'Sila.",
       sub: "Un hub co-working dédié sur le campus Boudiaf — accueillant les startups diplômées et un pipeline croissant de projets actifs.",
       spaceTitle: "Le hub co-working",
-      spaceSub: "Accès libre pour les équipes incubées — studios équipés, salles de réunion, zone calme.",
+      spaceSub:
+        "Accès libre pour les équipes incubées — studios équipés, salles de réunion, zone calme.",
       tabs: ["Notre espace", "Parcours d'incubation", "Domaines"],
       statsTitle: "En chiffres",
       statsSub: "Impact sur le campus Boudiaf depuis 2020.",
@@ -507,7 +555,8 @@ const StartupsSection: React.FC<{
         "Gratuit pour startups incubées, accès 24/7",
       ],
       processTitle: "Parcours d'incubation",
-      processSub: "De l'idée à la diplomation — comment votre startup progresse.",
+      processSub:
+        "De l'idée à la diplomation — comment votre startup progresse.",
       steps: [
         {
           title: "Candidater & Sélection",
@@ -527,7 +576,8 @@ const StartupsSection: React.FC<{
         },
       ],
       domainsTitle: "Domaines d'activité",
-      domainsSub: "Cliquez sur un domaine pour explorer les startups derrière les chiffres.",
+      domainsSub:
+        "Cliquez sur un domaine pour explorer les startups derrière les chiffres.",
       domains: [
         { key: "Agri-tech", label: "Agri-tech", count: 4 },
         { key: "EdTech", label: "EdTech", count: 3 },
@@ -547,8 +597,9 @@ const StartupsSection: React.FC<{
       title: "داخل فضاء الشركات الناشئة في مسيلة.",
       sub: "مركز عمل مشترك مخصص في حرم بوضياف — يحتضن الشركات الخريجة وخطّ مشاريع نشطة متنامٍ.",
       spaceTitle: "مركز العمل المشترك",
-      spaceSub: "وصول مفتوح للفرق المحتضنة — استوديوهات مجهزة وغرف اجتماعات ومنطقة هادئة.",
-      tabs: ["فضاؤنا", "مسار الحضانة", "مجالات الشركات"],
+      spaceSub:
+        "وصول مفتوح للفرق المحتضنة — استوديوهات مجهزة وغرف اجتماعات ومنطقة هادئة.",
+      tabs: ["فضاؤنا", "مسار الاحتضان", "مجالات الشركات"],
       statsTitle: "بالأرقام",
       statsSub: "الأثر في حرم بوضياف منذ 2020.",
       stats: [
@@ -563,7 +614,7 @@ const StartupsSection: React.FC<{
         "داخل الحرم الجامعي، 5 دقائق من أي كلية",
         "مجاني للشركات المحتضنة، وصول 24/7",
       ],
-      processTitle: "خارطة طريق الحضانة",
+      processTitle: "خارطة طريق الاحتضان",
       processSub: "من الفكرة إلى التخرج — كيف تتقدم شركتك عبر الحاضنة.",
       steps: [
         {
@@ -571,11 +622,11 @@ const StartupsSection: React.FC<{
           desc: "أرسل استمارتك. يراجع فريقنا الجدوى وجاهزية الفريق خلال أسبوعين.",
         },
         {
-          title: "ما قبل الحضانة",
+          title: "ما قبل الاحتضان",
           desc: "تحقق من فكرتك مع المرشدين. حضور ورش عمل حول منهجية لين والعروض التقديمية.",
         },
         {
-          title: "الحضانة النشطة",
+          title: "الاحتضان النشطة",
           desc: "احصل على مكان في فضاء العمل المشترك، واستشارات قانونية ومالية، وابنِ نموذجك الأولي.",
         },
         {
@@ -604,27 +655,121 @@ const StartupsSection: React.FC<{
   /* domain icon paths */
   const domainIcons = [
     /* Agri-tech */
-    <svg key="a" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5A8A22" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12"/><path d="M12 6v6l4 2"/><path d="M2 12a10 10 0 0 0 5 8.66"/></svg>,
+    <svg
+      key="a"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#5A8A22"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12" />
+      <path d="M12 6v6l4 2" />
+      <path d="M2 12a10 10 0 0 0 5 8.66" />
+    </svg>,
     /* EdTech */
-    <svg key="b" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B4FBB" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>,
+    <svg
+      key="b"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#1B4FBB"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+    </svg>,
     /* HealthTech */
-    <svg key="c" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E74C3C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>,
+    <svg
+      key="c"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#E74C3C"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+    </svg>,
     /* Clean Energy */
-    <svg key="d" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F39C12" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>,
+    <svg
+      key="d"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#F39C12"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="5" />
+      <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+    </svg>,
     /* Digital Services */
-    <svg key="e" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8E44AD" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>,
+    <svg
+      key="e"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#8E44AD"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="2" y="3" width="20" height="14" rx="2" />
+      <path d="M8 21h8M12 17v4" />
+    </svg>,
     /* Fintech */
-    <svg key="f" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2ECC71" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>,
+    <svg
+      key="f"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#2ECC71"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+    </svg>,
   ];
-  const domainColors = ["#5A8A22", "#1B4FBB", "#E74C3C", "#F39C12", "#8E44AD", "#2ECC71"];
-  const domainBgs   = ["#EBF5D8", "#D6E4F7", "#FDEDEC", "#FEF9E7", "#F5EEF8", "#EAFAF1"];
+  const domainColors = [
+    "#5A8A22",
+    "#1B4FBB",
+    "#E74C3C",
+    "#F39C12",
+    "#8E44AD",
+    "#2ECC71",
+  ];
+  const domainBgs = [
+    "#EBF5D8",
+    "#D6E4F7",
+    "#FDEDEC",
+    "#FEF9E7",
+    "#F5EEF8",
+    "#EAFAF1",
+  ];
 
   /* total for progress bars */
   const domainTotal = t.domains.reduce((s, d) => s + d.count, 0);
 
   /* filtered startups for the showcase */
   const visibleStartups = React.useMemo(
-    () => activeDomain ? STARTUPS.filter(s => s.domain === activeDomain) : STARTUPS,
+    () =>
+      activeDomain
+        ? STARTUPS.filter((s) => s.domain === activeDomain)
+        : STARTUPS,
     [activeDomain],
   );
 
@@ -650,7 +795,16 @@ const StartupsSection: React.FC<{
       </div>
 
       {/* ── TABS ── */}
-      <div data-startups-tabs-bar style={{ padding: "0 2rem", position: "sticky", top: 72, zIndex: 10, background: "#fff" }}>
+      <div
+        data-startups-tabs-bar
+        style={{
+          padding: "0 2rem",
+          position: "sticky",
+          top: 72,
+          zIndex: 10,
+          background: "#fff",
+        }}
+      >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div
             style={{
@@ -683,8 +837,12 @@ const StartupsSection: React.FC<{
                     whiteSpace: "nowrap",
                     letterSpacing: active ? "-0.01em" : "0",
                   }}
-                  onMouseEnter={e => { if (!active) e.currentTarget.style.color = "#383D58"; }}
-                  onMouseLeave={e => { if (!active) e.currentTarget.style.color = "#6B7089"; }}
+                  onMouseEnter={(e) => {
+                    if (!active) e.currentTarget.style.color = "#383D58";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!active) e.currentTarget.style.color = "#6B7089";
+                  }}
                 >
                   {t.tabs[i]}
                 </button>
@@ -697,7 +855,6 @@ const StartupsSection: React.FC<{
       {/* ── TAB PANELS ── */}
       <div style={{ padding: "3rem 2rem 0" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-
           {/* ═══ TAB 1: OUR SPACE ═══ */}
           {activeTab === "space" && (
             <div>
@@ -875,7 +1032,13 @@ const StartupsSection: React.FC<{
 
           {/* ═══ TAB 2: INCUBATION PROCESS ═══ */}
           {activeTab === "process" && (
-            <div style={{ maxWidth: 780, margin: "0 auto", paddingBottom: "3.5rem" }}>
+            <div
+              style={{
+                maxWidth: 780,
+                margin: "0 auto",
+                paddingBottom: "3.5rem",
+              }}
+            >
               <div style={{ textAlign: "center", marginBottom: "3rem" }}>
                 <div
                   style={{
@@ -889,7 +1052,13 @@ const StartupsSection: React.FC<{
                 >
                   {t.processTitle}
                 </div>
-                <div style={{ fontSize: "1rem", color: "#6B7089", lineHeight: 1.65 }}>
+                <div
+                  style={{
+                    fontSize: "1rem",
+                    color: "#6B7089",
+                    lineHeight: 1.65,
+                  }}
+                >
                   {t.processSub}
                 </div>
               </div>
@@ -940,24 +1109,47 @@ const StartupsSection: React.FC<{
                     boxShadow: "0 2px 8px rgba(27,79,187,0.12)",
                   }}
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B4FBB" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                    <polyline points="10 9 9 9 8 9"/>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#1B4FBB"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
                   </svg>
                 </div>
                 <div>
-                  <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, fontWeight: 700, color: "#0D2D72", marginBottom: 3 }}>
+                  <div
+                    style={{
+                      fontFamily: "'DM Sans',sans-serif",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "#0D2D72",
+                      marginBottom: 3,
+                    }}
+                  >
                     Resolution 1275
                   </div>
-                  <div style={{ fontSize: 12.5, color: "#383D58", lineHeight: 1.55 }}>
+                  <div
+                    style={{
+                      fontSize: 12.5,
+                      color: "#383D58",
+                      lineHeight: 1.55,
+                    }}
+                  >
                     {lang === "AR"
                       ? "الإطار القانوني الوطني الذي يمنح مشاريع التخرج الجامعية تصنيف الشركات الناشئة الرسمية."
                       : lang === "FR"
-                      ? "Le cadre national qui permet aux projets de fin d'études de recevoir un statut officiel de startup."
-                      : "The national framework that grants university graduation projects official startup status."}
+                        ? "Le cadre national qui permet aux projets de fin d'études de recevoir un statut officiel de startup."
+                        : "The national framework that grants university graduation projects official startup status."}
                   </div>
                 </div>
               </div>
@@ -981,7 +1173,13 @@ const StartupsSection: React.FC<{
                 >
                   {t.domainsTitle}
                 </div>
-                <div style={{ fontSize: "1rem", color: "#6B7089", lineHeight: 1.65 }}>
+                <div
+                  style={{
+                    fontSize: "1rem",
+                    color: "#6B7089",
+                    lineHeight: 1.65,
+                  }}
+                >
                   {t.domainsSub}
                 </div>
               </div>
@@ -1005,14 +1203,22 @@ const StartupsSection: React.FC<{
                     color={domainColors[i]}
                     bg={domainBgs[i]}
                     active={activeDomain === d.key}
-                    onClick={() => setActiveDomain(prev => prev === d.key ? null : d.key)}
+                    onClick={() =>
+                      setActiveDomain((prev) => (prev === d.key ? null : d.key))
+                    }
                   />
                 ))}
               </div>
 
               {/* "All Domains" clear pill */}
               {activeDomain && (
-                <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: 24,
+                  }}
+                >
                   <button
                     onClick={() => setActiveDomain(null)}
                     style={{
@@ -1030,10 +1236,26 @@ const StartupsSection: React.FC<{
                       font: "inherit",
                       transition: "all 0.18s ease",
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = "#1B4FBB"; e.currentTarget.style.color = "#1B4FBB"; }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = "#E4E6EF"; e.currentTarget.style.color = "#6B7089"; }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = "#1B4FBB";
+                      e.currentTarget.style.color = "#1B4FBB";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = "#E4E6EF";
+                      e.currentTarget.style.color = "#6B7089";
+                    }}
                   >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    >
+                      <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
                     {t.allDomains}
                   </button>
                 </div>
@@ -1050,10 +1272,16 @@ const StartupsSection: React.FC<{
                 }}
               >
                 {visibleStartups.map((startup, i) => {
-                  const domainIdx = t.domains.findIndex(d => d.key === startup.domain);
-                  const color = domainIdx >= 0 ? domainColors[domainIdx] : "#1B4FBB";
-                  const bg    = domainIdx >= 0 ? domainBgs[domainIdx]    : "#D6E4F7";
-                  const domainLabel = domainIdx >= 0 ? t.domains[domainIdx].label : startup.domain;
+                  const domainIdx = t.domains.findIndex(
+                    (d) => d.key === startup.domain,
+                  );
+                  const color =
+                    domainIdx >= 0 ? domainColors[domainIdx] : "#1B4FBB";
+                  const bg = domainIdx >= 0 ? domainBgs[domainIdx] : "#D6E4F7";
+                  const domainLabel =
+                    domainIdx >= 0
+                      ? t.domains[domainIdx].label
+                      : startup.domain;
                   return (
                     <StartupShowcaseCard
                       key={startup.name}
@@ -1090,9 +1318,15 @@ const StartupsSection: React.FC<{
                     letterSpacing: "0.06em",
                   }}
                 >
-                  {lang === "AR" ? "التوزيع النسبي" : lang === "FR" ? "Répartition" : "Distribution"}
+                  {lang === "AR"
+                    ? "التوزيع النسبي"
+                    : lang === "FR"
+                      ? "Répartition"
+                      : "Distribution"}
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div
+                  style={{ display: "flex", flexDirection: "column", gap: 14 }}
+                >
                   {t.domains.map((d, i) => (
                     <DomainBar
                       key={d.key}
@@ -1102,7 +1336,11 @@ const StartupsSection: React.FC<{
                       color={domainColors[i]}
                       bg={domainBgs[i]}
                       active={activeDomain === d.key}
-                      onClick={() => setActiveDomain(prev => prev === d.key ? null : d.key)}
+                      onClick={() =>
+                        setActiveDomain((prev) =>
+                          prev === d.key ? null : d.key,
+                        )
+                      }
                     />
                   ))}
                 </div>
@@ -1119,7 +1357,8 @@ const StartupsSection: React.FC<{
           style={{
             maxWidth: 1200,
             margin: "0 auto",
-            background: "linear-gradient(135deg, #0D2D72 0%, #1B4FBB 55%, #7DB83A 100%)",
+            background:
+              "linear-gradient(135deg, #0D2D72 0%, #1B4FBB 55%, #7DB83A 100%)",
             borderRadius: 28,
             padding: "3rem",
             display: "grid",
@@ -1205,11 +1444,11 @@ const StartupsSection: React.FC<{
               whiteSpace: "nowrap",
               flexShrink: 0,
             }}
-            onMouseEnter={e => {
+            onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-2px) scale(1.02)";
               e.currentTarget.style.boxShadow = "0 14px 36px rgba(0,0,0,0.22)";
             }}
-            onMouseLeave={e => {
+            onMouseLeave={(e) => {
               e.currentTarget.style.transform = "translateY(0) scale(1)";
               e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.18)";
             }}
@@ -1225,7 +1464,9 @@ const StartupsSection: React.FC<{
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <path d={isRTL ? "M19 12H5M11 5l-7 7 7 7" : "M5 12h14M13 5l7 7-7 7"} />
+              <path
+                d={isRTL ? "M19 12H5M11 5l-7 7 7 7" : "M5 12h14M13 5l7 7-7 7"}
+              />
             </svg>
           </button>
         </div>
@@ -1313,7 +1554,7 @@ const StartupShowcaseCard: React.FC<{
     .split(" ")
     .filter(Boolean)
     .slice(0, 2)
-    .map(w => w[0])
+    .map((w) => w[0])
     .join("")
     .toUpperCase();
 
@@ -1330,7 +1571,9 @@ const StartupShowcaseCard: React.FC<{
         flexDirection: "column",
         gap: 12,
         transform: hovered ? "translateY(-4px)" : "translateY(0)",
-        boxShadow: hovered ? `0 14px 36px ${color}1A` : "0 2px 8px rgba(0,0,0,0.04)",
+        boxShadow: hovered
+          ? `0 14px 36px ${color}1A`
+          : "0 2px 8px rgba(0,0,0,0.04)",
         transition: "all 0.3s cubic-bezier(0.34,1.4,0.5,1)",
       }}
     >
@@ -1374,7 +1617,14 @@ const StartupShowcaseCard: React.FC<{
           >
             {startup.name}
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              marginTop: 4,
+            }}
+          >
             <span
               style={{
                 display: "inline-block",

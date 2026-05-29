@@ -49,8 +49,8 @@ body.rtl { direction: rtl; font-family: 'Noto Kufi Arabic', 'DM Sans', sans-seri
 body.rtl h1, body.rtl h2, body.rtl h3, body.rtl button, body.rtl input, body.rtl select, body.rtl textarea {
   font-family: 'Syne', 'Noto Kufi Arabic', sans-serif;
 }
-/* Critical: any element marked "num" gets Syne for the digit glyphs even in AR */
-.num, body.rtl .num { font-family: 'Syne', 'DM Sans', sans-serif !important; font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+/* Critical: any element marked "num" gets DM Sans for clean digit glyphs even in AR */
+.num, body.rtl .num { font-family: 'DM Sans', sans-serif !important; font-weight: 700 !important; font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 
 button { font-family: inherit; }
 
@@ -90,7 +90,6 @@ section { animation: sectionFadeIn 0.7s ease both; }
 [data-team-marquee-track] {
   animation: teamMarquee var(--marquee-duration, 48s) linear infinite;
   will-change: transform;
-  transition: animation-duration 0.6s ease;
 }
 [data-team-marquee-track][data-rtl="true"] { animation-name: teamMarquee; }
 [data-team-marquee-track][data-paused="true"] { animation-play-state: paused; }

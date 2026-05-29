@@ -92,7 +92,7 @@ const ProgramsSection: React.FC<{
       visitStartup: "تصفح startup.dz",
       label: "البرامج",
       title: "من الفكرة إلى الشركة الناشئة المتخرجة",
-      sub: "ستة برامج منظمة توجهك في كل مرحلة من رحلة الحضانة — من الفكرة الأولى إلى شركة ناشئة ممولة ومسجلة.",
+      sub: "ستة برامج منظمة توجهك في كل مرحلة من رحلة الاحتضان — من الفكرة الأولى إلى شركة ناشئة ممولة ومسجلة.",
       highlights: "أبرز النقاط",
       howItWorks: "كيف يعمل",
       tracks: "8 مسارات تدريبية",
@@ -125,8 +125,8 @@ const ProgramsSection: React.FC<{
       "Rés. 1275",
     ],
     AR: [
-      "ما قبل الحضانة",
-      "الحضانة",
+      "ما قبل الاحتضان",
+      "الاحتضان",
       "ما بعد الإطلاق",
       "براءات",
       "العلامة",
@@ -142,7 +142,7 @@ const ProgramsSection: React.FC<{
       title: {
         EN: "Pre-Incubation",
         FR: "Pré-Incubation",
-        AR: "ما قبل الحضانة",
+        AR: "ما قبل الاحتضان",
       },
       tag: {
         EN: "Awareness & Discovery",
@@ -161,22 +161,22 @@ const ProgramsSection: React.FC<{
       },
       highlights: {
         EN: [
-          "27 scientific meetings and symposiums held (2019–June 2022)",
+          "27 scientific meetings and symposiums held ",
           "Open to all faculties and institutes",
           "No prior experience required",
           "Identifies pipeline candidates for the Incubation Program",
         ],
         FR: [
-          "27 réunions et colloques scientifiques tenus (2019–juin 2022)",
+          "27 réunions et colloques scientifiques tenus",
           "Ouvert à toutes les facultés et instituts",
           "Aucune expérience préalable requise",
           "Identifie les candidats pour le Programme d'Incubation",
         ],
         AR: [
-          "27 لقاءً وندوة علمية عُقدت (2019 – جوان 2022)",
+          "27 لقاءً وندوة علمية عُقدت   ",
           "مفتوح لجميع الكليات والمعاهد",
           "لا يتطلب خبرة مسبقة",
-          "يحدد المرشحين لبرنامج الحضانة",
+          "يحدد المرشحين لبرنامج الاحتضان",
         ],
       },
       steps: {
@@ -196,7 +196,7 @@ const ProgramsSection: React.FC<{
           "حضور لقاء توعوي",
           "تحضير فكرتك المبتكرة",
           "التواصل مع المرشدين والأقران",
-          "التقدم لبرنامج الحضانة",
+          "التقدم لبرنامج الاحتضان",
         ],
       },
       chips: [
@@ -212,7 +212,7 @@ const ProgramsSection: React.FC<{
       title: {
         EN: "Incubation Program",
         FR: "Programme d'Incubation",
-        AR: "برنامج الحضانة",
+        AR: "برنامج الاحتضان",
       },
       tag: {
         EN: "Core Training · 85+ Hrs/Year",
@@ -225,9 +225,9 @@ const ProgramsSection: React.FC<{
         AR: "أكثر من 85 ساعة تدريب سنوياً عبر 8 مسارات رسمية، مع إرشاد فردي من الأساتذة وخبراء الصناعة.",
       },
       stat: {
-        EN: "85+ hrs/year · 8 tracks · 1-on-1",
-        FR: "85+ h/an · 8 filières · 1:1",
-        AR: "+85 ساعة · 8 مسارات · 1:1",
+        EN: "85+ hrs/year · 8 tracks",
+        FR: "85+ h/an · 8 filières",
+        AR: "+85 ساعة · 8 مسارات ",
       },
       highlights: {
         EN: [
@@ -294,7 +294,7 @@ const ProgramsSection: React.FC<{
       title: {
         EN: "Post-Incubation",
         FR: "Post-Incubation",
-        AR: "ما بعد الحضانة",
+        AR: "ما بعد الاحتضان",
       },
       tag: {
         EN: "Post-Launch Support",
@@ -1207,9 +1207,9 @@ const StatsStrip: React.FC<{
   const { ref, shown } = useReveal<HTMLDivElement>({ threshold: 0.3 });
   const stats = [
     { target: 202, suffix: "+", label: t.stPatents },
-    { target: 17, suffix: "", label: t.stStartups },
-    { target: 52, suffix: "", label: t.stLabeled },
-    { target: 287, suffix: "", label: t.stRes1275 },
+    { target: 17, suffix: "+", label: t.stStartups },
+    { target: 52, suffix: "+", label: t.stLabeled },
+    { target: 287, suffix: "+", label: t.stRes1275 },
   ];
   return (
     <div
