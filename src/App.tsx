@@ -12,12 +12,34 @@ import ProgramsSection from "./sections/ProgramsSection";
 import StartupsSection from "./sections/StartupsSection";
 import ContactSection from "./sections/ContactSection";
 
+const META_DESC: Record<Lang, string> = {
+  EN: "Business Incubator M'Sila — Algeria's #1 university incubator at Université Mohamed Boudiaf. Apply for incubation, explore programs, and turn your ideas into startups.",
+  FR: "Incubateur d'Entreprises M'Sila — Le premier incubateur universitaire d'Algérie. Postulez, explorez les programmes et transformez vos idées en startups.",
+  AR: "حاضنة الأعمال مسيلة — أفضل حاضنة جامعية في الجزائر. قدّم طلبك، واستكشف البرامج، وحوّل أفكارك إلى شركات ناشئة.",
+};
+
+const applyLangToDocument = (l: Lang) => {
+  document.body.classList.toggle("rtl", l === "AR");
+  document.documentElement.setAttribute("dir", l === "AR" ? "rtl" : "ltr");
+  document.documentElement.setAttribute(
+    "lang",
+    l === "AR" ? "ar" : l === "FR" ? "fr" : "en",
+  );
+  const meta = document.getElementById("meta-desc");
+  if (meta) meta.setAttribute("content", META_DESC[l]);
+};
+
 const App: React.FC = () => {
   const [lang, setLang] = React.useState<Lang>("EN");
   const [activeSection, setActiveSection] = React.useState("top");
   const [show404, setShow404] = React.useState(
     () => window.location.hash === "#404"
   );
+
+  React.useEffect(() => {
+    applyLangToDocument(lang);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Smooth-scroll nav helper
   const onNav = React.useCallback((sectionId: string) => {
@@ -71,12 +93,7 @@ const App: React.FC = () => {
 
   const handleLang = (l: Lang) => {
     setLang(l);
-    document.body.classList.toggle("rtl", l === "AR");
-    document.documentElement.setAttribute("dir", l === "AR" ? "rtl" : "ltr");
-    document.documentElement.setAttribute(
-      "lang",
-      l === "AR" ? "ar" : l === "FR" ? "fr" : "en",
-    );
+    applyLangToDocument(l);
   };
 
   /* Listen for hash changes so #404 can be tested in the browser */

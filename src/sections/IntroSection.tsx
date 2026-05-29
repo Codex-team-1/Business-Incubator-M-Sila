@@ -426,29 +426,60 @@ const EcoCard: React.FC<{
         flex: 1,
         direction: isRTL ? "rtl" : "ltr",
       }}>
-        {/* Arabic name — always in native RTL direction regardless of page dir */}
-        <div style={{
-          fontFamily: "'Noto Kufi Arabic','DM Sans',sans-serif",
-          fontSize: "1.0rem",
-          fontWeight: 700,
-          color: "#121420",
-          lineHeight: 1.45,
-          marginBottom: 4,
-          direction: "rtl",
-          textAlign: isRTL ? "start" : "start",
-        }}>{ar}</div>
+        {isRTL ? (
+          <>
+            {/* Arabic name — bold title (AR mode) */}
+            <div style={{
+              fontFamily: "'Noto Kufi Arabic','DM Sans',sans-serif",
+              fontSize: "1.0rem",
+              fontWeight: 700,
+              color: "#121420",
+              lineHeight: 1.45,
+              marginBottom: 4,
+              direction: "rtl",
+              textAlign: "start",
+            }}>{ar}</div>
 
-        {/* English/French label */}
-        <div style={{
-          fontFamily: "'Syne',sans-serif",
-          fontSize: 12.5,
-          fontWeight: 700,
-          color: accentDark,
-          lineHeight: 1.35,
-          marginBottom: 14,
-          letterSpacing: "0.01em",
-          direction: isRTL ? "rtl" : "ltr",
-        }}>{en}</div>
+            {/* English/French label below */}
+            <div style={{
+              fontFamily: "'Syne',sans-serif",
+              fontSize: 12.5,
+              fontWeight: 700,
+              color: accentDark,
+              lineHeight: 1.35,
+              marginBottom: 14,
+              letterSpacing: "0.01em",
+              direction: "rtl",
+            }}>{en}</div>
+          </>
+        ) : (
+          <>
+            {/* English/French label — bold title (EN/FR mode) */}
+            <div style={{
+              fontFamily: "'Syne',sans-serif",
+              fontSize: "1.0rem",
+              fontWeight: 700,
+              color: "#121420",
+              lineHeight: 1.35,
+              marginBottom: 4,
+              letterSpacing: "-0.005em",
+              direction: "ltr",
+            }}>{en}</div>
+
+            {/* Arabic name below in smaller muted font */}
+            <div style={{
+              fontFamily: "'Noto Kufi Arabic','DM Sans',sans-serif",
+              fontSize: 12,
+              fontWeight: 500,
+              color: "#6B7089",
+              opacity: 0.75,
+              lineHeight: 1.4,
+              marginBottom: 14,
+              direction: "rtl",
+              textAlign: "start",
+            }}>{ar}</div>
+          </>
+        )}
 
         {/* Divider line in accent color */}
         <div style={{

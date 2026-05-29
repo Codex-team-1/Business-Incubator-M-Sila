@@ -404,9 +404,22 @@ const ProgramsSection: React.FC<{
     },
   ];
 
+  const [pulseTarget, setPulseTarget] = React.useState<number | null>(null);
+  const cardRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
+
   const selectProgram = (i: number) => {
     setActiveProgram((prev) => (prev === i ? null : i));
+    setPulseTarget(i);
+    requestAnimationFrame(() => {
+      cardRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
   };
+
+  React.useEffect(() => {
+    if (pulseTarget === null) return;
+    const id = window.setTimeout(() => setPulseTarget(null), 1200);
+    return () => window.clearTimeout(id);
+  }, [pulseTarget]);
 
   // Smooth-scroll the panel into view after it expands
   React.useEffect(() => {
@@ -548,6 +561,9 @@ const ProgramsSection: React.FC<{
             return (
               <button
                 key={p.id}
+                ref={(el) => { cardRefs.current[i] = el; }}
+                data-pulse={pulseTarget === i ? "true" : undefined}
+                data-pulse-accent={p.accent}
                 onClick={() => selectProgram(i)}
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
@@ -940,7 +956,7 @@ const StatsStrip: React.FC<{
   isRTL: boolean;
   t: { stPatents: string; stStartups: string; stLabeled: string; stRes1275: string };
 }> = ({ isRTL, t }) => {
-  const { ref, shown } = useReveal<HTMLDivElement>();
+  const { ref, shown } = useReveal<HTMLDivElement>({ threshold: 0.3 });
   const stats = [
     { target: 202, suffix: "+", label: t.stPatents },
     { target: 17, suffix: "", label: t.stStartups },

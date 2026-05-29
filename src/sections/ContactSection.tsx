@@ -4,75 +4,163 @@ import { SectionHeader } from '../components/SharedCards';
 import building from '../assets/incubator-building.jpg';
 
 /* ─── CONTACT SECTION ─── */
+type FormKey = 'name' | 'email' | 'subject' | 'faculty' | 'message';
+
 const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
   const isRTL = lang === 'AR';
-  const [form, setForm] = React.useState({ name: '', email: '', subject: '', faculty: '', message: '' });
+  const [form, setForm] = React.useState<Record<FormKey, string>>({ name: '', email: '', subject: '', faculty: '', message: '' });
   const [sent, setSent] = React.useState(false);
   const [focused, setFocused] = React.useState<string | null>(null);
+  const [errors, setErrors] = React.useState<Partial<Record<FormKey, string>>>({});
 
   const t = {
     EN: {
-      label: 'Get in Touch',
-      title: 'Apply or ask us anything.',
-      sub: 'All faculties welcome. We respond to every message within 3 business days.',
-      fName: 'Full Name', fEmail: 'Email Address', fFac: 'Faculty', fMsg: 'Tell us about your startup idea',
-      fSubject: 'Subject',
-      selectSubject: 'Select a subject',
-      subjects: ['Incubation Application','Resolution 1275 Query','Label Tagging Info','Patent / INAPI Support','Partnership','General Enquiry'],
-      submit: 'Send Message',
+      label: "Get in Touch",
+      title: "Apply or ask us anything.",
+      sub: "All faculties welcome. We respond to every message within 3 business days.",
+      fName: "Full Name",
+      fEmail: "Email Address",
+      fFac: "Faculty",
+      fMsg: "Tell us about your startup idea",
+      fSubject: "Subject",
+      selectSubject: "Select a subject",
+      subjects: [
+        "Incubation Application",
+        "Resolution 1275 Query",
+        "Label Tagging Info",
+        "Patent / INAPI Support",
+        "Partnership",
+        "General Enquiry",
+      ],
+      submit: "Send Message",
       thanks: "Message sent — we'll be in touch within 3 days.",
-      facs: ['Science','Technology','Humanities & Social Sciences','Economics, Business & Management','Mathematics & Informatics','Law & Political Science','Physical & Sporting Activities','Other'],
-      selectFac: 'Select faculty',
-      infoTitle: 'Visit or write to us',
-      addressTitle: 'Campus',
-      address: 'Université Mohamed Boudiaf\nRoute Ichbilia, M\'Sila 28000, Algeria',
-      emailTitle: 'Email',
-      hoursTitle: 'Hours',
-      hours: 'Sun – Thu · 8:30 – 17:00',
+      facs: [
+        "Science",
+        "Technology",
+        "Humanities & Social Sciences",
+        "Economics, Business & Management",
+        "Mathematics & Informatics",
+        "Law & Political Science",
+        "Physical & Sporting Activities",
+        "Other",
+      ],
+      selectFac: "Select faculty",
+      infoTitle: "Visit or write to us",
+      addressTitle: "Campus",
+      address: "Route de Bordj Bou Arreridj, North University Pole, 28000",
+      emailTitle: "Email",
+      phoneTitle: "Phone",
+      hoursTitle: "Hours",
+      hours: "Sun – Thu · 8:30 – 17:00",
+      errRequired: "This field is required.",
+      errEmail: "Please enter a valid email.",
     },
     FR: {
-      label: 'Nous contacter',
-      title: 'Candidatez ou posez-nous vos questions.',
-      sub: 'Toutes facultés bienvenues. Nous répondons sous 3 jours ouvrés.',
-      fName: 'Nom complet', fEmail: 'Adresse email', fFac: 'Faculté', fMsg: 'Parlez-nous de votre idée',
-      fSubject: 'Sujet',
-      selectSubject: 'Choisir un sujet',
-      subjects: ['Candidature à l\'incubation','Question Résolution 1275','Info Label Tagging','Support brevets / INAPI','Partenariat','Demande générale'],
-      submit: 'Envoyer le message',
-      thanks: 'Message envoyé — nous reviendrons vers vous sous 3 jours.',
-      facs: ['Sciences','Technologie','Sciences humaines & sociales','Économie, commerce & gestion','Mathématiques & informatique','Droit & sciences politiques','Activités physiques & sportives','Autre'],
-      selectFac: 'Choisir une faculté',
-      infoTitle: 'Venez nous voir, écrivez-nous',
-      addressTitle: 'Campus',
-      address: 'Université Mohamed Boudiaf\nRoute Ichbilia, M\'Sila 28000, Algérie',
-      emailTitle: 'Email',
-      hoursTitle: 'Horaires',
-      hours: 'Dim – Jeu · 8h30 – 17h00',
+      label: "Nous contacter",
+      title: "Candidatez ou posez-nous vos questions.",
+      sub: "Toutes facultés bienvenues. Nous répondons sous 3 jours ouvrés.",
+      fName: "Nom complet",
+      fEmail: "Adresse email",
+      fFac: "Faculté",
+      fMsg: "Parlez-nous de votre idée",
+      fSubject: "Sujet",
+      selectSubject: "Choisir un sujet",
+      subjects: [
+        "Candidature à l'incubation",
+        "Question Résolution 1275",
+        "Info Label Tagging",
+        "Support brevets / INAPI",
+        "Partenariat",
+        "Demande générale",
+      ],
+      submit: "Envoyer le message",
+      thanks: "Message envoyé — nous reviendrons vers vous sous 3 jours.",
+      facs: [
+        "Sciences",
+        "Technologie",
+        "Sciences humaines & sociales",
+        "Économie, commerce & gestion",
+        "Mathématiques & informatique",
+        "Droit & sciences politiques",
+        "Activités physiques & sportives",
+        "Autre",
+      ],
+      selectFac: "Choisir une faculté",
+      infoTitle: "Venez nous voir, écrivez-nous",
+      addressTitle: "Campus",
+      address: "Route de Bordj Bou Arreridj, North University Pole, 28000",
+      emailTitle: "Email",
+      phoneTitle: "Téléphone",
+      hoursTitle: "Horaires",
+      hours: "Dim – Jeu · 8h30 – 17h00",
+      errRequired: "Ce champ est obligatoire.",
+      errEmail: "Veuillez saisir un e-mail valide.",
     },
     AR: {
-      label: 'تواصل معنا',
-      title: 'تقدّم أو اسألنا عن أي شيء.',
-      sub: 'جميع الكليات مرحب بها. نرد على كل رسالة خلال 3 أيام عمل.',
-      fName: 'الاسم الكامل', fEmail: 'البريد الإلكتروني', fFac: 'الكلية', fMsg: 'أخبرنا عن فكرة شركتك الناشئة',
-      fSubject: 'الموضوع',
-      selectSubject: 'اختر الموضوع',
-      subjects: ['طلب حضانة','استفسار حول القرار 1275','معلومات عن الوسم (Label)','دعم براءات الاختراع / INAPI','شراكة','استفسار عام'],
-      submit: 'إرسال الرسالة',
-      thanks: 'تم إرسال الرسالة — سنتواصل معك خلال 3 أيام.',
-      facs: ['العلوم','التكنولوجيا','العلوم الإنسانية والاجتماعية','الاقتصاد والتجارة والتسيير','الرياضيات والإعلام الآلي','الحقوق والعلوم السياسية','النشاطات البدنية والرياضية','أخرى'],
-      selectFac: 'اختر الكلية',
-      infoTitle: 'زرنا أو راسلنا',
-      addressTitle: 'الحرم الجامعي',
-      address: 'جامعة محمد بوضياف\nطريق إشبيلية، المسيلة 28000، الجزائر',
-      emailTitle: 'البريد',
-      hoursTitle: 'ساعات العمل',
-      hours: 'الأحد – الخميس · 8:30 – 17:00',
+      label: "تواصل معنا",
+      title: "تقدّم أو اسألنا عن أي شيء.",
+      sub: "جميع الكليات مرحب بها. نرد على كل رسالة خلال 3 أيام عمل.",
+      fName: "الاسم الكامل",
+      fEmail: "البريد الإلكتروني",
+      fFac: "الكلية",
+      fMsg: "أخبرنا عن فكرة شركتك الناشئة",
+      fSubject: "الموضوع",
+      selectSubject: "اختر الموضوع",
+      subjects: [
+        "طلب حضانة",
+        "استفسار حول القرار 1275",
+        "معلومات عن الوسم (Label)",
+        "دعم براءات الاختراع / INAPI",
+        "شراكة",
+        "استفسار عام",
+      ],
+      submit: "إرسال الرسالة",
+      thanks: "تم إرسال الرسالة — سنتواصل معك خلال 3 أيام.",
+      facs: [
+        "العلوم",
+        "التكنولوجيا",
+        "العلوم الإنسانية والاجتماعية",
+        "الاقتصاد والتجارة والتسيير",
+        "الرياضيات والإعلام الآلي",
+        "الحقوق والعلوم السياسية",
+        "النشاطات البدنية والرياضية",
+        "أخرى",
+      ],
+      selectFac: "اختر الكلية",
+      infoTitle: "زرنا أو راسلنا",
+      addressTitle: "الحرم الجامعي",
+      address: "طريق برج بوعريريج القطب الجامعي الشمالي , 28000",
+      emailTitle: "البريد",
+      phoneTitle: "الهاتف",
+      hoursTitle: "ساعات العمل",
+      hours: "الأحد – الخميس · 8:30 – 17:00",
+      errRequired: "هذا الحقل مطلوب.",
+      errEmail: "يرجى إدخال بريد إلكتروني صحيح.",
     },
   }[lang];
 
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const validate = (): Partial<Record<FormKey, string>> => {
+    const e: Partial<Record<FormKey, string>> = {};
+    (['name','subject','faculty','message'] as FormKey[]).forEach(k => {
+      if (!form[k].trim()) e[k] = t.errRequired;
+    });
+    if (!form.email.trim()) e.email = t.errRequired;
+    else if (!emailRe.test(form.email.trim())) e.email = t.errEmail;
+    return e;
+  };
+
+  const updateField = (key: FormKey, value: string) => {
+    setForm(f => ({ ...f, [key]: value }));
+    if (errors[key]) setErrors(({ [key]: _drop, ...rest }) => rest);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email) return;
+    const errs = validate();
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
     setSent(true);
   };
 
@@ -84,11 +172,24 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
     outline: 'none', transition: 'all 0.2s ease',
   };
 
-  const inputStyle = (key: string): React.CSSProperties => ({
-    ...inputBase,
-    borderColor: focused === key ? '#1B4FBB' : '#E4E6EF',
-    boxShadow: focused === key ? '0 0 0 4px rgba(27,79,187,0.10)' : 'none',
-  });
+  const inputStyle = (key: string): React.CSSProperties => {
+    const hasError = !!errors[key as FormKey];
+    return {
+      ...inputBase,
+      borderColor: hasError ? '#DC2626' : focused === key ? '#1B4FBB' : '#E4E6EF',
+      boxShadow: hasError
+        ? '0 0 0 4px rgba(220,38,38,0.10)'
+        : focused === key ? '0 0 0 4px rgba(27,79,187,0.10)' : 'none',
+    };
+  };
+
+  const errorMsg = (key: FormKey) =>
+    errors[key] ? (
+      <div role="alert" style={{
+        fontSize: 12, color: '#DC2626', marginTop: 6,
+        fontFamily: "'DM Sans',sans-serif",
+      }}>{errors[key]}</div>
+    ) : null;
 
   return (
     <section id="contact" data-screen-label="Contact" style={{
@@ -129,7 +230,7 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
                   fontFamily: "'Syne',sans-serif", fontSize: '1.3rem',
                   fontWeight: 700, color: '#121420', marginBottom: 8,
                 }}>{t.thanks}</div>
-                <button onClick={() => { setSent(false); setForm({ name: '', email: '', subject: '', faculty: '', message: '' }); }} style={{
+                <button onClick={() => { setSent(false); setForm({ name: '', email: '', subject: '', faculty: '', message: '' }); setErrors({}); }} style={{
                   marginTop: 16, padding: '8px 18px',
                   background: 'transparent', border: '1px solid #E4E6EF',
                   borderRadius: 9999, fontSize: 13, color: '#6B7089',
@@ -137,7 +238,7 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
                 }}>{ { EN: 'Send another', FR: 'Envoyer un autre', AR: 'إرسال أخرى' }[lang] }</button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} noValidate>
                 <div data-contact-name-email style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
                   {([
                     { key: 'name' as const, label: t.fName, type: 'text', ph: { EN: 'Ahmed Benchabane', FR: 'Ahmed Benchabane', AR: 'أحمد بن شعبان' }[lang] },
@@ -147,10 +248,13 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
                       <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#383D58', marginBottom: 7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{f.label}</label>
                       <input
                         type={f.type} value={form[f.key]} placeholder={f.ph}
-                        onChange={e => setForm({ ...form, [f.key]: e.target.value })}
+                        required
+                        aria-invalid={!!errors[f.key]}
+                        onChange={e => updateField(f.key, e.target.value)}
                         onFocus={() => setFocused(f.key)} onBlur={() => setFocused(null)}
                         style={inputStyle(f.key)}
                       />
+                      {errorMsg(f.key)}
                     </div>
                   ))}
                 </div>
@@ -159,7 +263,9 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
                     <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#383D58', marginBottom: 7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.fSubject}</label>
                     <select
                       value={form.subject}
-                      onChange={e => setForm({ ...form, subject: e.target.value })}
+                      required
+                      aria-invalid={!!errors.subject}
+                      onChange={e => updateField('subject', e.target.value)}
                       onFocus={() => setFocused('subject')} onBlur={() => setFocused(null)}
                       style={{
                         ...inputStyle('subject'),
@@ -173,12 +279,15 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
                       <option value="">{t.selectSubject}</option>
                       {t.subjects.map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
+                    {errorMsg('subject')}
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#383D58', marginBottom: 7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.fFac}</label>
                     <select
                       value={form.faculty}
-                      onChange={e => setForm({ ...form, faculty: e.target.value })}
+                      required
+                      aria-invalid={!!errors.faculty}
+                      onChange={e => updateField('faculty', e.target.value)}
                       onFocus={() => setFocused('faculty')} onBlur={() => setFocused(null)}
                       style={{
                         ...inputStyle('faculty'),
@@ -192,16 +301,20 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
                       <option value="">{t.selectFac}</option>
                       {t.facs.map(f => <option key={f} value={f}>{f}</option>)}
                     </select>
+                    {errorMsg('faculty')}
                   </div>
                 </div>
                 <div style={{ marginBottom: 22 }}>
                   <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#383D58', marginBottom: 7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.fMsg}</label>
                   <textarea
                     value={form.message}
-                    onChange={e => setForm({ ...form, message: e.target.value })}
+                    required
+                    aria-invalid={!!errors.message}
+                    onChange={e => updateField('message', e.target.value)}
                     onFocus={() => setFocused('message')} onBlur={() => setFocused(null)}
                     style={{ ...inputStyle('message'), height: 130, resize: 'none', lineHeight: 1.5 }}
                   />
+                  {errorMsg('message')}
                 </div>
                 <button type="submit" style={{
                   width: '100%', height: 52, background: '#1B4FBB', color: '#fff',
@@ -254,49 +367,118 @@ const ContactSection: React.FC<{ lang: Lang }> = ({ lang }) => {
             }}>{ { EN: "We're on campus and happy to meet in person.", FR: "Nous sommes sur le campus, ravis de vous rencontrer.", AR: "نحن في الحرم الجامعي ويسعدنا لقاؤك." }[lang] }</div>
 
             <div style={{ position: 'relative', flex: 1 }}>
-              {[
-                {
-                  title: t.addressTitle,
-                  value: t.address,
-                  icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4E390" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>,
-                },
-                {
-                  title: t.emailTitle,
-                  value: 'incubateur@univ-msila.dz',
-                  icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4E390" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
-                },
-                {
-                  title: t.hoursTitle,
-                  value: t.hours,
-                  icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4E390" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,
-                },
-              ].map((item, i) => (
-                <div key={i} style={{
-                  display: 'flex', gap: 14, alignItems: 'flex-start',
-                  padding: '18px 0',
-                  borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.12)' : 'none',
-                }}>
-                  <div style={{
-                    width: 40, height: 40, borderRadius: 12,
-                    background: 'rgba(125,184,58,0.18)',
-                    border: '1px solid rgba(125,184,58,0.25)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    flexShrink: 0,
+              {(() => {
+                const items = [
+                  {
+                    title: t.addressTitle,
+                    value: t.address,
+                    ltr: false,
+                    icon: (
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#C4E390"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    title: t.emailTitle,
+                    value: "incubateur@univ-msila.dz",
+                    ltr: true,
+                    icon: (
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#C4E390"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    title: t.phoneTitle,
+                    value: "035 13 38 49",
+                    ltr: true,
+                    icon: (
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#C4E390"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    title: t.hoursTitle,
+                    value: t.hours,
+                    ltr: false,
+                    icon: (
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#C4E390"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l4 2" />
+                      </svg>
+                    ),
+                  },
+                ];
+                return items.map((item, i) => (
+                  <div key={i} style={{
+                    display: 'flex', gap: 14, alignItems: 'flex-start',
+                    padding: '18px 0',
+                    borderBottom: i < items.length - 1 ? '1px solid rgba(255,255,255,0.12)' : 'none',
                   }}>
-                    {item.icon}
-                  </div>
-                  <div style={{ paddingTop: 5 }}>
                     <div style={{
-                      fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.55)',
-                      textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4,
-                    }}>{item.title}</div>
-                    <div style={{
-                      fontSize: 14, color: '#fff', lineHeight: 1.55,
-                      whiteSpace: 'pre-line',
-                    }}>{item.value}</div>
+                      width: 40, height: 40, borderRadius: 12,
+                      background: 'rgba(125,184,58,0.18)',
+                      border: '1px solid rgba(125,184,58,0.25)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      flexShrink: 0,
+                    }}>
+                      {item.icon}
+                    </div>
+                    <div style={{ paddingTop: 5 }}>
+                      <div style={{
+                        fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.55)',
+                        textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4,
+                      }}>{item.title}</div>
+                      <div style={{
+                        fontSize: 14, color: '#fff', lineHeight: 1.55,
+                        whiteSpace: 'pre-line',
+                        direction: item.ltr ? 'ltr' : undefined,
+                        unicodeBidi: item.ltr ? 'plaintext' : undefined,
+                      }}>{item.value}</div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ));
+              })()}
             </div>
           </div>
         </div>

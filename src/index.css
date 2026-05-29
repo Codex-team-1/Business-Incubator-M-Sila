@@ -50,10 +50,35 @@ section { animation: sectionFadeIn 0.7s ease both; }
 [data-team-marquee-track] {
   animation: teamMarquee var(--marquee-duration, 48s) linear infinite;
   will-change: transform;
+  /* Smooth deceleration/acceleration on hover-pause.
+     animation-play-state isn't transitionable, but slowing duration first
+     gives a "coasting to a stop" feel via the transition below. */
+  transition: animation-duration 0.6s ease;
 }
 [data-team-marquee-track][data-rtl="true"] {
   animation-name: teamMarqueeRTL;
 }
+/* Pause the marquee only when hovering directly over a card — not the faded edge zones */
+[data-team-marquee-track][data-paused="true"] {
+  animation-play-state: paused;
+}
+/* Programs card pulse — fired briefly after a step is selected */
+@keyframes cardPulseBlue {
+  0% { box-shadow: 0 0 0 0 rgba(27,79,187,0.45); }
+  100% { box-shadow: 0 0 0 18px rgba(27,79,187,0); }
+}
+@keyframes cardPulseGreen {
+  0% { box-shadow: 0 0 0 0 rgba(125,184,58,0.45); }
+  100% { box-shadow: 0 0 0 18px rgba(125,184,58,0); }
+}
+@keyframes cardPulseGold {
+  0% { box-shadow: 0 0 0 0 rgba(184,134,11,0.45); }
+  100% { box-shadow: 0 0 0 18px rgba(184,134,11,0); }
+}
+[data-pulse="true"][data-pulse-accent="blue"]  { animation: cardPulseBlue 1.2s ease-out; }
+[data-pulse="true"][data-pulse-accent="green"] { animation: cardPulseGreen 1.2s ease-out; }
+[data-pulse="true"][data-pulse-accent="gold"]  { animation: cardPulseGold 1.2s ease-out; }
+
 @keyframes milestonePulse {
   0%, 100% { transform: scale(1); opacity: 0.4; }
   50% { transform: scale(1.25); opacity: 0; }

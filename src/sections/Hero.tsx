@@ -1,13 +1,9 @@
 import React from 'react';
 import type { Lang } from '../types';
-import campus from '../assets/uni-msila.jpg';
+import campus from "../assets/incubator-building1.png";
 import { useCountUp } from '../hooks/useReveal';
 
-/* ─────────────────────────────────────────────────────────────────
-   HERO — full-bleed background photo
-   · Diagonal scrim: dark-left for text, photo shows on the right
-   · Left column: eyebrow · headline · subtitle · CTAs · stats row
-───────────────────────────────────────────────────────────────── */
+
 const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, lang }) => {
   const isRTL = lang === 'AR';
   const [mounted, setMounted] = React.useState(false);
@@ -22,7 +18,7 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
       eyebrow: "Algeria's #1 University Incubator",
       line1:   'Where ideas',
       line2:   'become startups.',
-      sub:     "Université Mohamed Boudiaf — 85+ hours of structured annual training, expert mentorship, and a launchpad for every founder.",
+      sub:     "Université Mohamed Boudiaf — 85+ hours of structured annual training, expert mentorship, and a launchpad for every student, researcher, and innovator.",
       cta1:    'Apply for Incubation',
       cta2:    'Explore Programs',
       imgAlt:  "Université Mohamed Boudiaf M'Sila campus",
@@ -39,7 +35,7 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
       eyebrow: 'Incubateur Universitaire #1 en Algérie',
       line1:   'Des idées',
       line2:   'aux startups.',
-      sub:     "Université Mohamed Boudiaf — 85+ heures de formation structurée, mentorat expert et rampe de lancement pour chaque fondateur.",
+      sub:     "Université Mohamed Boudiaf — 85+ heures de formation structurée, mentorat expert et rampe de lancement pour chaque étudiant, chercheur et innovateur.",
       cta1:    'Candidater',
       cta2:    'Découvrir les programmes',
       imgAlt:  "Campus Université Mohamed Boudiaf M'Sila",
@@ -56,7 +52,7 @@ const Hero: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({ onNav, la
       eyebrow: 'الحاضنة الجامعية #1 في الجزائر',
       line1:   'حيث تتحوّل الأفكار',
       line2:   'إلى شركات ناشئة.',
-      sub:     'جامعة محمد بوضياف — +85 ساعة تكوين سنوي منظم، إرشاد متخصص، ومنصة انطلاق لكل مؤسس.',
+      sub:     'جامعة محمد بوضياف — +85 ساعة تكوين سنوي منظم، إرشاد متخصص، ومنصة انطلاق لكل طالب وباحث ومبتكر.',
       cta1:    'تقدّم للحضانة',
       cta2:    'اكتشف البرامج',
       imgAlt:  'حرم جامعة محمد بوضياف مسيلة',

@@ -1093,6 +1093,140 @@ export const TeamCard: React.FC<{
   );
 };
 
+/* ─── SOCIAL ICONS ROW (used in footer) ─── */
+const SOCIAL_LINKS: {
+  name: "Facebook" | "Instagram" | "LinkedIn" | "YouTube";
+  href: string;
+  icon: React.ReactNode;
+}[] = [
+  {
+    name: "Facebook",
+    href: "https://web.facebook.com/profile.php?id=100057652890846&",
+    icon: (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M22 12.07C22 6.51 17.52 2 12 2S2 6.51 2 12.07c0 5.02 3.66 9.18 8.44 9.93v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.75 8.44-4.91 8.44-9.93z" />
+      </svg>
+    ),
+  },
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/incubateur_msila",
+    icon: (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+      </svg>
+    ),
+  },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/business-incubator-2a704b402",
+    icon: (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+      </svg>
+    ),
+  },
+  {
+    name: "YouTube",
+    href: "https://youtube.com/@projectincubateur",
+    icon: (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M23.5 6.2a3 3 0 0 0-2.1-2.12C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.58A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.12C4.5 20.5 12 20.5 12 20.5s7.5 0 9.4-.58a3 3 0 0 0 2.1-2.12A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.57V8.43L15.82 12 9.6 15.57z" />
+      </svg>
+    ),
+  },
+];
+
+const SOCIAL_LABEL: Record<Lang, (name: string) => string> = {
+  EN: (n) => `Follow us on ${n}`,
+  FR: (n) => `Suivez-nous sur ${n}`,
+  AR: (n) => `تابعونا على ${n}`,
+};
+
+const SocialIcon: React.FC<{
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}> = ({ href, label, children }) => {
+  const [hov, setHov] = React.useState(false);
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      title={label}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      onFocus={() => setHov(true)}
+      onBlur={() => setHov(false)}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: 36,
+        height: 36,
+        borderRadius: "50%",
+        background: hov ? "#7DB83A" : "rgba(255,255,255,0.06)",
+        color: "#fff",
+        textDecoration: "none",
+        border: "1px solid rgba(255,255,255,0.08)",
+        transition: "background 0.2s ease, transform 0.2s ease, border-color 0.2s ease",
+        transform: hov ? "translateY(-2px)" : "translateY(0)",
+      }}
+    >
+      {children}
+    </a>
+  );
+};
+
+const SocialRow: React.FC<{ lang: Lang }> = ({ lang }) => (
+  <div
+    style={{
+      display: "flex",
+      gap: 10,
+      marginTop: 18,
+      alignItems: "center",
+    }}
+  >
+    {SOCIAL_LINKS.map((s) => (
+      <SocialIcon key={s.name} href={s.href} label={SOCIAL_LABEL[lang](s.name)}>
+        {s.icon}
+      </SocialIcon>
+    ))}
+  </div>
+);
+
 /* ─── FOOTER ─── */
 export const Footer: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({
   onNav,
@@ -1127,9 +1261,9 @@ export const Footer: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({
           key: "programs",
         },
         {
-          EN: "Training Bootcamp",
-          FR: "Bootcamp",
-          AR: "مخيم التدريب",
+          EN: "Training Programs",
+          FR: "Programmes de Formation",
+          AR: "برامج التكوين",
           key: "programs",
         },
       ],
@@ -1153,7 +1287,7 @@ export const Footer: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({
           EN: "Co-working Space",
           FR: "Espace co-working",
           AR: "فضاء العمل",
-          key: "services",
+          key: "startups",
         },
       ],
     },
@@ -1270,6 +1404,7 @@ export const Footer: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({
                 }[lang]
               }
             </p>
+            <SocialRow lang={lang} />
           </div>
 
           {cols.map((col, ci) => (

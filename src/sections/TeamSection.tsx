@@ -18,18 +18,22 @@ interface Member {
 }
 
 /* ─── SLIDE CARD ─── */
-const SlideCard: React.FC<{ member: Member; lang: Lang }> = ({
-  member,
-  lang,
-}) => {
+const SlideCard: React.FC<{
+  member: Member;
+  lang: Lang;
+  dup?: boolean;
+  onEnter?: () => void;
+  onLeave?: () => void;
+}> = ({ member, lang, dup, onEnter, onLeave }) => {
   const [hovered, setHovered] = React.useState(false);
   const role = member.role[lang];
   const isBlue = member.accent === "blue";
   const accentColor = isBlue ? "#1B4FBB" : "#7DB83A";
   const accentDark = isBlue ? "#0D2D72" : "#5A8A22";
+  // Brand-spanning gradient so placeholders feel intentional (navy → green)
   const accentGradient = isBlue
-    ? "linear-gradient(150deg, #0D2D72 0%, #2762D8 100%)"
-    : "linear-gradient(150deg, #5A8A22 0%, #7DB83A 100%)";
+    ? "linear-gradient(135deg, #0D2D72 0%, #2762D8 60%, #5A8A22 100%)"
+    : "linear-gradient(135deg, #0D2D72 0%, #5A8A22 55%, #7DB83A 100%)";
 
   const initials = member.name
     .split(" ")
@@ -39,10 +43,17 @@ const SlideCard: React.FC<{ member: Member; lang: Lang }> = ({
     .join("")
     .toUpperCase();
 
+  const placeholderLabel = {
+    EN: `${member.name} — ${role}, photo not yet available`,
+    FR: `${member.name} — ${role}, photo non disponible`,
+    AR: `${member.name} — ${role}، الصورة غير متوفرة بعد`,
+  }[lang];
+
   return (
     <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      aria-hidden={dup ? "true" : undefined}
+      onMouseEnter={() => { setHovered(true); onEnter?.(); }}
+      onMouseLeave={() => { setHovered(false); onLeave?.(); }}
       style={{
         flex: "0 0 auto",
         width: 272,
@@ -51,21 +62,26 @@ const SlideCard: React.FC<{ member: Member; lang: Lang }> = ({
         background: "#fff",
         border: `1px solid ${hovered ? accentColor + "44" : "#E8EAF2"}`,
         boxShadow: hovered
-          ? `0 22px 56px ${accentColor}26, 0 6px 18px rgba(0,0,0,0.06)`
+          ? `0 24px 60px ${accentColor}30, 0 8px 20px rgba(0,0,0,0.07)`
           : "0 2px 14px rgba(0,0,0,0.05)",
-        transform: hovered ? "translateY(-6px)" : "translateY(0)",
+        transform: hovered ? "translateY(-8px) scale(1.015)" : "translateY(0) scale(1)",
         transition:
-          "transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.25s ease",
+          "transform 0.45s cubic-bezier(0.34,1.4,0.5,1), box-shadow 0.4s cubic-bezier(0.22,1,0.36,1), border-color 0.25s ease",
+        cursor: "default",
       }}
     >
       {/* Photo */}
       <div
+        role={!member.photo ? "img" : undefined}
+        aria-label={!member.photo ? placeholderLabel : undefined}
+        title={!member.photo ? placeholderLabel : undefined}
         style={{
           position: "relative",
           width: "100%",
           aspectRatio: "4 / 5",
           background: member.photo ? "#F7F8FC" : accentGradient,
           overflow: "hidden",
+          boxShadow: member.photo ? undefined : "inset 0 6px 24px rgba(0,0,0,0.22)",
         }}
       >
         {member.photo ? (
@@ -81,12 +97,23 @@ const SlideCard: React.FC<{ member: Member; lang: Lang }> = ({
               height: "100%",
               objectFit: "cover",
               objectPosition: "center 15%",
-              transform: hovered ? "scale(1.06)" : "scale(1)",
-              transition: "transform 0.7s cubic-bezier(0.22,1,0.36,1)",
+              transform: hovered ? "scale(1.07)" : "scale(1)",
+              transition: "transform 0.65s cubic-bezier(0.22,1,0.36,1)",
             }}
           />
         ) : (
           <>
+            {/* Soft top highlight for dimensionality */}
+            <div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,255,255,0.22) 0%, transparent 60%)",
+                pointerEvents: "none",
+              }}
+            />
             <div
               style={{
                 position: "absolute",
@@ -97,10 +124,11 @@ const SlideCard: React.FC<{ member: Member; lang: Lang }> = ({
                 fontFamily: "'Syne', sans-serif",
                 fontSize: 64,
                 fontWeight: 800,
-                color: "rgba(255,255,255,0.95)",
+                color: "#fff",
                 letterSpacing: "0.04em",
-                transform: hovered ? "scale(1.05)" : "scale(1)",
-                transition: "transform 0.5s cubic-bezier(0.22,1,0.36,1)",
+                textShadow: "0 2px 6px rgba(0,0,0,0.18)",
+                transform: hovered ? "scale(1.06)" : "scale(1)",
+                transition: "transform 0.65s cubic-bezier(0.22,1,0.36,1)",
               }}
             >
               {initials}
@@ -114,7 +142,7 @@ const SlideCard: React.FC<{ member: Member; lang: Lang }> = ({
                 width: "60%",
                 aspectRatio: "1",
                 borderRadius: "50%",
-                background: "rgba(255,255,255,0.08)",
+                background: "rgba(255,255,255,0.10)",
               }}
             />
           </>
@@ -168,7 +196,7 @@ const SlideCard: React.FC<{ member: Member; lang: Lang }> = ({
             width: hovered ? "100%" : "38%",
             height: 3,
             background: `linear-gradient(90deg, ${accentColor}, ${accentDark})`,
-            transition: "width 0.5s cubic-bezier(0.22,1,0.36,1)",
+            transition: "width 0.55s cubic-bezier(0.22,1,0.36,1)",
           }}
         />
       </div>
@@ -376,8 +404,26 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
     },
   ];
 
-  // Duplicate the set once so translateX(-50%) loops seamlessly.
-  const loop = [...members, ...members];
+  // The marquee renders members twice (translateX(-50%) loop) — the second
+  // pass is decorative; `dup` flag adds aria-hidden so AT and DOM scans only
+  // see each member once.
+
+  // Track ref + hover counter so multiple cards entering/leaving quickly
+  // never race — we only pause when at least one card is hovered.
+  const trackRef = React.useRef<HTMLDivElement>(null);
+  const hoverCount = React.useRef(0);
+
+  const onCardEnter = React.useCallback(() => {
+    hoverCount.current += 1;
+    trackRef.current?.setAttribute("data-paused", "true");
+  }, []);
+
+  const onCardLeave = React.useCallback(() => {
+    hoverCount.current = Math.max(0, hoverCount.current - 1);
+    if (hoverCount.current === 0) {
+      trackRef.current?.setAttribute("data-paused", "false");
+    }
+  }, []);
 
   return (
     <section
@@ -440,7 +486,11 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
                 }}
               >
                 <div
+                  role={!p.photo ? "img" : undefined}
+                  aria-label={!p.photo ? `${p.name} — ${p.role[lang]}, ${({ EN: "photo not yet available", FR: "photo non disponible", AR: "الصورة غير متوفرة بعد" }[lang])}` : undefined}
+                  title={!p.photo ? `${p.name} — ${({ EN: "photo not yet available", FR: "photo non disponible", AR: "الصورة غير متوفرة بعد" }[lang])}` : undefined}
                   style={{
+                    position: "relative",
                     width: 72,
                     height: 72,
                     borderRadius: 16,
@@ -448,7 +498,8 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
                     overflow: "hidden",
                     background: p.photo
                       ? "#F7F8FC"
-                      : `linear-gradient(135deg, ${accentDark}, ${accent})`,
+                      : `linear-gradient(135deg, #0D2D72 0%, ${accentDark} 55%, ${accent} 100%)`,
+                    boxShadow: p.photo ? undefined : "inset 0 4px 14px rgba(0,0,0,0.22)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -466,16 +517,30 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
                       }}
                     />
                   ) : (
-                    <span
-                      style={{
-                        fontFamily: "'Syne',sans-serif",
-                        fontSize: 26,
-                        fontWeight: 800,
-                        color: "#fff",
-                      }}
-                    >
-                      {initials}
-                    </span>
+                    <>
+                      <div
+                        aria-hidden="true"
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          background:
+                            "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,255,255,0.24) 0%, transparent 60%)",
+                          pointerEvents: "none",
+                        }}
+                      />
+                      <span
+                        style={{
+                          position: "relative",
+                          fontFamily: "'Syne',sans-serif",
+                          fontSize: 26,
+                          fontWeight: 800,
+                          color: "#fff",
+                          textShadow: "0 2px 5px rgba(0,0,0,0.18)",
+                        }}
+                      >
+                        {initials}
+                      </span>
+                    </>
                   )}
                 </div>
                 <div style={{ minWidth: 0 }}>
@@ -537,8 +602,10 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
         }}
       >
         <div
+          ref={trackRef}
           data-team-marquee-track
           data-rtl={isRTL ? "true" : "false"}
+          data-paused="false"
           style={{
             display: "flex",
             gap: 24,
@@ -549,8 +616,11 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
             ["--marquee-duration" as string]: `${members.length * 6}s`,
           }}
         >
-          {loop.map((m, i) => (
-            <SlideCard key={i} member={m} lang={lang} />
+          {members.map((m, i) => (
+            <SlideCard key={`a${i}`} member={m} lang={lang} onEnter={onCardEnter} onLeave={onCardLeave} />
+          ))}
+          {members.map((m, i) => (
+            <SlideCard key={`b${i}`} member={m} lang={lang} dup onEnter={onCardEnter} onLeave={onCardLeave} />
           ))}
         </div>
       </div>
