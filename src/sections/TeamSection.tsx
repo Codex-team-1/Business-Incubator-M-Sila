@@ -2,7 +2,6 @@ import React from "react";
 import type { Lang } from "../types";
 import { SectionHeader } from "../components/SharedCards";
 import { useReveal } from "../hooks/useReveal";
-import brickYousef from "../assets/team/brick-youcef.jpg";
 import soumiaFodili from "../assets/team/soumia-fodili.jpg";
 import djenaouiAbdellatif from "../assets/team/Djenaoui-abdellatif.jpg";
 import gandouzAmine from "../assets/team/gandouz-amine.png";
