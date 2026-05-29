@@ -67,7 +67,7 @@ const IntroSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       directorNoteLabel: "Director's Note",
       quote:
         "Our mission is to turn the ideas of M'Sila's students into the businesses that drive Algeria's future.",
-      director: "Prof. BENTOUMI Sarra",
+      director: "Prof. BENTOUMI Sarah",
       directorRole: "Director, Incubator — Université de M'Sila",
       journeyLabel: "Our Journey",
       journeyTitle: "8 Years of Building\nAlgeria's #1 Incubator",
@@ -102,7 +102,7 @@ const IntroSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       directorNoteLabel: "Note de la Directrice",
       quote:
         "Notre mission est de transformer les idées des étudiants de M'Sila en entreprises qui façonnent l'avenir de l'Algérie.",
-      director: "Prof. BENTOUMI Sarra",
+      director: "Prof. BENTOUMI Sarah",
       directorRole: "Directrice, Incubateur — Université de M'Sila",
       journeyLabel: "Notre Parcours",
       journeyTitle: "8 Ans à Construire\nl'Incubateur N°1 d'Algérie",
@@ -136,7 +136,7 @@ const IntroSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       ],
       directorNoteLabel: "كلمة المدير",
       quote: "مهمتنا تحويل أفكار طلاب مسيلة إلى أعمال تقود مستقبل الجزائر.",
-      director: "الأستاذة بن تومي سارة",
+      director: "الأستاذة بن التومي سارة",
       directorRole: "مديرة الحاضنة — جامعة المسيلة",
       journeyLabel: "مسيرتنا",
       journeyTitle: "8 سنوات لبناء\nأفضل حاضنة في الجزائر",

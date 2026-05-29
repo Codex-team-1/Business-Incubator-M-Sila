@@ -22,10 +22,11 @@ const ScrollToTop: React.FC<{ lang: Lang }> = ({ lang }) => {
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      data-scroll-top
       style={{
         position: 'fixed',
-        bottom: 28,
-        insetInlineEnd: 28,
+        bottom: 'max(20px, env(safe-area-inset-bottom, 0px))',
+        insetInlineEnd: 20,
         zIndex: 150,
         width: 52, height: 52, borderRadius: '50%',
         border: 'none', cursor: 'pointer', padding: 0,

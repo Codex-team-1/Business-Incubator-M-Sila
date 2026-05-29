@@ -13,18 +13,13 @@ const ICONS = {
     "M5 13l4 4M4.5 16.5l-1.5 4 4-1.5M14.5 4.5c2.5-1 5 0 5 0s1 2.5 0 5C17 13 11 17 9 17l-2-2c0-2 4-8 7.5-10.5zM15 9a1 1 0 110-2 1 1 0 010 2z",
   certificate:
     "M9 12l2 2 4-4M12 3l2.4 1.7 2.9-.1 1 2.8 2.4 1.7-.9 2.8.9 2.8-2.4 1.7-1 2.8-2.9-.1L12 21l-2.4-1.7-2.9.1-1-2.8L3.3 15l.9-2.8L3.3 9.4l2.4-1.7 1-2.8 2.9.1L12 3z",
-  tag:
-    "M7 7h.01M3 11V5a2 2 0 012-2h6l9.5 9.5a2 2 0 010 2.8l-5.2 5.2a2 2 0 01-2.8 0L3 11z",
-  award:
-    "M12 15a6 6 0 100-12 6 6 0 000 12zM8.2 13.8L7 22l5-3 5 3-1.2-8.2",
+  tag: "M7 7h.01M3 11V5a2 2 0 012-2h6l9.5 9.5a2 2 0 010 2.8l-5.2 5.2a2 2 0 01-2.8 0L3 11z",
+  award: "M12 15a6 6 0 100-12 6 6 0 000 12zM8.2 13.8L7 22l5-3 5 3-1.2-8.2",
 };
 
 type Accent = "blue" | "green" | "gold";
 
-const ACCENT: Record<
-  Accent,
-  { main: string; light: string; dark: string }
-> = {
+const ACCENT: Record<Accent, { main: string; light: string; dark: string }> = {
   blue: { main: "#1B4FBB", light: "#E8EFFC", dark: "#0D2D72" },
   green: { main: "#7DB83A", light: "#EAF5DA", dark: "#5A8A22" },
   gold: { main: "#B8860B", light: "#FFF4E0", dark: "#8A6608" },
@@ -67,7 +62,8 @@ const ProgramsSection: React.FC<{
       tracks: "8 Training Tracks",
       program: "Program",
       ctaTitle: "Have an idea? Join 124+ incubated projects",
-      ctaSub: "Students, researchers, and graduates from all faculties are welcome to apply.",
+      ctaSub:
+        "Students, researchers, and graduates from all faculties are welcome to apply.",
       ctaBtn: "Apply Now",
       stPatents: "Patents Filed",
       stStartups: "Startups Graduated",
@@ -84,7 +80,8 @@ const ProgramsSection: React.FC<{
       tracks: "8 Filières de Formation",
       program: "Programme",
       ctaTitle: "Vous avez une idée ? Rejoignez 124+ projets incubés",
-      ctaSub: "Étudiants, chercheurs et diplômés de toutes les facultés sont les bienvenus.",
+      ctaSub:
+        "Étudiants, chercheurs et diplômés de toutes les facultés sont les bienvenus.",
       ctaBtn: "Postuler",
       stPatents: "Brevets Déposés",
       stStartups: "Startups Diplômées",
@@ -111,9 +108,30 @@ const ProgramsSection: React.FC<{
   }[lang];
 
   const journeyLabels: Record<Lang, string[]> = {
-    EN: ["Pre-Incubation", "Incubation", "Post-Launch", "Patents", "Label", "Res. 1275"],
-    FR: ["Pré-Incubation", "Incubation", "Post-Lancement", "Brevets", "Label", "Rés. 1275"],
-    AR: ["ما قبل الحضانة", "الحضانة", "ما بعد الإطلاق", "براءات", "العلامة", "القرار 1275"],
+    EN: [
+      "Pre-Incubation",
+      "Incubation",
+      "Post-Launch",
+      "Patents",
+      "Label",
+      "Res. 1275",
+    ],
+    FR: [
+      "Pré-Incubation",
+      "Incubation",
+      "Post-Lancement",
+      "Brevets",
+      "Label",
+      "Rés. 1275",
+    ],
+    AR: [
+      "ما قبل الحضانة",
+      "الحضانة",
+      "ما بعد الإطلاق",
+      "براءات",
+      "العلامة",
+      "القرار 1275",
+    ],
   };
 
   const PROGRAMS: Program[] = [
@@ -121,14 +139,26 @@ const ProgramsSection: React.FC<{
       id: "01",
       accent: "blue",
       icon: ICONS.users,
-      title: { EN: "Pre-Incubation", FR: "Pré-Incubation", AR: "ما قبل الحضانة" },
-      tag: { EN: "Awareness & Discovery", FR: "Sensibilisation & Découverte", AR: "التوعية والاكتشاف" },
+      title: {
+        EN: "Pre-Incubation",
+        FR: "Pré-Incubation",
+        AR: "ما قبل الحضانة",
+      },
+      tag: {
+        EN: "Awareness & Discovery",
+        FR: "Sensibilisation & Découverte",
+        AR: "التوعية والاكتشاف",
+      },
       oneLine: {
         EN: "Sensitization meetings and scientific seminars for students with innovative ideas — the entry point to the incubator ecosystem.",
         FR: "Réunions de sensibilisation et séminaires scientifiques pour les étudiants ayant des idées innovantes — la porte d'entrée de l'écosystème.",
         AR: "لقاءات توعوية وندوات علمية للطلاب أصحاب الأفكار المبتكرة — نقطة الدخول إلى منظومة الحاضنة.",
       },
-      stat: { EN: "27 meetings · All 8 faculties", FR: "27 réunions · 8 facultés", AR: "27 لقاءً · 8 كليات" },
+      stat: {
+        EN: "27 meetings · All 8 faculties",
+        FR: "27 réunions · 8 facultés",
+        AR: "27 لقاءً · 8 كليات",
+      },
       highlights: {
         EN: [
           "27 scientific meetings and symposiums held (2019–June 2022)",
@@ -150,9 +180,24 @@ const ProgramsSection: React.FC<{
         ],
       },
       steps: {
-        EN: ["Attend a sensitization meeting", "Prepare your innovative idea", "Network with mentors & peers", "Apply to the Incubation Program"],
-        FR: ["Assister à une réunion de sensibilisation", "Préparer votre idée innovante", "Réseauter avec mentors & pairs", "Postuler au Programme d'Incubation"],
-        AR: ["حضور لقاء توعوي", "تحضير فكرتك المبتكرة", "التواصل مع المرشدين والأقران", "التقدم لبرنامج الحضانة"],
+        EN: [
+          "Attend a sensitization meeting",
+          "Prepare your innovative idea",
+          "Network with mentors & peers",
+          "Apply to the Incubation Program",
+        ],
+        FR: [
+          "Assister à une réunion de sensibilisation",
+          "Préparer votre idée innovante",
+          "Réseauter avec mentors & pairs",
+          "Postuler au Programme d'Incubation",
+        ],
+        AR: [
+          "حضور لقاء توعوي",
+          "تحضير فكرتك المبتكرة",
+          "التواصل مع المرشدين والأقران",
+          "التقدم لبرنامج الحضانة",
+        ],
       },
       chips: [
         { n: "27", l: { EN: "Meetings", FR: "Réunions", AR: "لقاءات" } },
@@ -164,14 +209,26 @@ const ProgramsSection: React.FC<{
       id: "02",
       accent: "blue",
       icon: ICONS.school,
-      title: { EN: "Incubation Program", FR: "Programme d'Incubation", AR: "برنامج الحضانة" },
-      tag: { EN: "Core Training · 85+ Hrs/Year", FR: "Formation · 85+ Heures/An", AR: "تدريب أساسي · 85+ ساعة" },
+      title: {
+        EN: "Incubation Program",
+        FR: "Programme d'Incubation",
+        AR: "برنامج الحضانة",
+      },
+      tag: {
+        EN: "Core Training · 85+ Hrs/Year",
+        FR: "Formation · 85+ Heures/An",
+        AR: "تدريب أساسي · 85+ ساعة",
+      },
       oneLine: {
         EN: "More than 85 hours of annual training across 8 official tracks, with one-on-one mentorship from professors and industry experts.",
         FR: "Plus de 85 heures de formation annuelle sur 8 filières officielles, avec un mentorat individuel de professeurs et d'experts.",
         AR: "أكثر من 85 ساعة تدريب سنوياً عبر 8 مسارات رسمية، مع إرشاد فردي من الأساتذة وخبراء الصناعة.",
       },
-      stat: { EN: "85+ hrs/year · 8 tracks · 1-on-1", FR: "85+ h/an · 8 filières · 1:1", AR: "+85 ساعة · 8 مسارات · 1:1" },
+      stat: {
+        EN: "85+ hrs/year · 8 tracks · 1-on-1",
+        FR: "85+ h/an · 8 filières · 1:1",
+        AR: "+85 ساعة · 8 مسارات · 1:1",
+      },
       highlights: {
         EN: [
           "More than 85 hours of structured training every year",
@@ -234,14 +291,26 @@ const ProgramsSection: React.FC<{
       id: "03",
       accent: "green",
       icon: ICONS.rocket,
-      title: { EN: "Post-Incubation", FR: "Post-Incubation", AR: "ما بعد الحضانة" },
-      tag: { EN: "Post-Launch Support", FR: "Soutien Post-Lancement", AR: "دعم ما بعد الإطلاق" },
+      title: {
+        EN: "Post-Incubation",
+        FR: "Post-Incubation",
+        AR: "ما بعد الحضانة",
+      },
+      tag: {
+        EN: "Post-Launch Support",
+        FR: "Soutien Post-Lancement",
+        AR: "دعم ما بعد الإطلاق",
+      },
       oneLine: {
         EN: "Field visits, financial and technical reviews, and ongoing advisory support for all startups that have graduated from the incubator.",
         FR: "Visites de terrain, examens financiers et techniques, et accompagnement continu pour toutes les startups diplômées de l'incubateur.",
         AR: "زيارات ميدانية ومراجعات مالية وتقنية ودعم استشاري مستمر لجميع الشركات الناشئة المتخرجة من الحاضنة.",
       },
-      stat: { EN: "17 graduated · First 2020 · Peak 6 (2022)", FR: "17 diplômées · 1ère 2020 · Pic 6 (2022)", AR: "17 متخرجة · الأولى 2020 · الذروة 6 (2022)" },
+      stat: {
+        EN: "17 graduated · First 2020 · Peak 6 (2022)",
+        FR: "17 diplômées · 1ère 2020 · Pic 6 (2022)",
+        AR: "17 متخرجة · الأولى 2020 · الذروة 6 (2022)",
+      },
       highlights: {
         EN: [
           "Regular field visits to graduated startup premises",
@@ -263,9 +332,24 @@ const ProgramsSection: React.FC<{
         ],
       },
       steps: {
-        EN: ["Schedule a field visit", "Review financials & tech", "Advise on operations & strategy", "Resolve administrative blockers"],
-        FR: ["Planifier une visite de terrain", "Examiner finances & technique", "Conseiller opérations & stratégie", "Résoudre les blocages administratifs"],
-        AR: ["جدولة زيارة ميدانية", "مراجعة المالية والتقنية", "تقديم المشورة في العمليات والاستراتيجية", "حل العوائق الإدارية"],
+        EN: [
+          "Schedule a field visit",
+          "Review financials & tech",
+          "Advise on operations & strategy",
+          "Resolve administrative blockers",
+        ],
+        FR: [
+          "Planifier une visite de terrain",
+          "Examiner finances & technique",
+          "Conseiller opérations & stratégie",
+          "Résoudre les blocages administratifs",
+        ],
+        AR: [
+          "جدولة زيارة ميدانية",
+          "مراجعة المالية والتقنية",
+          "تقديم المشورة في العمليات والاستراتيجية",
+          "حل العوائق الإدارية",
+        ],
       },
       chips: [
         { n: "17", l: { EN: "Graduated", FR: "Diplômées", AR: "متخرجة" } },
@@ -277,14 +361,26 @@ const ProgramsSection: React.FC<{
       id: "04",
       accent: "blue",
       icon: ICONS.certificate,
-      title: { EN: "Patent Program", FR: "Programme Brevets", AR: "برنامج براءات الاختراع" },
-      tag: { EN: "IP Protection via INAPI", FR: "Protection PI via INAPI", AR: "حماية الملكية الفكرية" },
+      title: {
+        EN: "Patent Program",
+        FR: "Programme Brevets",
+        AR: "برنامج براءات الاختراع",
+      },
+      tag: {
+        EN: "IP Protection via INAPI",
+        FR: "Protection PI via INAPI",
+        AR: "حماية الملكية الفكرية",
+      },
       oneLine: {
         EN: "Registers and protects innovations as industrial property patents in direct coordination with INAPI — Algeria's official IP institute.",
         FR: "Enregistre et protège les innovations comme brevets de propriété industrielle en coordination directe avec l'INAPI — l'institut algérien de la PI.",
         AR: "يسجل ويحمي الابتكارات كبراءات ملكية صناعية بالتنسيق المباشر مع INAPI — المعهد الجزائري الرسمي للملكية الفكرية.",
       },
-      stat: { EN: "202 filed · 10 granted · Since 2019", FR: "202 déposés · 10 accordés · Depuis 2019", AR: "202 مودعة · 10 ممنوحة · منذ 2019" },
+      stat: {
+        EN: "202 filed · 10 granted · Since 2019",
+        FR: "202 déposés · 10 accordés · Depuis 2019",
+        AR: "202 مودعة · 10 ممنوحة · منذ 2019",
+      },
       highlights: {
         EN: [
           "202 patents filed since 2019 (10 fully granted)",
@@ -306,9 +402,30 @@ const ProgramsSection: React.FC<{
         ],
       },
       steps: {
-        EN: ["Submit idea", "Prior-art search", "Prepare documents", "File with INAPI", "Examination & review", "Patent granted"],
-        FR: ["Soumettre l'idée", "Recherche d'antériorité", "Préparer les documents", "Dépôt auprès de l'INAPI", "Examen & révision", "Brevet accordé"],
-        AR: ["تقديم الفكرة", "البحث عن السابقات", "تحضير الوثائق", "الإيداع لدى INAPI", "الفحص والمراجعة", "منح البراءة"],
+        EN: [
+          "Submit idea",
+          "Prior-art search",
+          "Prepare documents",
+          "File with INAPI",
+          "Examination & review",
+          "Patent granted",
+        ],
+        FR: [
+          "Soumettre l'idée",
+          "Recherche d'antériorité",
+          "Préparer les documents",
+          "Dépôt auprès de l'INAPI",
+          "Examen & révision",
+          "Brevet accordé",
+        ],
+        AR: [
+          "تقديم الفكرة",
+          "البحث عن السابقات",
+          "تحضير الوثائق",
+          "الإيداع لدى INAPI",
+          "الفحص والمراجعة",
+          "منح البراءة",
+        ],
       },
       chips: [
         { n: "202", l: { EN: "Filed", FR: "Déposés", AR: "مودعة" } },
@@ -320,14 +437,26 @@ const ProgramsSection: React.FC<{
       id: "05",
       accent: "green",
       icon: ICONS.tag,
-      title: { EN: "Label Tagging", FR: "Programme Label", AR: "برنامج العلامة" },
-      tag: { EN: "startup.dz · ASF Financing", FR: "startup.dz · Financement ASF", AR: "startup.dz · تمويل ASF" },
+      title: {
+        EN: "Label Tagging",
+        FR: "Programme Label",
+        AR: "برنامج العلامة",
+      },
+      tag: {
+        EN: "startup.dz · ASF Financing",
+        FR: "startup.dz · Financement ASF",
+        AR: "startup.dz · تمويل ASF",
+      },
       oneLine: {
         EN: "Guides projects through startup.dz to obtain the official Startup Label — unlocking access to ASF (Algeria Startup Fund) financing.",
         FR: "Guide les projets via startup.dz pour obtenir le Label Startup officiel — débloquant l'accès au financement ASF (Algeria Startup Fund).",
         AR: "يوجه المشاريع عبر startup.dz للحصول على العلامة الرسمية للشركات الناشئة — مما يفتح الوصول إلى تمويل ASF (صندوق دعم المؤسسات الناشئة).",
       },
-      stat: { EN: "52 labeled · Oct 2021 · ASF access", FR: "52 labellisés · Oct 2021 · accès ASF", AR: "52 مشروعاً · أكتوبر 2021 · وصول ASF" },
+      stat: {
+        EN: "52 labeled · Oct 2021 · ASF access",
+        FR: "52 labellisés · Oct 2021 · accès ASF",
+        AR: "52 مشروعاً · أكتوبر 2021 · وصول ASF",
+      },
       highlights: {
         EN: [
           "52 projects officially labeled (2021–2023)",
@@ -349,28 +478,61 @@ const ProgramsSection: React.FC<{
         ],
       },
       steps: {
-        EN: ["Register on startup.dz", "Build your dossier", "Committee endorsement", "Unlock ASF financing"],
-        FR: ["S'inscrire sur startup.dz", "Constituer votre dossier", "Validation du comité", "Débloquer le financement ASF"],
-        AR: ["التسجيل في startup.dz", "إعداد ملفك", "مصادقة اللجنة", "فتح تمويل ASF"],
+        EN: [
+          "Register on startup.dz",
+          "Build your dossier",
+          "Committee endorsement",
+          "Unlock ASF financing",
+        ],
+        FR: [
+          "S'inscrire sur startup.dz",
+          "Constituer votre dossier",
+          "Validation du comité",
+          "Débloquer le financement ASF",
+        ],
+        AR: [
+          "التسجيل في startup.dz",
+          "إعداد ملفك",
+          "مصادقة اللجنة",
+          "فتح تمويل ASF",
+        ],
       },
       chips: [
-        { n: "52", l: { EN: "Labeled", FR: "Labellisés", AR: "حاملة للعلامة" } },
+        {
+          n: "52",
+          l: { EN: "Labeled", FR: "Labellisés", AR: "حاملة للعلامة" },
+        },
         { n: "2021", l: { EN: "Launched", FR: "Lancé", AR: "أُطلق" } },
-        { n: "ASF", l: { EN: "Fund Access", FR: "Accès Fonds", AR: "وصول التمويل" } },
+        {
+          n: "ASF",
+          l: { EN: "Fund Access", FR: "Accès Fonds", AR: "وصول التمويل" },
+        },
       ],
     },
     {
       id: "06",
-      accent: "gold",
+      accent: "blue",
       icon: ICONS.award,
-      title: { EN: "Resolution 1275", FR: "Résolution 1275", AR: "القرار 1275" },
-      tag: { EN: "National First · Now Nationwide", FR: "Première Nationale · Adoptée Nationalement", AR: "الأولى وطنياً · معتمدة وطنياً" },
+      title: {
+        EN: "Resolution 1275",
+        FR: "Résolution 1275",
+        AR: "القرار 1275",
+      },
+      tag: {
+        EN: "National First · Now Nationwide",
+        FR: "Première Nationale · Adoptée Nationalement",
+        AR: "الأولى وطنياً · معتمدة وطنياً",
+      },
       oneLine: {
         EN: "Transforms graduation projects (Licence, Master, PhD) into registered startups — M'Sila was first nationally, now adopted across all Algerian universities.",
         FR: "Transforme les projets de fin d'études (Licence, Master, Doctorat) en startups enregistrées — M'Sila fut la première nationale, désormais adoptée par toutes les universités algériennes.",
         AR: "يحول مشاريع التخرج (ليسانس، ماستر، دكتوراه) إلى شركات ناشئة مسجلة — كانت المسيلة الأولى وطنياً، والآن معتمدة في جميع الجامعات الجزائرية.",
       },
-      stat: { EN: "287 projects · 548 students · 8 faculties", FR: "287 projets · 548 étudiants · 8 facultés", AR: "287 مشروعاً · 548 طالباً · 8 كليات" },
+      stat: {
+        EN: "287 projects · 548 students · 8 faculties",
+        FR: "287 projets · 548 étudiants · 8 facultés",
+        AR: "287 مشروعاً · 548 طالباً · 8 كليات",
+      },
       highlights: {
         EN: [
           "First university in Algeria to launch this (2021–2022)",
@@ -392,9 +554,27 @@ const ProgramsSection: React.FC<{
         ],
       },
       steps: {
-        EN: ["Register graduation project", "Train & develop", "Build the startup", "Defend before jury", "Launch as registered startup"],
-        FR: ["Enregistrer le projet de fin d'études", "Former & développer", "Construire la startup", "Soutenir devant le jury", "Lancer comme startup enregistrée"],
-        AR: ["تسجيل مشروع التخرج", "التدريب والتطوير", "بناء الشركة الناشئة", "المناقشة أمام اللجنة", "الإطلاق كشركة ناشئة مسجلة"],
+        EN: [
+          "Register graduation project",
+          "Train & develop",
+          "Build the startup",
+          "Defend before jury",
+          "Launch as registered startup",
+        ],
+        FR: [
+          "Enregistrer le projet de fin d'études",
+          "Former & développer",
+          "Construire la startup",
+          "Soutenir devant le jury",
+          "Lancer comme startup enregistrée",
+        ],
+        AR: [
+          "تسجيل مشروع التخرج",
+          "التدريب والتطوير",
+          "بناء الشركة الناشئة",
+          "المناقشة أمام اللجنة",
+          "الإطلاق كشركة ناشئة مسجلة",
+        ],
       },
       chips: [
         { n: "287", l: { EN: "Projects", FR: "Projets", AR: "مشروعاً" } },
@@ -411,7 +591,10 @@ const ProgramsSection: React.FC<{
     setActiveProgram((prev) => (prev === i ? null : i));
     setPulseTarget(i);
     requestAnimationFrame(() => {
-      cardRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
+      cardRefs.current[i]?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
     });
   };
 
@@ -425,7 +608,10 @@ const ProgramsSection: React.FC<{
   React.useEffect(() => {
     if (activeProgram === null) return;
     const id = requestAnimationFrame(() => {
-      panelRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      panelRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
     });
     return () => cancelAnimationFrame(id);
   }, [activeProgram]);
@@ -460,7 +646,12 @@ const ProgramsSection: React.FC<{
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         {/* LAYER 1 — Section header */}
-        <SectionHeader label={t.label} title={t.title} subtitle={t.sub} center />
+        <SectionHeader
+          label={t.label}
+          title={t.title}
+          subtitle={t.sub}
+          center
+        />
 
         {/* LAYER 2 — Journey progress strip */}
         <div
@@ -576,7 +767,9 @@ const ProgramsSection: React.FC<{
             return (
               <button
                 key={p.id}
-                ref={(el) => { cardRefs.current[i] = el; }}
+                ref={(el) => {
+                  cardRefs.current[i] = el;
+                }}
                 data-pulse={pulseTarget === i ? "true" : undefined}
                 data-pulse-accent={p.accent}
                 onClick={() => selectProgram(i)}
@@ -595,13 +788,15 @@ const ProgramsSection: React.FC<{
                   padding: "1.75rem 1.5rem 1.5rem",
                   cursor: "pointer",
                   overflow: "hidden",
-                  transform: hover && !on ? "translateY(-6px)" : "translateY(0)",
+                  transform:
+                    hover && !on ? "translateY(-6px)" : "translateY(0)",
                   boxShadow: on
                     ? `0 18px 40px ${a.main}26`
                     : hover
                       ? "0 14px 30px rgba(13,45,114,0.12)"
                       : "0 1px 3px rgba(13,45,114,0.05)",
-                  transition: "transform 0.3s, box-shadow 0.3s, border-color 0.3s",
+                  transition:
+                    "transform 0.3s, box-shadow 0.3s, border-color 0.3s",
                   font: "inherit",
                   color: "inherit",
                 }}
@@ -725,13 +920,15 @@ const ProgramsSection: React.FC<{
             maxHeight: active ? panelHeight || 1200 : 0,
             opacity: active ? 1 : 0,
             overflow: "hidden",
-            transition: "max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease, margin 0.35s ease",
+            transition:
+              "max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease, margin 0.35s ease",
             marginTop: active ? "1.5rem" : 0,
           }}
         >
           {active && (
             <div
               ref={panelInnerRef}
+              data-program-panel-inner
               style={{
                 background: "#fff",
                 border: `1px solid ${activeAccent.main}33`,
@@ -762,7 +959,15 @@ const ProgramsSection: React.FC<{
                   >
                     {t.highlights}
                   </div>
-                  <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 12 }}>
+                  <ul
+                    style={{
+                      listStyle: "none",
+                      margin: 0,
+                      padding: 0,
+                      display: "grid",
+                      gap: 12,
+                    }}
+                  >
                     {active.highlights[lang].map((h, i) => (
                       <li
                         key={i}
@@ -823,7 +1028,15 @@ const ProgramsSection: React.FC<{
                       ))}
                     </div>
                   ) : (
-                    <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 10 }}>
+                    <ol
+                      style={{
+                        listStyle: "none",
+                        margin: 0,
+                        padding: 0,
+                        display: "grid",
+                        gap: 10,
+                      }}
+                    >
                       {active.steps?.[lang].map((s, i) => (
                         <li
                           key={i}
@@ -859,7 +1072,11 @@ const ProgramsSection: React.FC<{
                                 href={STARTUP_DZ_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                style={{ color: activeAccent.dark, fontWeight: 700, textDecoration: "underline" }}
+                                style={{
+                                  color: activeAccent.dark,
+                                  fontWeight: 700,
+                                  textDecoration: "underline",
+                                }}
                                 onClick={(e) => e.stopPropagation()}
                               >
                                 {s}
@@ -899,7 +1116,9 @@ const ProgramsSection: React.FC<{
                     >
                       {c.n}
                     </div>
-                    <div style={{ fontSize: 11, color: "#6B7089", marginTop: 5 }}>
+                    <div
+                      style={{ fontSize: 11, color: "#6B7089", marginTop: 5 }}
+                    >
                       {c.l[lang]}
                     </div>
                   </div>
@@ -914,6 +1133,7 @@ const ProgramsSection: React.FC<{
 
         {/* LAYER 6 — Apply CTA strip */}
         <div
+          data-programs-cta
           style={{
             display: "flex",
             flexWrap: "wrap",
@@ -939,7 +1159,14 @@ const ProgramsSection: React.FC<{
             >
               {t.ctaTitle}
             </div>
-            <div style={{ fontSize: 14, color: "#6B7089", maxWidth: 460, lineHeight: 1.6 }}>
+            <div
+              style={{
+                fontSize: 14,
+                color: "#6B7089",
+                maxWidth: 460,
+                lineHeight: 1.6,
+              }}
+            >
               {t.ctaSub}
             </div>
           </div>
@@ -970,7 +1197,12 @@ const ProgramsSection: React.FC<{
 const StatsStrip: React.FC<{
   lang: Lang;
   isRTL: boolean;
-  t: { stPatents: string; stStartups: string; stLabeled: string; stRes1275: string };
+  t: {
+    stPatents: string;
+    stStartups: string;
+    stLabeled: string;
+    stRes1275: string;
+  };
 }> = ({ isRTL, t }) => {
   const { ref, shown } = useReveal<HTMLDivElement>({ threshold: 0.3 });
   const stats = [
@@ -1033,7 +1265,9 @@ const StatCell: React.FC<{
         {value}
         {suffix && <span style={{ color: "#7DB83A" }}>{suffix}</span>}
       </div>
-      <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 10 }}>
+      <div
+        style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 10 }}
+      >
         {label}
       </div>
     </div>

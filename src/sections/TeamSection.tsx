@@ -260,7 +260,7 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
     EN: {
       label: "The Team",
       title: "Meet the team behind\nthe incubator.",
-      sub: "Dedicated professionals guiding M'Sila's founders every step of the way.",
+      sub: "Dedicated professionals guiding startup's founders every step of the way.",
       leadershipLabel: "Leadership",
       foundingTag: "Founding Director",
       currentTag: "Current Director",
@@ -272,7 +272,7 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
     FR: {
       label: "L'équipe",
       title: "L'équipe derrière\nl'incubateur.",
-      sub: "Des professionnels dévoués qui accompagnent les fondateurs de M'Sila à chaque étape.",
+      sub: "Des professionnels dévoués qui accompagnent les startups de M'Sila à chaque étape.",
       leadershipLabel: "Direction",
       foundingTag: "Directeur fondateur",
       currentTag: "Directrice actuelle",
@@ -284,7 +284,7 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
     AR: {
       label: "الفريق",
       title: "تعرّف على الفريق\nخلف الحاضنة.",
-      sub: "محترفون متفانون يرافقون مؤسسي مسيلة في كل خطوة.",
+      sub: "محترفون متفانون يرافقون حاملي المشاريع في كل خطوة.",
       leadershipLabel: "القيادة",
       foundingTag: "المدير المؤسس",
       currentTag: "المديرة الحالية",
@@ -327,16 +327,6 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
 
   const members: Member[] = [
     {
-      name: "Brick Yousef",
-      role: {
-        EN: "Program Coordinator",
-        FR: "Coordinateur",
-        AR: "منسق البرامج",
-      },
-      photo: brickYousef,
-      accent: "blue",
-    },
-    {
       name: "Soumia Fodili",
       role: {
         EN: "Training and Certification Programs Manager",
@@ -355,12 +345,6 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       },
       photo: djenaouiAbdellatif,
       accent: "blue",
-    },
-    {
-      name: "Ammara Amine",
-      role: { EN: "Startup Mentor", FR: "Mentor Startup", AR: "مرشد الشركات" },
-      photo: null,
-      accent: "green",
     },
     {
       name: "Gandouz Amine",
@@ -392,21 +376,7 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       photo: baaliSalma,
       accent: "blue",
     },
-    {
-      name: "Salem Ilyas",
-      role: {
-        EN: "Community Manager",
-        FR: "Community Manager",
-        AR: "مدير المجتمع",
-      },
-      photo: null,
-      accent: "green",
-    },
   ];
-
-  // The marquee renders members twice (translateX(-50%) loop) — the second
-  // pass is decorative; `dup` flag adds aria-hidden so AT and DOM scans only
-  // see each member once.
 
   // Track ref + hover counter so multiple cards entering/leaving quickly
   // never race — we only pause when at least one card is hovered.

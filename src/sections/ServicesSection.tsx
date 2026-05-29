@@ -4,6 +4,8 @@ import mentorshipImage from "../assets/services/mentorship (2).jpg";
 import fundingImage from "../assets/services/funding-access.jpg";
 import legalImage from "../assets/services/legal-ap-support.jpg";
 import trainingImage from "../assets/services/structed-training.jpg";
+import inapiImage from "../assets/services/inapi.jpg";
+import workingSpaceImage from "../assets/services/working-space.png";
 
 /* ─── ICON PATHS (Tabler-style outline) ─── */
 const ICONS = {
@@ -63,14 +65,14 @@ const ServicesSection: React.FC<{ lang: Lang }> = ({ lang }) => {
     },
     {
       icon: ICONS.cowork, accent: 'green',
-      image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&h=500&fit=crop&q=80',
+      image: workingSpaceImage,
       tag: { EN: 'On-Campus', FR: 'Sur Campus', AR: 'في الحرم' },
       title: { EN: 'Co-working Space', FR: 'Espace co-working', AR: 'فضاء العمل المشترك' },
       desc: { EN: 'Dedicated workspace on campus with high-speed internet, meeting rooms, and equipment.', FR: 'Espace dédié sur campus avec internet haut débit, salles de réunion et équipements.', AR: 'مساحة عمل مخصصة في الحرم الجامعي مع إنترنت عالي السرعة وغرف اجتماعات.' },
     },
     {
       icon: ICONS.patent, accent: 'blue',
-      image: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=900&h=500&fit=crop&q=80',
+      image: inapiImage,
       tag: { EN: 'INAPI', FR: 'INAPI', AR: 'INAPI' },
       title: { EN: 'Patent Filing (INAPI)', FR: 'Dépôt de brevets (INAPI)', AR: 'تسجيل براءات الاختراع' },
       desc: { EN: 'End-to-end support for INAPI patent applications — protecting innovation from day one.', FR: 'Accompagnement complet pour les dépôts INAPI — protéger votre innovation dès le début.', AR: 'دعم شامل لطلبات براءات INAPI — حماية ابتكارك من اليوم الأول.' },

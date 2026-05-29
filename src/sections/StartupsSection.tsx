@@ -650,7 +650,7 @@ const StartupsSection: React.FC<{
       </div>
 
       {/* ── TABS ── */}
-      <div style={{ padding: "0 2rem", position: "sticky", top: 72, zIndex: 10, background: "#fff" }}>
+      <div data-startups-tabs-bar style={{ padding: "0 2rem", position: "sticky", top: 72, zIndex: 10, background: "#fff" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div
             style={{
@@ -1041,6 +1041,7 @@ const StartupsSection: React.FC<{
 
               {/* Startup showcase grid */}
               <div
+                data-startups-showcase-grid
                 style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
@@ -1070,6 +1071,7 @@ const StartupsSection: React.FC<{
 
               {/* Distribution bar chart */}
               <div
+                data-startups-distribution
                 style={{
                   background: "#F7F8FC",
                   border: "1px solid #E4E6EF",
@@ -1111,7 +1113,7 @@ const StartupsSection: React.FC<{
       </div>
 
       {/* ── CTA BANNER ── */}
-      <div style={{ padding: "3rem 2rem 6rem" }}>
+      <div data-startups-cta-wrap style={{ padding: "3rem 2rem 6rem" }}>
         <div
           data-startups-cta-grid
           style={{
@@ -1455,6 +1457,7 @@ const DomainBar: React.FC<{
       }}
     >
       <div
+        data-domain-bar-label
         style={{
           fontSize: 13,
           fontWeight: lit ? 700 : 600,

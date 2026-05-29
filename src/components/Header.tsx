@@ -1,4 +1,5 @@
 import React from "react";
+import { createPortal } from "react-dom";
 import type { Lang } from "../types";
 import logo from "../assets/incubateur-logo.jpg";
 
@@ -421,7 +422,12 @@ const Header: React.FC<HeaderProps> = ({
         </svg>
       </button>
 
-      {/* ─── MOBILE: full-screen menu panel ─── */}
+      {/* ─── MOBILE: full-screen menu panel ───
+          Rendered into document.body via a portal because the parent
+          <header> has `backdrop-filter`, which creates a containing block
+          for fixed-positioned descendants. Without the portal, the panel
+          gets clipped to the 76px-tall header. */}
+      {createPortal(
       <div
         data-nav-mobile-panel
         role="dialog"
@@ -632,54 +638,10 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          {/* CTA */}
-          <button
-            onClick={() => {
-              setMobileOpen(false);
-              onNav("contact");
-            }}
-            style={{
-              marginTop: "auto",
-              marginInline: 0,
-              padding: "14px 18px",
-              height: 52,
-              background: "#7DB83A",
-              color: "#fff",
-              border: "none",
-              borderRadius: 12,
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: "pointer",
-              fontFamily: "'DM Sans',sans-serif",
-              boxShadow: "0 4px 16px rgba(125,184,58,0.30)",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 10,
-            }}
-          >
-            {
-              {
-                EN: "Apply for Incubation",
-                FR: "Candidater",
-                AR: "تقدّم للحضانة",
-              }[lang]
-            }
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#fff"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14M13 5l7 7-7 7" />
-            </svg>
-          </button>
         </div>
-      </div>
+      </div>,
+      document.body
+      )}
     </header>
   );
 };

@@ -1,12 +1,26 @@
 @import "tailwindcss";
 
+/* ───────────── BASE RESET & ROOT ───────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'DM Sans', sans-serif; background: #fff; color: #383D58;
-  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+
+html {
+  scroll-behavior: smooth;
+  /* Prevent iOS Safari font autosizing on landscape */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #fff;
+  color: #383D58;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  /* iOS rubber-band on dark sections — match page bg */
+  overscroll-behavior-y: none;
+}
+
 /* Always use Syne for big display numerals so digits never reflow with body font */
 h1, h2, h3 { font-feature-settings: "ss01", "tnum"; }
 
@@ -15,6 +29,11 @@ body, button, input, select, textarea {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
 }
+
+/* Long-word safety on narrow screens (Arabic, French long words, URLs in footer) */
+p, li, h1, h2, h3, h4 { overflow-wrap: anywhere; word-break: normal; }
+/* Make images fluid by default — removes accidental horizontal overflow */
+img, svg, video { max-width: 100%; height: auto; }
 
 body.rtl { direction: rtl; font-family: 'Noto Kufi Arabic', 'DM Sans', sans-serif; }
 /* In Arabic mode, force latin numerals (per design system) and use Syne for digits inside headings.
@@ -26,11 +45,28 @@ body.rtl h1, body.rtl h2, body.rtl h3, body.rtl button, body.rtl input, body.rtl
 .num, body.rtl .num { font-family: 'Syne', 'DM Sans', sans-serif !important; font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 
 button { font-family: inherit; }
+
+/* Form controls — fix iOS zoom on focus (any <input> font-size <16px triggers zoom) */
+@media (max-width: 768px) {
+  input, select, textarea { font-size: 16px !important; }
+}
+
+/* Larger touch targets on coarse pointers — accessibility & comfort */
+@media (pointer: coarse) {
+  button, a, [role="button"], input[type="submit"], input[type="button"] {
+    min-height: 44px;
+  }
+}
+
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #F7F8FC; }
 ::-webkit-scrollbar-thumb { background: #D6E4F7; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #1B4FBB; }
+/* Hide horizontal scrollbars on mobile-scroll containers */
+[data-team-marquee]::-webkit-scrollbar,
+[data-journey-strip]::-webkit-scrollbar { height: 0; display: none; }
 
+/* ───────────── ANIMATIONS ───────────── */
 @keyframes heroLineIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes heroPulse  { 0%,100% { transform: scale(1); } 50% { transform: scale(1.5); opacity: 0.6; } }
 @keyframes heroGlow   { 0%,100% { transform: scale(1) translate(0,0); opacity: 0.8; } 50% { transform: scale(1.15) translate(20px,-10px); opacity: 1; } }
@@ -48,100 +84,62 @@ section { animation: sectionFadeIn 0.7s ease both; }
   will-change: transform;
   transition: animation-duration 0.6s ease;
 }
-/* RTL: same physical scroll direction (left) — direction:ltr on the track keeps
-   the flex layout consistent, so the same keyframe works for both orientations. */
-[data-team-marquee-track][data-rtl="true"] {
-  animation-name: teamMarquee;
-}
-/* Pause the marquee only when hovering directly over a card — not the faded edge zones */
-[data-team-marquee-track][data-paused="true"] {
-  animation-play-state: paused;
-}
-/* Programs card pulse — fired briefly after a step is selected */
-@keyframes cardPulseBlue {
-  0% { box-shadow: 0 0 0 0 rgba(27,79,187,0.45); }
-  100% { box-shadow: 0 0 0 18px rgba(27,79,187,0); }
-}
-@keyframes cardPulseGreen {
-  0% { box-shadow: 0 0 0 0 rgba(125,184,58,0.45); }
-  100% { box-shadow: 0 0 0 18px rgba(125,184,58,0); }
-}
-@keyframes cardPulseGold {
-  0% { box-shadow: 0 0 0 0 rgba(184,134,11,0.45); }
-  100% { box-shadow: 0 0 0 18px rgba(184,134,11,0); }
-}
+[data-team-marquee-track][data-rtl="true"] { animation-name: teamMarquee; }
+[data-team-marquee-track][data-paused="true"] { animation-play-state: paused; }
+
+/* Programs card pulse */
+@keyframes cardPulseBlue  { 0% { box-shadow: 0 0 0 0 rgba(27,79,187,0.45); }  100% { box-shadow: 0 0 0 18px rgba(27,79,187,0); } }
+@keyframes cardPulseGreen { 0% { box-shadow: 0 0 0 0 rgba(125,184,58,0.45); } 100% { box-shadow: 0 0 0 18px rgba(125,184,58,0); } }
+@keyframes cardPulseGold  { 0% { box-shadow: 0 0 0 0 rgba(184,134,11,0.45); } 100% { box-shadow: 0 0 0 18px rgba(184,134,11,0); } }
 [data-pulse="true"][data-pulse-accent="blue"]  { animation: cardPulseBlue 1.2s ease-out; }
 [data-pulse="true"][data-pulse-accent="green"] { animation: cardPulseGreen 1.2s ease-out; }
 [data-pulse="true"][data-pulse-accent="gold"]  { animation: cardPulseGold 1.2s ease-out; }
 
-@keyframes milestonePulse {
-  0%, 100% { transform: scale(1); opacity: 0.4; }
-  50% { transform: scale(1.25); opacity: 0; }
-}
-@keyframes milestoneOngoingDot {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(0.7); opacity: 0.55; }
-}
+@keyframes milestonePulse        { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.25); opacity: 0; } }
+@keyframes milestoneOngoingDot   { 0%, 100% { transform: scale(1); opacity: 1; }   50% { transform: scale(0.7); opacity: 0.55; } }
 
-/* ───────────── SCROLL REVEAL ─────────────
-   A container marked [data-reveal] starts hidden; when JS adds
-   [data-shown="true"] its children with [data-reveal-child] fade up
-   in sequence. Stagger is 90ms per child via --i index variable. */
+/* ───────────── SCROLL REVEAL ───────────── */
 [data-reveal] [data-reveal-child] {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.5s ease, transform 0.5s ease;
   transition-delay: calc(var(--i, 0) * 90ms);
 }
-[data-reveal][data-shown="true"] [data-reveal-child] {
-  opacity: 1;
-  transform: translateY(0);
-}
-/* A bare element can also reveal itself (no children) */
-[data-reveal-self] {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
-}
-[data-reveal-self][data-shown="true"] {
-  opacity: 1;
-  transform: translateY(0);
-}
+[data-reveal][data-shown="true"] [data-reveal-child] { opacity: 1; transform: translateY(0); }
+[data-reveal-self] { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+[data-reveal-self][data-shown="true"] { opacity: 1; transform: translateY(0); }
 
-/* Patent bar chart grow-up animation driven by [data-shown] */
-[data-bar] {
-  height: 0 !important;
-  transition: height 0.9s cubic-bezier(0.22,1,0.36,1);
-}
-[data-chart][data-shown="true"] [data-bar] {
-  height: var(--bar-h) !important;
-}
+[data-bar] { height: 0 !important; transition: height 0.9s cubic-bezier(0.22,1,0.36,1); }
+[data-chart][data-shown="true"] [data-bar] { height: var(--bar-h) !important; }
 [data-bar-label] { opacity: 0; transition: opacity 0.4s ease 0.6s; }
 [data-chart][data-shown="true"] [data-bar-label] { opacity: 1; }
 
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-  /* Stop the team marquee entirely and let it scroll horizontally instead */
   [data-team-marquee-track] { animation: none !important; transform: none !important; }
   [data-team-marquee] { overflow-x: auto !important; }
-  /* Reveal content must never stay hidden when motion is reduced */
   [data-reveal] [data-reveal-child],
   [data-reveal-self] { opacity: 1 !important; transform: none !important; }
   [data-bar] { transition: none !important; }
+  html { scroll-behavior: auto; }
 }
 
 
-/* ───────────── RESPONSIVE LAYER ───────────── */
-/* Inline React styles win specificity battles — we use !important to override. */
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE LAYER
+   Inline React styles win specificity, so overrides use !important.
+   Breakpoints: 1024 (tablet) → 960 (small tablet / nav swap) →
+                768 (mobile) → 480 (small mobile) → 360 (tiny)
+   ═══════════════════════════════════════════════════════ */
 
-/* TABLET & smaller (≤1024px) */
+/* ───────────── TABLET (≤1024px) ───────────── */
 @media (max-width: 1024px) {
   header { padding: 0 20px !important; }
   section { padding-left: 1.5rem !important; padding-right: 1.5rem !important; padding-top: 4rem !important; padding-bottom: 4rem !important; }
   section[id="top"] { padding: 0 !important; }
-  [data-hero-inner] { padding: 0 1.5rem !important; }
+  [data-hero-inner] { padding: 6rem 1.5rem 4rem !important; }
 
+  /* Layout grids — 2-up on tablet */
   [data-intro-grid] { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
   [data-pillars-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-services-grid] { grid-template-columns: repeat(2, 1fr) !important; }
@@ -155,90 +153,238 @@ section { animation: sectionFadeIn 0.7s ease both; }
   [data-startups-grid] { grid-template-columns: repeat(2, 1fr) !important; }
   [data-contact-frame] { grid-template-columns: 1fr !important; }
   [data-contact-frame] > div { padding: 32px !important; }
-  [data-footer-grid] { grid-template-columns: 1fr 1fr !important; gap: 2rem !important; }
+  [data-footer-grid] { grid-template-columns: repeat(3, 1fr) !important; gap: 2rem !important; }
+  [data-footer-grid] > div:first-child { grid-column: 1 / -1; }
   [data-team-stats-bar] { gap: 1.5rem !important; padding: 22px 24px !important; }
 
-  /* New components — tablet */
+  /* Other section components */
   [data-ecosystem-grid] { grid-template-columns: repeat(2, 1fr) !important; }
-  [data-faculty-grid] { grid-template-columns: repeat(2, 1fr) !important; }
-  [data-board-grid] { grid-template-columns: 1fr !important; }
+  [data-faculty-grid]   { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-board-grid]     { grid-template-columns: 1fr !important; }
   [data-activities-grid] { grid-template-columns: repeat(2, 1fr) !important; }
-  [data-grads-grid] { grid-template-columns: repeat(2, 1fr) !important; }
-  /* Hero inline stats — collapse to 2 columns on tablet */
-  [data-hero-inner] > div > div:last-child { grid-template-columns: repeat(2, auto) !important; gap: 16px 24px !important; }
+  [data-grads-grid]     { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Hero inline stats — 2 columns on tablet */
+  [data-hero-inner] > div > div:last-child {
+    grid-template-columns: repeat(2, auto) !important;
+    gap: 16px 24px !important;
+  }
 }
 
-/* MOBILE (≤768px) */
+/* ───────────── SMALL TABLET / NAV-SWAP (≤960px) ─────────────
+   Nav rail at 6 items + lang switcher starts crowding the
+   logo around ~960px; swap to hamburger here so it never overflows.
+   The panel must become `display:block` at the SAME breakpoint as the
+   hamburger, otherwise tapping the button does nothing on widths
+   between 768–960px (panel inline style is `display:none`). */
+@media (max-width: 960px) {
+  [data-nav-rail]          { display: none !important; }
+  [data-nav-lang]          { display: none !important; }
+  [data-nav-hamburger]     { display: inline-flex !important; }
+  [data-nav-mobile-panel]  { display: block !important; }
+}
+
+/* ───────────── MOBILE (≤768px) ───────────── */
 @media (max-width: 768px) {
-  /* Startups section responsive */
-  [data-ecosystem-grid] { grid-template-columns: repeat(2, 1fr) !important; }
-  [data-startups-cta-grid] { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
-
-  /* Swap nav */
-  [data-nav-rail] { display: none !important; }
-  [data-nav-lang] { display: none !important; }
-  [data-nav-hamburger] { display: inline-flex !important; }
-  [data-nav-mobile-panel] { display: block !important; }
-
+  /* Header — compact, no nav rail */
   header { padding: 0 16px !important; height: 68px !important; }
-  main { padding-top: 0 !important; }
-  section { padding-left: 1.1rem !important; padding-right: 1.1rem !important; padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
+  main   { padding-top: 0 !important; }
+
+  /* Section padding — comfortable but compact */
+  section {
+    padding-left: 1.1rem !important;
+    padding-right: 1.1rem !important;
+    padding-top: 3.5rem !important;
+    padding-bottom: 3.5rem !important;
+  }
   section[id="top"] { padding: 0 !important; }
-  [data-hero-inner] { padding: 0 1.1rem !important; }
+
+  /* Hero — give the hero room to breathe under the fixed header */
+  [data-hero-inner] {
+    padding: 5.5rem 1.1rem 3.5rem !important;
+    /* keep stats on a short hero without overlap */
+    justify-content: flex-start !important;
+  }
   [data-hero-scroll-cue] { display: none !important; }
 
-  [data-services-grid] { grid-template-columns: 1fr !important; }
-  [data-programs-grid] { grid-template-columns: 1fr !important; }
+  /* Collapse multi-column grids to 1 column or 2 */
+  [data-services-grid] { grid-template-columns: 1fr !important; gap: 18px !important; }
+  [data-programs-grid] { grid-template-columns: 1fr !important; gap: 18px !important; }
   [data-program-panel] { grid-template-columns: 1fr !important; gap: 1.75rem !important; }
-  [data-stats-strip] { grid-template-columns: repeat(2, 1fr) !important; gap: 1.5rem 0 !important; padding: 2.25rem 1.25rem !important; }
+  [data-program-panel-inner] { padding: 1.25rem !important; border-radius: 16px !important; }
+  [data-stats-strip] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem 0 !important;
+    padding: 2.25rem 1.25rem !important;
+  }
   [data-stats-strip] > div { border-left: none !important; border-right: none !important; }
   [data-startups-grid] { grid-template-columns: 1fr !important; }
-  [data-modules-grid] { grid-template-columns: repeat(2, 1fr) !important; }
-  [data-pillars-grid] { grid-template-columns: 1fr !important; }
-  [data-team-grid] { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-modules-grid]  { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-pillars-grid]  { grid-template-columns: 1fr !important; }
+  [data-team-grid]     { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Leadership pair → stack */
+  [data-reveal][style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+
   [data-director-card] { grid-template-columns: 1fr !important; min-height: auto !important; }
   [data-director-card-photo] { min-height: 240px !important; }
   [data-team-stats-bar] { gap: 1.25rem !important; padding: 20px 18px !important; }
+
+  /* Contact form */
   [data-contact-name-email] { grid-template-columns: 1fr !important; }
-  [data-footer-grid] { grid-template-columns: 1fr !important; gap: 1.75rem !important; }
   [data-contact-frame] > div { padding: 26px !important; }
 
-  /* New components — mobile */
-  [data-ecosystem-grid] { grid-template-columns: 1fr !important; }
-  [data-faculty-grid] { grid-template-columns: repeat(2, 1fr) !important; }
-  [data-activities-grid] { grid-template-columns: 1fr !important; }
-  [data-grads-grid] { grid-template-columns: 1fr !important; }
+  /* Footer */
+  [data-footer-grid] { grid-template-columns: 1fr 1fr !important; gap: 1.75rem !important; }
+  [data-footer-grid] > div:first-child { grid-column: 1 / -1; }
+
+  /* Startups section */
+  [data-ecosystem-grid]      { grid-template-columns: 1fr !important; }
+  [data-faculty-grid]        { grid-template-columns: repeat(2, 1fr) !important; }
+  [data-activities-grid]     { grid-template-columns: 1fr !important; }
+  [data-grads-grid]          { grid-template-columns: 1fr !important; }
+  [data-startups-showcase-grid] {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  [data-startups-cta-grid] {
+    grid-template-columns: 1fr !important;
+    padding: 2rem 1.5rem !important;
+    border-radius: 22px !important;
+    gap: 1.5rem !important;
+    text-align: center !important;
+  }
+  [data-startups-cta-grid] > div:first-child > div:first-child { text-align: center; }
+  [data-startups-cta-grid] button { justify-self: center; width: 100%; max-width: 320px; }
+  [data-startups-cta-wrap] { padding: 2.5rem 1.1rem 5rem !important; }
+  [data-startups-tabs-bar] { top: 60px !important; padding: 0 1.1rem !important; }
+  [data-scroll-top] { width: 46px !important; height: 46px !important; inset-inline-end: 16px !important; }
+  [data-startups-distribution] { padding: 22px 18px !important; }
+  [data-domain-bar-label]      { width: 110px !important; font-size: 12.5px !important; }
+
+  /* Programs CTA strip — stack on mobile */
+  [data-programs-cta] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    text-align: center !important;
+    padding: 2rem 1.5rem !important;
+  }
+  [data-programs-cta] > div:first-child > div:first-child { font-size: 1.15rem !important; }
+  [data-programs-cta] > div:first-child > div:last-child  { margin-left: auto; margin-right: auto; }
+  [data-programs-cta] button { width: 100%; max-width: 320px; align-self: center; }
+
   /* Hero inline stats — 2 columns on mobile */
-  [data-hero-inner] > div > div:last-child { grid-template-columns: repeat(2, auto) !important; gap: 14px 20px !important; }
-  /* Journey progress strip scrolls horizontally on small screens */
-  [data-journey-strip] { overflow-x: auto !important; justify-content: flex-start !important; border-radius: 16px !important; }
-  [data-journey-connector] { flex: 0 0 20px !important; min-width: 20px !important; margin: 0 8px !important; }
+  [data-hero-inner] > div > div:last-child {
+    grid-template-columns: repeat(2, auto) !important;
+    gap: 14px 20px !important;
+  }
+  /* Hero CTAs — full width primary on mobile for thumb-reach */
+  [data-hero-inner] > div > div:nth-last-child(2) { width: 100%; }
+  [data-hero-inner] > div > div:nth-last-child(2) > button {
+    flex: 1 1 0;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  /* Journey progress strip scrolls horizontally */
+  [data-journey-strip] {
+    overflow-x: auto !important;
+    justify-content: flex-start !important;
+    border-radius: 16px !important;
+    padding: 16px 18px !important;
+    /* allow snap scroll for nicer UX */
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  [data-journey-strip] > button { scroll-snap-align: start; }
+  [data-journey-connector] {
+    flex: 0 0 20px !important;
+    min-width: 20px !important;
+    margin: 19px 6px 0 !important;
+  }
 
   /* Timeline: single-column left-rail */
   [data-timeline-centerline] { left: 22px !important; transform: none !important; }
-  [data-timeline-row] { display: flex !important; gap: 18px !important; align-items: flex-start !important; }
+  [data-timeline-row] {
+    display: flex !important;
+    gap: 18px !important;
+    align-items: flex-start !important;
+    grid-template-columns: unset !important;
+  }
   [data-timeline-row] > div:empty { display: none !important; }
-  [data-timeline-row] > div:nth-child(2) { order: 0 !important; flex: 0 0 44px !important; justify-content: flex-start !important; }
-  [data-timeline-row] > div:nth-child(2) > div:first-child { width: 44px !important; height: 44px !important; font-size: 12px !important; border-width: 2px !important; }
+  [data-timeline-row] > div:nth-child(2) {
+    order: 0 !important;
+    flex: 0 0 44px !important;
+    justify-content: flex-start !important;
+    padding: 0 !important;
+  }
+  [data-timeline-row] > div:nth-child(2) > div:first-child {
+    width: 44px !important; height: 44px !important;
+    font-size: 12px !important; border-width: 2px !important;
+  }
   [data-timeline-row] > div:nth-child(1),
-  [data-timeline-row] > div:nth-child(3) { order: 1 !important; flex: 1 1 auto !important; padding: 0 !important; min-width: 0 !important; }
+  [data-timeline-row] > div:nth-child(3) {
+    order: 1 !important;
+    flex: 1 1 auto !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+  }
   [data-timeline-card] { text-align: start !important; padding: 18px 20px !important; }
   [data-timeline-arrow] { display: none !important; }
 
+  /* Tighten headings */
   h1, h2 { letter-spacing: -0.02em !important; }
+
+  /* Section header bottom margin — smaller */
+  section [style*="margin-bottom: 3.5rem"] { margin-bottom: 2.25rem !important; }
 }
 
-/* SMALL MOBILE (≤480px) */
+/* ───────────── SMALL MOBILE (≤480px) ───────────── */
 @media (max-width: 480px) {
   header { padding: 0 14px !important; height: 64px !important; }
-  section { padding-left: 0.9rem !important; padding-right: 0.9rem !important; padding-top: 3rem !important; padding-bottom: 3rem !important; }
-  [data-hero-inner] { padding: 0 0.9rem !important; }
+  section {
+    padding-left: 0.9rem !important;
+    padding-right: 0.9rem !important;
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+  [data-hero-inner] { padding: 5rem 0.9rem 3rem !important; }
 
-  [data-team-grid] { grid-template-columns: 1fr !important; }
+  [data-team-grid]    { grid-template-columns: 1fr !important; }
   [data-pillars-grid] { grid-template-columns: 1fr !important; }
   [data-modules-grid] { grid-template-columns: 1fr !important; }
-  [data-contact-frame] > div { padding: 22px !important; }
+  [data-footer-grid]  { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
 
-  /* Startups domains grid — 1 column on smallest screens */
+  [data-contact-frame] > div { padding: 22px !important; }
   [data-ecosystem-grid] { grid-template-columns: 1fr !important; }
+
+  /* Hero inline stats — single column on very narrow */
+  [data-hero-inner] > div > div:last-child {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px 14px !important;
+  }
+  /* Hero CTAs — stack so each is full-width and tappable */
+  [data-hero-inner] > div > div:nth-last-child(2) {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  [data-hero-inner] > div > div:nth-last-child(2) > button {
+    width: 100%;
+    height: 48px !important;
+  }
+
+  [data-startups-tabs-bar] { top: 56px !important; }
+  [data-startups-distribution] { padding: 18px 14px !important; }
+  [data-domain-bar-label]      { width: 88px !important; font-size: 12px !important; }
+  [data-program-panel-inner]   { padding: 1rem !important; }
+  [data-startups-cta-grid]     { padding: 1.75rem 1.25rem !important; border-radius: 18px !important; }
+  [data-programs-cta]          { padding: 1.75rem 1.25rem !important; border-radius: 18px !important; }
+}
+
+/* ───────────── TINY (≤360px) — Galaxy Fold etc. ───────────── */
+@media (max-width: 360px) {
+  header { padding: 0 10px !important; }
+  section { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+  [data-hero-inner] { padding: 4.75rem 0.75rem 2.75rem !important; }
+  [data-domain-bar-label] { width: 76px !important; }
 }
