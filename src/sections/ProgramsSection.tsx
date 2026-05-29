@@ -430,6 +430,21 @@ const ProgramsSection: React.FC<{
     return () => cancelAnimationFrame(id);
   }, [activeProgram]);
 
+  // Dynamic panel height — measure inner content so max-height never clips
+  const panelInnerRef = React.useRef<HTMLDivElement>(null);
+  const [panelHeight, setPanelHeight] = React.useState(0);
+
+  React.useEffect(() => {
+    const inner = panelInnerRef.current;
+    if (!inner) return;
+    // Measure immediately
+    setPanelHeight(inner.scrollHeight);
+    // Re-measure whenever content changes (language switch, different program)
+    const ro = new ResizeObserver(() => setPanelHeight(inner.scrollHeight));
+    ro.observe(inner);
+    return () => ro.disconnect();
+  }, [activeProgram, lang]);
+
   const active = activeProgram !== null ? PROGRAMS[activeProgram] : null;
   const activeAccent = active ? ACCENT[active.accent] : ACCENT.blue;
 
@@ -445,7 +460,7 @@ const ProgramsSection: React.FC<{
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         {/* LAYER 1 — Section header */}
-        <SectionHeader label={t.label} title={t.title} subtitle={t.sub} />
+        <SectionHeader label={t.label} title={t.title} subtitle={t.sub} center />
 
         {/* LAYER 2 — Journey progress strip */}
         <div
@@ -707,15 +722,16 @@ const ProgramsSection: React.FC<{
         <div
           ref={panelRef}
           style={{
-            maxHeight: active ? 900 : 0,
+            maxHeight: active ? panelHeight || 1200 : 0,
             opacity: active ? 1 : 0,
             overflow: "hidden",
-            transition: "max-height 0.35s ease, opacity 0.35s ease, margin 0.35s ease",
+            transition: "max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease, margin 0.35s ease",
             marginTop: active ? "1.5rem" : 0,
           }}
         >
           {active && (
             <div
+              ref={panelInnerRef}
               style={{
                 background: "#fff",
                 border: `1px solid ${activeAccent.main}33`,

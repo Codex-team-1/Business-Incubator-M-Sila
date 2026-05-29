@@ -101,26 +101,32 @@ const StatPill: React.FC<{
 };
 
 /* ── Domain badge ── */
-const DomainBadge: React.FC<{ icon: React.ReactNode; label: string; count: number; color: string; bg: string }> = ({
-  icon, label, count, color, bg,
+const DomainBadge: React.FC<{ icon: React.ReactNode; label: string; count: number; color: string; bg: string; active?: boolean; onClick?: () => void }> = ({
+  icon, label, count, color, bg, active, onClick,
 }) => {
   const [hovered, setHovered] = React.useState(false);
+  const lit = active || hovered;
   return (
-    <div
+    <button
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={onClick}
       style={{
         display: "flex",
         alignItems: "center",
         gap: 10,
         padding: "12px 16px",
         borderRadius: 14,
-        background: hovered ? bg : "#fff",
-        border: `1px solid ${hovered ? color + "55" : "#E4E6EF"}`,
+        background: lit ? bg : "#fff",
+        border: `1px solid ${lit ? color + "66" : "#E4E6EF"}`,
         transition: "all 0.22s ease",
-        transform: hovered ? "translateY(-2px)" : "none",
-        boxShadow: hovered ? `0 8px 24px ${color}22` : "0 1px 4px rgba(0,0,0,0.04)",
-        cursor: "default",
+        transform: lit ? "translateY(-2px)" : "none",
+        boxShadow: lit ? `0 8px 24px ${color}22` : "0 1px 4px rgba(0,0,0,0.04)",
+        cursor: "pointer",
+        font: "inherit",
+        textAlign: "left",
+        outline: active ? `2px solid ${color}44` : "none",
+        outlineOffset: 2,
       }}
     >
       <div
@@ -128,26 +134,214 @@ const DomainBadge: React.FC<{ icon: React.ReactNode; label: string; count: numbe
           width: 34,
           height: 34,
           borderRadius: 10,
-          background: bg,
+          background: lit ? color + "20" : bg,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           flexShrink: 0,
           border: `1px solid ${color}33`,
+          transition: "background 0.22s",
         }}
       >
         {icon}
       </div>
       <div style={{ minWidth: 0 }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: "#121420", lineHeight: 1.2 }}>{label}</div>
+        <div style={{ fontSize: 13, fontWeight: 700, color: active ? color : "#121420", lineHeight: 1.2, transition: "color 0.22s" }}>{label}</div>
         <div style={{ fontSize: 11, color: "#6B7089", marginTop: 2 }}>
           <span className="num" style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, color, fontSize: 12 }}>{count}</span>
           {" "}startups
         </div>
       </div>
-    </div>
+    </button>
   );
 };
+
+/* ── Startup showcase card ── */
+interface StartupEntry {
+  name: string;
+  year: string;
+  domain: string;
+  tagline: Record<"EN" | "FR" | "AR", string>;
+}
+
+const STARTUPS: StartupEntry[] = [
+  // Agri-tech
+  {
+    name: "AgroSmart",
+    year: "2021",
+    domain: "Agri-tech",
+    tagline: {
+      EN: "Smart irrigation & crop-health monitoring using low-cost IoT sensors.",
+      FR: "Irrigation intelligente et suivi de la santé des cultures via des capteurs IoT.",
+      AR: "ري ذكي ورصد صحة المحاصيل باستخدام أجهزة استشعار إنترنت الأشياء.",
+    },
+  },
+  {
+    name: "BioSol",
+    year: "2022",
+    domain: "Agri-tech",
+    tagline: {
+      EN: "Biofertiliser production from university agricultural research output.",
+      FR: "Production de biofertilisants à partir de la recherche agronomique universitaire.",
+      AR: "إنتاج الأسمدة البيولوجية من مخرجات البحث الزراعي الجامعي.",
+    },
+  },
+  {
+    name: "FieldVision",
+    year: "2022",
+    domain: "Agri-tech",
+    tagline: {
+      EN: "Drone-based aerial imaging for early detection of crop disease and stress.",
+      FR: "Imagerie aérienne par drone pour la détection précoce des maladies des cultures.",
+      AR: "تصوير جوي بالطائرة المسيّرة للكشف المبكر عن أمراض المحاصيل.",
+    },
+  },
+  {
+    name: "PackFresh",
+    year: "2023",
+    domain: "Agri-tech",
+    tagline: {
+      EN: "Biodegradable packaging solutions for local agricultural produce.",
+      FR: "Solutions d'emballage biodégradable pour les produits agricoles locaux.",
+      AR: "حلول تعبئة قابلة للتحلل للمنتجات الزراعية المحلية.",
+    },
+  },
+  // EdTech
+  {
+    name: "SchoolPad",
+    year: "2021",
+    domain: "EdTech",
+    tagline: {
+      EN: "Arabic-first interactive learning platform for K-12 students in Algeria.",
+      FR: "Plateforme d'apprentissage interactif en arabe pour les élèves K-12 en Algérie.",
+      AR: "منصة تعليمية تفاعلية باللغة العربية أولاً لطلاب التعليم الأساسي.",
+    },
+  },
+  {
+    name: "MentorLink",
+    year: "2022",
+    domain: "EdTech",
+    tagline: {
+      EN: "Peer-mentoring app connecting university students with alumni mentors.",
+      FR: "Application de mentorat entre pairs reliant les étudiants aux anciens diplômés.",
+      AR: "تطبيق إرشاد يربط طلاب الجامعة بالخريجين المرشدين.",
+    },
+  },
+  {
+    name: "LabKit",
+    year: "2023",
+    domain: "EdTech",
+    tagline: {
+      EN: "Low-cost virtual-lab kits for science education in under-equipped schools.",
+      FR: "Kits de laboratoire virtuel à faible coût pour l'enseignement scientifique.",
+      AR: "مجموعات مختبر افتراضي بتكلفة منخفضة لتعليم العلوم في المدارس.",
+    },
+  },
+  // HealthTech
+  {
+    name: "MediTrack",
+    year: "2021",
+    domain: "HealthTech",
+    tagline: {
+      EN: "Patient record management system designed for Algerian public clinics.",
+      FR: "Système de gestion des dossiers patients pour les cliniques publiques algériennes.",
+      AR: "نظام إدارة سجلات المرضى مصمم للعيادات العمومية الجزائرية.",
+    },
+  },
+  {
+    name: "PharmAlert",
+    year: "2022",
+    domain: "HealthTech",
+    tagline: {
+      EN: "Medication reminder and drug-interaction checker for chronic patients.",
+      FR: "Rappel médicaments et vérificateur d'interactions pour patients chroniques.",
+      AR: "تذكير بالأدوية وفحص التفاعلات الدوائية للمرضى المزمنين.",
+    },
+  },
+  {
+    name: "TeleDoc",
+    year: "2023",
+    domain: "HealthTech",
+    tagline: {
+      EN: "Teleconsultation platform linking rural patients to specialist physicians.",
+      FR: "Plateforme de téléconsultation reliant les patients ruraux aux médecins spécialistes.",
+      AR: "منصة استشارات طبية عن بُعد تربط المرضى في المناطق النائية بالأطباء.",
+    },
+  },
+  // Clean Energy
+  {
+    name: "SolarEdge M'Sila",
+    year: "2021",
+    domain: "Clean Energy",
+    tagline: {
+      EN: "Off-grid solar micro-grids for rural electrification in the Hauts-Plateaux.",
+      FR: "Micro-réseaux solaires hors-réseau pour l'électrification rurale des Hauts-Plateaux.",
+      AR: "شبكات طاقة شمسية صغيرة للكهربة الريفية في منطقة الهضاب العليا.",
+    },
+  },
+  {
+    name: "WindSense",
+    year: "2022",
+    domain: "Clean Energy",
+    tagline: {
+      EN: "Micro-wind turbine kits for remote agricultural and community sites.",
+      FR: "Kits de micro-éoliennes pour sites agricoles et communautaires isolés.",
+      AR: "مجموعات توربينات ريحية مصغرة للمواقع الزراعية والمجتمعية النائية.",
+    },
+  },
+  {
+    name: "GreenBuild",
+    year: "2023",
+    domain: "Clean Energy",
+    tagline: {
+      EN: "Passive energy building materials made from locally-sourced organic waste.",
+      FR: "Matériaux de construction passifs fabriqués à partir de déchets organiques locaux.",
+      AR: "مواد بناء موفرة للطاقة مصنوعة من النفايات العضوية المحلية.",
+    },
+  },
+  // Digital Services
+  {
+    name: "DeliverM",
+    year: "2022",
+    domain: "Digital Services",
+    tagline: {
+      EN: "Last-mile delivery aggregator for local businesses in M'Sila wilaya.",
+      FR: "Agrégateur de livraison du dernier kilomètre pour les entreprises locales de M'Sila.",
+      AR: "منصة توصيل للميل الأخير للشركات المحلية في ولاية المسيلة.",
+    },
+  },
+  {
+    name: "CivicMap",
+    year: "2023",
+    domain: "Digital Services",
+    tagline: {
+      EN: "Citizen reporting app for municipal infrastructure issues and follow-up.",
+      FR: "Application citoyenne de signalement des problèmes d'infrastructure municipale.",
+      AR: "تطبيق إبلاغ مدني عن مشاكل البنية التحتية البلدية ومتابعتها.",
+    },
+  },
+  // Fintech
+  {
+    name: "CashBridge",
+    year: "2022",
+    domain: "Fintech",
+    tagline: {
+      EN: "Mobile micro-credit platform for underbanked small traders and artisans.",
+      FR: "Plateforme de micro-crédit mobile pour petits commerçants et artisans non-bancarisés.",
+      AR: "منصة ائتمان صغير متنقل للتجار الصغار والحرفيين غير المشمولين بالخدمات المصرفية.",
+    },
+  },
+  {
+    name: "InvoiceAI",
+    year: "2023",
+    domain: "Fintech",
+    tagline: {
+      EN: "AI-powered invoicing and cash-flow forecasting for Algerian SMEs.",
+      FR: "Facturation et prévision de trésorerie par IA pour les PME algériennes.",
+      AR: "فوترة وتوقع التدفق النقدي بالذكاء الاصطناعي للمؤسسات الصغيرة والمتوسطة.",
+    },
+  },
+];
 
 /* ── Journey step (mini roadmap) ── */
 const JourneyStep: React.FC<{
@@ -231,6 +425,7 @@ const StartupsSection: React.FC<{
   const isRTL = lang === "AR";
   const { ref: statsRef, inView: statsInView } = useInView(0.3);
   const [activeTab, setActiveTab] = React.useState<"space" | "process" | "domains">("space");
+  const [activeDomain, setActiveDomain] = React.useState<string | null>(null);
 
   const t = {
     EN: {
@@ -275,15 +470,17 @@ const StartupsSection: React.FC<{
         },
       ],
       domainsTitle: "Startup Domains",
-      domainsSub: "Fields represented across all graduated and active projects.",
+      domainsSub: "Click a domain to browse the startups behind the numbers.",
       domains: [
-        { label: "Agri-tech", count: 4 },
-        { label: "EdTech", count: 3 },
-        { label: "HealthTech", count: 3 },
-        { label: "Clean Energy", count: 3 },
-        { label: "Digital Services", count: 2 },
-        { label: "Fintech", count: 2 },
+        { key: "Agri-tech", label: "Agri-tech", count: 4 },
+        { key: "EdTech", label: "EdTech", count: 3 },
+        { key: "HealthTech", label: "HealthTech", count: 3 },
+        { key: "Clean Energy", label: "Clean Energy", count: 3 },
+        { key: "Digital Services", label: "Digital Services", count: 2 },
+        { key: "Fintech", label: "Fintech", count: 2 },
       ],
+      allDomains: "All Domains",
+      since: "Since",
       cta: "Your startup could be the next — apply now",
       ctaBtn: "Apply Now",
       ctaNote: "Free to apply · No equity taken · Open to all faculties",
@@ -330,15 +527,17 @@ const StartupsSection: React.FC<{
         },
       ],
       domainsTitle: "Domaines d'activité",
-      domainsSub: "Secteurs représentés parmi les projets diplômés et actifs.",
+      domainsSub: "Cliquez sur un domaine pour explorer les startups derrière les chiffres.",
       domains: [
-        { label: "Agri-tech", count: 4 },
-        { label: "EdTech", count: 3 },
-        { label: "HealthTech", count: 3 },
-        { label: "Énergie propre", count: 3 },
-        { label: "Services numériques", count: 2 },
-        { label: "Fintech", count: 2 },
+        { key: "Agri-tech", label: "Agri-tech", count: 4 },
+        { key: "EdTech", label: "EdTech", count: 3 },
+        { key: "HealthTech", label: "HealthTech", count: 3 },
+        { key: "Clean Energy", label: "Énergie propre", count: 3 },
+        { key: "Digital Services", label: "Services numériques", count: 2 },
+        { key: "Fintech", label: "Fintech", count: 2 },
       ],
+      allDomains: "Tous les domaines",
+      since: "Depuis",
       cta: "Votre projet pourrait être ici — candidatez maintenant.",
       ctaBtn: "Candidater",
       ctaNote: "Candidature gratuite · Sans prise de capital · Toutes facultés",
@@ -385,15 +584,17 @@ const StartupsSection: React.FC<{
         },
       ],
       domainsTitle: "مجالات الشركات الناشئة",
-      domainsSub: "القطاعات الممثلة في المشاريع الخريجة والنشطة.",
+      domainsSub: "انقر على مجال لاستعراض الشركات الناشئة وراء الأرقام.",
       domains: [
-        { label: "تقنيات زراعية", count: 4 },
-        { label: "تقنيات تعليمية", count: 3 },
-        { label: "تقنيات صحية", count: 3 },
-        { label: "طاقة نظيفة", count: 3 },
-        { label: "خدمات رقمية", count: 2 },
-        { label: "تقنيات مالية", count: 2 },
+        { key: "Agri-tech", label: "تقنيات زراعية", count: 4 },
+        { key: "EdTech", label: "تقنيات تعليمية", count: 3 },
+        { key: "HealthTech", label: "تقنيات صحية", count: 3 },
+        { key: "Clean Energy", label: "طاقة نظيفة", count: 3 },
+        { key: "Digital Services", label: "خدمات رقمية", count: 2 },
+        { key: "Fintech", label: "تقنيات مالية", count: 2 },
       ],
+      allDomains: "جميع المجالات",
+      since: "منذ",
       cta: "قد يكون مشروعك هنا — تقدّم الآن.",
       ctaBtn: "تقدّم الآن",
       ctaNote: "التقديم مجاني · بدون حصص ملكية · مفتوح لجميع الكليات",
@@ -420,6 +621,12 @@ const StartupsSection: React.FC<{
 
   /* total for progress bars */
   const domainTotal = t.domains.reduce((s, d) => s + d.count, 0);
+
+  /* filtered startups for the showcase */
+  const visibleStartups = React.useMemo(
+    () => activeDomain ? STARTUPS.filter(s => s.domain === activeDomain) : STARTUPS,
+    [activeDomain],
+  );
 
   return (
     <section
@@ -760,6 +967,7 @@ const StartupsSection: React.FC<{
           {/* ═══ TAB 3: DOMAINS ═══ */}
           {activeTab === "domains" && (
             <div style={{ paddingBottom: "3.5rem" }}>
+              {/* Header */}
               <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
                 <div
                   style={{
@@ -778,7 +986,7 @@ const StartupsSection: React.FC<{
                 </div>
               </div>
 
-              {/* Domain badge grid */}
+              {/* Domain filter chips */}
               <div
                 data-ecosystem-grid
                 style={{
@@ -790,17 +998,77 @@ const StartupsSection: React.FC<{
               >
                 {t.domains.map((d, i) => (
                   <DomainBadge
-                    key={i}
+                    key={d.key}
                     icon={domainIcons[i]}
                     label={d.label}
                     count={d.count}
                     color={domainColors[i]}
                     bg={domainBgs[i]}
+                    active={activeDomain === d.key}
+                    onClick={() => setActiveDomain(prev => prev === d.key ? null : d.key)}
                   />
                 ))}
               </div>
 
-              {/* Progress bars */}
+              {/* "All Domains" clear pill */}
+              {activeDomain && (
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+                  <button
+                    onClick={() => setActiveDomain(null)}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      padding: "6px 16px",
+                      borderRadius: 9999,
+                      border: "1px solid #E4E6EF",
+                      background: "#fff",
+                      fontSize: 12,
+                      fontWeight: 600,
+                      color: "#6B7089",
+                      cursor: "pointer",
+                      font: "inherit",
+                      transition: "all 0.18s ease",
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = "#1B4FBB"; e.currentTarget.style.color = "#1B4FBB"; }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = "#E4E6EF"; e.currentTarget.style.color = "#6B7089"; }}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    {t.allDomains}
+                  </button>
+                </div>
+              )}
+
+              {/* Startup showcase grid */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+                  gap: 16,
+                  marginBottom: 32,
+                }}
+              >
+                {visibleStartups.map((startup, i) => {
+                  const domainIdx = t.domains.findIndex(d => d.key === startup.domain);
+                  const color = domainIdx >= 0 ? domainColors[domainIdx] : "#1B4FBB";
+                  const bg    = domainIdx >= 0 ? domainBgs[domainIdx]    : "#D6E4F7";
+                  const domainLabel = domainIdx >= 0 ? t.domains[domainIdx].label : startup.domain;
+                  return (
+                    <StartupShowcaseCard
+                      key={startup.name}
+                      startup={startup}
+                      lang={lang}
+                      color={color}
+                      bg={bg}
+                      domainLabel={domainLabel}
+                      sinceLabel={t.since}
+                      index={i}
+                    />
+                  );
+                })}
+              </div>
+
+              {/* Distribution bar chart */}
               <div
                 style={{
                   background: "#F7F8FC",
@@ -825,12 +1093,14 @@ const StartupsSection: React.FC<{
                 <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                   {t.domains.map((d, i) => (
                     <DomainBar
-                      key={i}
+                      key={d.key}
                       label={d.label}
                       count={d.count}
                       total={domainTotal}
                       color={domainColors[i]}
                       bg={domainBgs[i]}
+                      active={activeDomain === d.key}
+                      onClick={() => setActiveDomain(prev => prev === d.key ? null : d.key)}
                     />
                   ))}
                 </div>
@@ -1025,6 +1295,133 @@ const FeatureRow: React.FC<{ text: string; index: number }> = ({ text }) => {
   );
 };
 
+/* ── Startup showcase card ── */
+const StartupShowcaseCard: React.FC<{
+  startup: StartupEntry;
+  lang: "EN" | "FR" | "AR";
+  color: string;
+  bg: string;
+  domainLabel: string;
+  sinceLabel: string;
+  index: number;
+}> = ({ startup, lang, color, bg, domainLabel, sinceLabel }) => {
+  const [hovered, setHovered] = React.useState(false);
+  // derive initials from startup name for the avatar
+  const initials = startup.name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(w => w[0])
+    .join("")
+    .toUpperCase();
+
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: "#fff",
+        border: `1px solid ${hovered ? color + "55" : "#E4E6EF"}`,
+        borderRadius: 18,
+        padding: "20px 22px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 12,
+        transform: hovered ? "translateY(-4px)" : "translateY(0)",
+        boxShadow: hovered ? `0 14px 36px ${color}1A` : "0 2px 8px rgba(0,0,0,0.04)",
+        transition: "all 0.3s cubic-bezier(0.34,1.4,0.5,1)",
+      }}
+    >
+      {/* Top row — avatar + domain pill + year */}
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {/* Avatar circle */}
+        <div
+          style={{
+            width: 44,
+            height: 44,
+            borderRadius: 14,
+            background: `linear-gradient(135deg, ${color}33, ${color}18)`,
+            border: `1.5px solid ${color}44`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontFamily: "'Syne',sans-serif",
+            fontSize: 15,
+            fontWeight: 800,
+            color,
+            flexShrink: 0,
+            transition: "all 0.25s",
+            transform: hovered ? "rotate(-5deg) scale(1.06)" : "none",
+          }}
+        >
+          {initials}
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div
+            style={{
+              fontFamily: "'Syne',sans-serif",
+              fontSize: "1.05rem",
+              fontWeight: 700,
+              color: "#121420",
+              lineHeight: 1.2,
+              letterSpacing: "-0.01em",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {startup.name}
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
+            <span
+              style={{
+                display: "inline-block",
+                padding: "2px 9px",
+                borderRadius: 9999,
+                fontSize: 10,
+                fontWeight: 700,
+                background: bg,
+                color,
+                letterSpacing: "0.04em",
+              }}
+            >
+              {domainLabel}
+            </span>
+            <span style={{ fontSize: 11, color: "#6B7089" }}>
+              {sinceLabel} {startup.year}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Tagline */}
+      <div
+        style={{
+          fontSize: 13,
+          color: "#6B7089",
+          lineHeight: 1.65,
+          flex: 1,
+        }}
+      >
+        {startup.tagline[lang]}
+      </div>
+
+      {/* Bottom accent bar */}
+      <div
+        style={{
+          height: 2,
+          borderRadius: 2,
+          background: color,
+          transform: hovered ? "scaleX(1)" : "scaleX(0.12)",
+          transformOrigin: "left",
+          transition: "transform 0.35s cubic-bezier(0.34,1.4,0.5,1)",
+          opacity: hovered ? 0.85 : 0.35,
+        }}
+      />
+    </div>
+  );
+};
+
 /* ── Domain bar with animated fill ── */
 const DomainBar: React.FC<{
   label: string;
@@ -1032,19 +1429,40 @@ const DomainBar: React.FC<{
   total: number;
   color: string;
   bg: string;
-}> = ({ label, count, total, color }) => {
+  active?: boolean;
+  onClick?: () => void;
+}> = ({ label, count, total, color, active, onClick }) => {
   const { ref, inView } = useInView(0.1);
+  const [hovered, setHovered] = React.useState(false);
   const pct = Math.round((count / total) * 100);
+  const lit = active || hovered;
   return (
-    <div ref={ref} style={{ display: "flex", alignItems: "center", gap: 14 }}>
+    <div
+      ref={ref}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={onClick}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 14,
+        cursor: onClick ? "pointer" : "default",
+        padding: "4px 8px",
+        borderRadius: 8,
+        background: lit ? color + "0D" : "transparent",
+        transition: "background 0.2s ease",
+        marginInline: -8,
+      }}
+    >
       <div
         style={{
           fontSize: 13,
-          fontWeight: 600,
-          color: "#383D58",
+          fontWeight: lit ? 700 : 600,
+          color: lit ? color : "#383D58",
           width: 140,
           flexShrink: 0,
           lineHeight: 1.3,
+          transition: "color 0.2s, font-weight 0.2s",
         }}
       >
         {label}
@@ -1065,6 +1483,7 @@ const DomainBar: React.FC<{
             background: `linear-gradient(90deg, ${color} 0%, ${color}bb 100%)`,
             borderRadius: 9999,
             transition: "width 0.9s cubic-bezier(0.22,1,0.36,1)",
+            opacity: lit ? 1 : 0.7,
           }}
         />
       </div>
@@ -1074,10 +1493,11 @@ const DomainBar: React.FC<{
           fontFamily: "'Syne',sans-serif",
           fontSize: 13,
           fontWeight: 700,
-          color,
+          color: lit ? color : "#6B7089",
           width: 28,
           textAlign: "right",
           flexShrink: 0,
+          transition: "color 0.2s",
         }}
       >
         {count}

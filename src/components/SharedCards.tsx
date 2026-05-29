@@ -1287,7 +1287,7 @@ export const Footer: React.FC<{ onNav: (id: string) => void; lang: Lang }> = ({
           EN: "Co-working Space",
           FR: "Espace co-working",
           AR: "فضاء العمل",
-          key: "startups",
+          key: "services",
         },
       ],
     },

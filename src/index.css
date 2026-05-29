@@ -43,20 +43,15 @@ section { animation: sectionFadeIn 0.7s ease both; }
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-@keyframes teamMarqueeRTL {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
-}
 [data-team-marquee-track] {
   animation: teamMarquee var(--marquee-duration, 48s) linear infinite;
   will-change: transform;
-  /* Smooth deceleration/acceleration on hover-pause.
-     animation-play-state isn't transitionable, but slowing duration first
-     gives a "coasting to a stop" feel via the transition below. */
   transition: animation-duration 0.6s ease;
 }
+/* RTL: same physical scroll direction (left) — direction:ltr on the track keeps
+   the flex layout consistent, so the same keyframe works for both orientations. */
 [data-team-marquee-track][data-rtl="true"] {
-  animation-name: teamMarqueeRTL;
+  animation-name: teamMarquee;
 }
 /* Pause the marquee only when hovering directly over a card — not the faded edge zones */
 [data-team-marquee-track][data-paused="true"] {

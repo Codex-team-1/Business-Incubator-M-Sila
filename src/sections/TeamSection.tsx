@@ -431,9 +431,12 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
       data-screen-label="Team"
       style={{
         padding: "7rem 0",
-        overflow: "hidden",
         background: "linear-gradient(180deg, #F7F8FC 0%, #fff 100%)",
         direction: isRTL ? "rtl" : "ltr",
+        /* overflow-x hidden prevents horizontal scroll bleed from the marquee,
+           but must NOT be overflow:hidden (both axes) as that clips sticky/fixed
+           descendants and fights responsive padding overrides */
+        overflowX: "hidden",
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 2rem" }}>
@@ -594,11 +597,19 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
         style={{
           position: "relative",
           width: "100%",
+          /* Use logical gradient (ltr-forced) so the fade is always
+             left-edge → opaque → right-edge regardless of page direction */
           WebkitMaskImage:
-            "linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%)",
+            "linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%)",
           maskImage:
-            "linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%)",
+            "linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%)",
+          WebkitMaskSize: "100% 100%",
+          maskSize: "100% 100%",
+          WebkitMaskRepeat: "no-repeat",
+          maskRepeat: "no-repeat",
+          direction: "ltr", // force mask gradient direction to always be ltr
           padding: "1.5rem 0",
+          overflow: "hidden",
         }}
       >
         <div
@@ -611,8 +622,7 @@ const TeamSection: React.FC<{ lang: Lang }> = ({ lang }) => {
             gap: 24,
             width: "max-content",
             padding: "0 12px",
-            direction: "ltr", // keep loop math consistent; RTL handled via keyframe
-            // duration scales with the number of cards for a steady pace
+            direction: "ltr", // always ltr so translateX(-50%) loop math is correct
             ["--marquee-duration" as string]: `${members.length * 6}s`,
           }}
         >

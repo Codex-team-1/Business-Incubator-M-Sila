@@ -1,12 +1,7 @@
 import React from "react";
 import type { Lang, Milestone } from "../types";
 import { JourneyTimeline } from "../components/SharedCards";
-import { useReveal } from "../hooks/useReveal";
 import directorPhoto from "../assets/team/incubator-director.jpg";
-import logoAIHouse    from "../assets/AI-house.jpg";
-import logoCenterTech from "../assets/center-tech.jpg";
-import logoCDE        from "../assets/cde.jpg";
-import logoBLUE       from "../assets/blue-msila.jpg";
 
 /* ─── SVG icons for the four pillars ─────────────────────────────────── */
 const PillarIcons = [
@@ -89,15 +84,6 @@ const IntroSection: React.FC<{ lang: Lang }> = ({ lang }) => {
         { year: "2025", accent: "blue",  tag: "Ecosystem Growth",       title: "Incubator anchors a full innovation ecosystem of 5 university units",      desc: "The incubator now sits at the centre of five innovation units at M'Sila University: Business Incubator, House of Artificial Intelligence (دار الذكاء الاصطناعي), Center for Technology Support and Innovation (CSTI), Center for Entrepreneurship Development (CDE), and the University–Business Liaison Office (BLUE) — the ecosystem the incubator catalysed in 2019 is now fully built out.", stat: { n: "5 units", l: "active innovation units" } },
         { ongoing: true, accent: "green", tag: "The Journey Continues", title: "And we're just getting started.", desc: "New cohorts in incubation, deeper national and international partnerships, and a renewed push to make M'Sila a regional hub for student entrepreneurship — the next chapter is already being written." },
       ] as Milestone[],
-      ecoLabel: "University Ecosystem",
-      ecoTitle: "Part of a wider innovation network.",
-      ecoSub: "The incubator works alongside four other innovation units at Université Mohamed Boudiaf.",
-      ecosystem: [
-        { ar: "دار الذكاء الاصطناعي", en: "House of Artificial Intelligence", d: "A dedicated hub advancing AI research, training and applied projects across faculties." },
-        { ar: "مركز دعم التكنولوجيا والابتكار", en: "Center for Technology Support & Innovation", d: "Supports researchers and students in protecting and commercializing their innovations." },
-        { ar: "مركز تطوير المقاولاتية", en: "Center for Entrepreneurship Development (CDE)", d: "Builds entrepreneurial skills and a startup mindset among the university community." },
-        { ar: "مكتب الربط", en: "University–Business Liaison Office (BLUE)", d: "Connects the university with the economic world to turn research into real ventures." },
-      ],
     },
     FR: {
       label: "À propos de l'incubateur",
@@ -133,15 +119,6 @@ const IntroSection: React.FC<{ lang: Lang }> = ({ lang }) => {
         { year: "2025", accent: "blue",  tag: "Croissance de l'Écosystème", title: "L'incubateur ancre un écosystème d'innovation complet de 5 unités universitaires", desc: "L'incubateur se trouve désormais au centre de cinq unités d'innovation à l'Université de M'Sila : l'Incubateur d'Entreprises, la Maison de l'Intelligence Artificielle (دار الذكاء الاصطناعي), le Centre de Support Technologique et d'Innovation (CSTI), le Centre de Développement de l'Entrepreneuriat (CDE) et le Bureau de Liaison Université–Entreprise (BLUE) — l'écosystème catalysé par l'incubateur en 2019 est désormais pleinement déployé.", stat: { n: "5 unités", l: "unités d'innovation actives" } },
         { ongoing: true, accent: "green", tag: "L'aventure continue", title: "Et ce n'est que le début.", desc: "De nouvelles cohortes en incubation, des partenariats nationaux et internationaux plus profonds, et un nouvel élan pour faire de M'Sila un pôle régional de l'entrepreneuriat étudiant — le prochain chapitre s'écrit déjà." },
       ] as Milestone[],
-      ecoLabel: "Écosystème universitaire",
-      ecoTitle: "Au cœur d'un réseau d'innovation plus large.",
-      ecoSub: "L'incubateur collabore avec quatre autres unités d'innovation de l'Université Mohamed Boudiaf.",
-      ecosystem: [
-        { ar: "دار الذكاء الاصطناعي", en: "Maison de l'Intelligence Artificielle", d: "Un pôle dédié à la recherche, la formation et les projets appliqués en IA." },
-        { ar: "مركز دعم التكنولوجيا والابتكار", en: "Centre de Support Technologique & Innovation", d: "Accompagne chercheurs et étudiants pour protéger et valoriser leurs innovations." },
-        { ar: "مركز تطوير المقاولاتية", en: "Centre de Développement de l'Entrepreneuriat (CDE)", d: "Développe les compétences entrepreneuriales et l'esprit startup." },
-        { ar: "مكتب الربط", en: "Bureau de Liaison Université–Entreprise (BLUE)", d: "Relie l'université au monde économique pour transformer la recherche en projets réels." },
-      ],
     },
     AR: {
       label: "حول الحاضنة",
@@ -176,15 +153,6 @@ const IntroSection: React.FC<{ lang: Lang }> = ({ lang }) => {
         { year: "2025", accent: "blue",  tag: "نمو النظام البيئي",      title: "الحاضنة تُرسّخ نظاماً بيئياً متكاملاً من 5 وحدات ابتكار جامعية",   desc: "تقع الحاضنة الآن في قلب خمس وحدات ابتكار بجامعة المسيلة: حاضنة الأعمال، ودار الذكاء الاصطناعي، ومركز دعم التكنولوجيا والابتكار (CSTI)، ومركز تطوير المقاولاتية (CDE)، ومكتب الربط بين الجامعة والمؤسسة (BLUE) — النظام البيئي الذي حفّزته الحاضنة عام 2019 أصبح الآن مكتمل البناء.", stat: { n: "5 وحدات", l: "وحدات ابتكار نشطة" } },
         { ongoing: true, accent: "green", tag: "الرحلة مستمرة", title: "وما زلنا في البداية.", desc: "دفعات جديدة قيد الاحتضان، شراكات وطنية ودولية أعمق، ودفعة متجددة لجعل المسيلة قطباً إقليمياً لريادة الأعمال الطلابية — الفصل القادم يُكتب بالفعل." },
       ] as Milestone[],
-      ecoLabel: "المنظومة الجامعية",
-      ecoTitle: "جزء من شبكة ابتكار أوسع.",
-      ecoSub: "تعمل الحاضنة جنباً إلى جنب مع أربع وحدات ابتكار أخرى في جامعة محمد بوضياف.",
-      ecosystem: [
-        { ar: "دار الذكاء الاصطناعي", en: "House of Artificial Intelligence", d: "مركز مخصص لتطوير أبحاث الذكاء الاصطناعي والتكوين والمشاريع التطبيقية عبر الكليات." },
-        { ar: "مركز دعم التكنولوجيا والابتكار", en: "Center for Technology Support & Innovation", d: "يدعم الباحثين والطلاب في حماية ابتكاراتهم وتثمينها تجارياً." },
-        { ar: "مركز تطوير المقاولاتية", en: "Center for Entrepreneurship Development (CDE)", d: "يبني المهارات المقاولاتية وروح المبادرة لدى المجتمع الجامعي." },
-        { ar: "مكتب الربط", en: "University–Business Liaison Office (BLUE)", d: "يربط الجامعة بالعالم الاقتصادي لتحويل البحث إلى مشاريع حقيقية." },
-      ],
     },
   }[lang];
 
@@ -303,270 +271,8 @@ const IntroSection: React.FC<{ lang: Lang }> = ({ lang }) => {
           title={t.journeyTitle}
           subtitle={t.journeySub}
         />
-
-        {/* ── University ecosystem ─────────────────────────────────────── */}
-        <EcosystemGrid
-          label={t.ecoLabel}
-          title={t.ecoTitle}
-          subtitle={t.ecoSub}
-          items={t.ecosystem}
-          logos={[logoAIHouse, logoCenterTech, logoCDE, logoBLUE]}
-          isRTL={isRTL}
-        />
       </div>
     </section>
-  );
-};
-
-/* ─── Accent palette per ecosystem card index ────────────────────────── */
-const ECO_ACCENTS = [
-  { accent: "#1B4FBB", accentLight: "#D6E4F7", accentDark: "#0D2D72", tag: "AI", tagBg: "#EFF2FB" },
-  { accent: "#1B4FBB", accentLight: "#D6E4F7", accentDark: "#0D2D72", tag: "CATI", tagBg: "#EFF2FB" },
-  { accent: "#7DB83A", accentLight: "#EBF5D8", accentDark: "#5A8A22", tag: "CDE",  tagBg: "#F0FAE3" },
-  { accent: "#7DB83A", accentLight: "#EBF5D8", accentDark: "#5A8A22", tag: "BLUE", tagBg: "#F0FAE3" },
-];
-
-/* ─── Single ecosystem card with logo ───────────────────────────────── */
-const EcoCard: React.FC<{
-  logo: string; ar: string; en: string; d: string;
-  index: number; isRTL: boolean;
-}> = React.memo(({ logo, ar, en, d, index, isRTL }) => {
-  const [hov, setHov] = React.useState(false);
-  const { accent, accentLight, accentDark, tag, tagBg } = ECO_ACCENTS[index];
-  const shadowColor = index < 2
-    ? "rgba(27,79,187,0.16)"
-    : "rgba(125,184,58,0.18)";
-
-  return (
-    <div
-      data-reveal-child
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        ["--i" as string]: index,
-        position: "relative",
-        borderRadius: 24,
-        overflow: "hidden",
-        border: `1.5px solid ${hov ? accent : "#E4E6EF"}`,
-        background: "#fff",
-        transform: hov ? "translateY(-6px)" : "translateY(0)",
-        boxShadow: hov
-          ? `0 20px 50px ${shadowColor}, 0 4px 12px rgba(0,0,0,0.06)`
-          : "0 2px 12px rgba(0,0,0,0.04)",
-        transition: "all 0.30s cubic-bezier(0.34,1.2,0.64,1)",
-        cursor: "default",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      {/* ── Logo banner ─────────────────────────────────────────────── */}
-      <div style={{
-        position: "relative",
-        background: "#fff",
-        borderBottom: `1px solid ${hov ? accentLight : "#F0F1F7"}`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "28px 24px 24px",
-        minHeight: 148,
-        overflow: "hidden",
-        transition: "border-color 0.25s ease",
-      }}>
-        {/* Soft background glow behind logo */}
-        <div style={{
-          position: "absolute",
-          inset: 0,
-          background: `radial-gradient(ellipse 70% 60% at 50% 50%, ${accentLight}55, transparent 75%)`,
-          opacity: hov ? 1 : 0.5,
-          transition: "opacity 0.35s ease",
-          pointerEvents: "none",
-        }} />
-
-        {/* Tag pill — top corner */}
-        <div style={{
-          position: "absolute",
-          top: 14,
-          insetInlineStart: 14,
-          padding: "4px 10px",
-          borderRadius: 9999,
-          background: tagBg,
-          color: accentDark,
-          fontSize: 10,
-          fontWeight: 800,
-          letterSpacing: "0.10em",
-          fontFamily: "'Syne',sans-serif",
-          zIndex: 1,
-        }}>{tag}</div>
-
-        {/* Logo image */}
-        <img
-          src={logo}
-          alt={en}
-          style={{
-            position: "relative",
-            zIndex: 1,
-            maxWidth: 170,
-            maxHeight: 100,
-            width: "auto",
-            height: "auto",
-            objectFit: "contain",
-            filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.08))",
-            transform: hov ? "scale(1.04)" : "scale(1)",
-            transition: "transform 0.35s cubic-bezier(0.34,1.2,0.64,1)",
-          }}
-        />
-      </div>
-
-      {/* ── Text body ────────────────────────────────────────────────── */}
-      <div style={{
-        padding: "20px 24px 26px",
-        display: "flex",
-        flexDirection: "column",
-        gap: 0,
-        flex: 1,
-        direction: isRTL ? "rtl" : "ltr",
-      }}>
-        {isRTL ? (
-          <>
-            {/* Arabic name — bold title (AR mode) */}
-            <div style={{
-              fontFamily: "'Noto Kufi Arabic','DM Sans',sans-serif",
-              fontSize: "1.0rem",
-              fontWeight: 700,
-              color: "#121420",
-              lineHeight: 1.45,
-              marginBottom: 4,
-              direction: "rtl",
-              textAlign: "start",
-            }}>{ar}</div>
-
-            {/* English/French label below */}
-            <div style={{
-              fontFamily: "'Syne',sans-serif",
-              fontSize: 12.5,
-              fontWeight: 700,
-              color: accentDark,
-              lineHeight: 1.35,
-              marginBottom: 14,
-              letterSpacing: "0.01em",
-              direction: "rtl",
-            }}>{en}</div>
-          </>
-        ) : (
-          <>
-            {/* English/French label — bold title (EN/FR mode) */}
-            <div style={{
-              fontFamily: "'Syne',sans-serif",
-              fontSize: "1.0rem",
-              fontWeight: 700,
-              color: "#121420",
-              lineHeight: 1.35,
-              marginBottom: 4,
-              letterSpacing: "-0.005em",
-              direction: "ltr",
-            }}>{en}</div>
-
-            {/* Arabic name below in smaller muted font */}
-            <div style={{
-              fontFamily: "'Noto Kufi Arabic','DM Sans',sans-serif",
-              fontSize: 12,
-              fontWeight: 500,
-              color: "#6B7089",
-              opacity: 0.75,
-              lineHeight: 1.4,
-              marginBottom: 14,
-              direction: "rtl",
-              textAlign: "start",
-            }}>{ar}</div>
-          </>
-        )}
-
-        {/* Divider line in accent color */}
-        <div style={{
-          width: 32, height: 2.5,
-          borderRadius: 2,
-          background: accent,
-          marginBottom: 14,
-          opacity: hov ? 1 : 0.4,
-          transition: "opacity 0.25s ease",
-          alignSelf: isRTL ? "flex-end" : "flex-start",
-        }} />
-
-        {/* Description */}
-        <div style={{
-          fontSize: 13.5,
-          color: "#6B7089",
-          lineHeight: 1.68,
-          direction: isRTL ? "rtl" : "ltr",
-        }}>{d}</div>
-      </div>
-
-      {/* Bottom accent strip that grows on hover */}
-      <div style={{
-        position: "absolute",
-        bottom: 0,
-        left: 0, right: 0,
-        height: hov ? 3 : 0,
-        background: `linear-gradient(90deg, ${accent}, ${accentDark})`,
-        transition: "height 0.25s ease",
-      }} />
-    </div>
-  );
-});
-
-/* ─── University ecosystem 2×2 grid ─────────────────────────────────── */
-const EcosystemGrid: React.FC<{
-  label: string; title: string; subtitle: string;
-  items: { ar: string; en: string; d: string }[];
-  logos: string[];
-  isRTL: boolean;
-}> = ({ label, title, subtitle, items, logos, isRTL }) => {
-  const { ref, shown } = useReveal<HTMLDivElement>();
-
-  return (
-    <div style={{ marginTop: "6rem" }}>
-      {/* ── Section header ─────────────────────────────────────────── */}
-      <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-        <span style={{
-          display: "inline-block", padding: "5px 14px", borderRadius: 100,
-          fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.10em",
-          background: "#D6E4F7", color: "#1B4FBB", marginBottom: 18,
-        }}>{label}</span>
-
-        <div style={{
-          fontFamily: "'Syne',sans-serif",
-          fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
-          fontWeight: 700, color: "#121420", lineHeight: 1.15,
-          marginBottom: 14, letterSpacing: "-0.015em",
-        }}>{title}</div>
-
-        <div style={{
-          fontSize: "1.02rem", color: "#6B7089",
-          lineHeight: 1.75, maxWidth: 580, margin: "0 auto",
-        }}>{subtitle}</div>
-      </div>
-
-      {/* ── 2×2 card grid ──────────────────────────────────────────── */}
-      <div
-        ref={ref}
-        data-reveal
-        data-shown={shown ? "true" : "false"}
-        data-ecosystem-grid
-        style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 22 }}
-      >
-        {items.map((it, i) => (
-          <EcoCard
-            key={i}
-            logo={logos[i]}
-            ar={it.ar}
-            en={it.en}
-            d={it.d}
-            index={i}
-            isRTL={isRTL}
-          />
-        ))}
-      </div>
-    </div>
   );
 };
 
